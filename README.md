@@ -2,8 +2,8 @@
 
 ## Boas práticas de contribuição com o projeto
 - Sempre que for iniciar uma issue:
-1. Crie uma branch com nome explicativo: #numerodaissue-explicacao-da-issue, e edite apenas a sua branch
-ex. #1-criacao-menu
+1. Crie uma branch com nome explicativo: numerodaissue-explicacao-da-issue, e edite apenas a sua branch
+ex. 1-criacao-menu
 
 - Ao terminar uma branch:
 1. Adicione um comentário na issue com evidências de que sua branch foi cumprida(fotos/vídeos)
