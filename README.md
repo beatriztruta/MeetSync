@@ -1,5 +1,19 @@
 # MeetSync - MVP
 
+## Boas práticas de contribuição com o projeto
+- Sempre que for iniciar uma issue:
+1. Crie uma branch com nome explicativo: #numerodaissue-explicacao-da-issue, e edite apenas a sua branch
+ex. #1-criacao-menu
+
+- Ao terminar uma branch:
+1. Adicione um comentário na issue com evidências de que sua branch foi cumprida(fotos/vídeos)
+2. Para enviar suas alterações: `git add <arquivos>` -> `git commit -m "<mensagem>"` -> `git push`
+3. No github: abra o *pull request*
+
+- Para atualizar sua branch com a main: dentro da branch, digite `git pull origin main`
+
+
+
 ## Descrição
 
 MeetSync é uma aplicação projetada para facilitar a criação e gestão de salas de reuniões, permitindo a votação e geração de relatórios sobre horários mais votados. Este repositório contém o código-fonte do MVP (Minimum Viable Product) da aplicação, desenvolvido utilizando metodologias ágeis.
