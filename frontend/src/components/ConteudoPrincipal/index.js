@@ -2,11 +2,17 @@ import './style.css'
 
 export default function ConteudoPrincipal(){
     return(
-        <div className="form-group">
+        <div className="conteudo-principal">
+            <div className="titulo">
             <h1>MeetSync</h1>
-            <label htmlFor="name">Seu nome</label>
-            <input type="text" id="name" name="name" />
-            <button className="create-btn">+ criar</button>
+            <span>Simplificando a sincronia das suas reuniões!</span>
+            </div>
+
+            <div className="formulario-inicio">
+                <label htmlFor="name">Seu nome</label>
+                <input type="text" placeholder="Digite o seu nome"/>
+                <button className="create-btn">+ Criar Sala</button>
+            </div>
       </div>
     );
 }
