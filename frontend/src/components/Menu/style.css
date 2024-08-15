@@ -1,5 +1,32 @@
+/* Navbar.css */
+.App-logo{
+    width: 100px;
+    height: 100px;
+    object-fit: contain; /* Ajusta a imagem mantendo a proporção */
+    margin-left: 20px;
+
+}
+
 .header {
     background-color: #c4a0d7;
     height: 30px;
     width: 100%; 
 }
+
+.Pagina-inicial {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: row;
+    background-color: #2F4F4F;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 0rem;
+    height: 70px;
+    width: 100%;
+    font-size: 1.25em;
+    padding: 15px;
+}
+
+
+
