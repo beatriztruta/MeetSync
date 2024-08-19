@@ -5,7 +5,5 @@ body, html {
   background-color: #f4f4f4;
   height: 100vh;
   background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./assets/imgs/background-pginicial.png');
-  display: flex;
-  flex-direction: column;
 }
 
