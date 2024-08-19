@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import RoutesApp from './routes';
 
 import 'primereact/resources/primereact.min.css';
