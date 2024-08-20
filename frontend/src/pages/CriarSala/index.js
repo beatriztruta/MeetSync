@@ -1,22 +1,85 @@
-import { useState } from 'react';
 import Menu from '../../components/Menu';
-import './style.css';
 import { InputText } from 'primereact/inputtext';
-        
+import { InputTextarea } from 'primereact/inputtextarea';
+import { Dropdown } from 'primereact/dropdown';
+import { Calendar } from 'primereact/calendar';        
+import './style.css';
+import { useState } from 'react';
 
 export default function CriarSala() {
     
-    const [nome, setNome] = useState('');
+    const duracoes = [
+        { name: '30 minutos', code: '0.5' },
+        { name: '1 hora', code: '1' },
+        { name: '2 horas', code: '2' },
+        { name: '3 horas', code: '3' },
+        { name: '4 horas', code: '4' }
+    ];
+
+    const [duracaoEscolhida, setDuracaoEscolhida] = useState(null);
+    const [dates, setDates] = useState(null);
 
     return(
-        <div className="container-criar-sala">
-            <Menu></Menu>
-            <div className="formulario-criar-sala grid">
-                <div  className="field col-6">
-                    <InputText style={{'width': '100%'}}></InputText>
-                </div>
-                <div  className="field col-6">
-                    <InputText style={{'width': '100%'}}></InputText>
+        <div>
+            <Menu/>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <div
+                                className="fundo-desfocado"
+                                style={{
+                                    marginTop: '0.5em',
+                                    padding: '0.5em', 
+                                    width: '20%',
+                                    fontSize: '1.5em',
+                                    fontWeight: 'bold',
+                                    textAlign: 'center'
+                                }}
+                            >
+                                Criar Sala
+                            </div>
+                <div 
+                    className="formulario-criar-sala fundo-desfocado grid"
+                >
+                    <div className="col-12">
+                        <InputText
+                            className="fundo-desfocado"
+                            placeholder="Nome"
+                            style={{ width: '60%' }}
+                        />
+                    </div>
+                    <div className="col-12">
+                        <InputText
+                            className="fundo-desfocado"
+                            placeholder="Título"
+                            style={{ width: '60%' }}
+                        />
+                    </div>
+                    <div className="col-12">
+                        <InputTextarea
+                            className="fundo-desfocado"
+                            style={{ height: '7em', width: '60%' }}
+                            placeholder="Descrição"
+                        />
+                    </div>
+                    <div className="col-12">
+                    <Dropdown
+                        options={duracoes} optionLabel="name" 
+                        placeholder="Selecione a Duração"
+                        style={{ width: '60%' }}
+                        value={duracaoEscolhida}
+                        onChange={(e) => setDuracaoEscolhida(e.value.code)}
+                        className="fundo-desfocado"
+                    />
+                    </div>
+                    <div className="col-12">
+                    <Calendar
+                        value={dates}
+                        onChange={(e) => setDates(e.value)}
+                        selectionMode="range"
+                        readOnlyInput
+                        hideOnRangeSelection
+                        style={{ marginTop: '0.6em', width: '60%' }}
+                    />
+                    </div>
                 </div>
             </div>
         </div>
