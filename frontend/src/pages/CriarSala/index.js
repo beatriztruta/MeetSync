@@ -11,8 +11,13 @@ export default function CriarSala() {
     return(
         <div className="container-criar-sala">
             <Menu></Menu>
-            <div className="formulario-criar-sala">
-                
+            <div className="formulario-criar-sala grid">
+                <div  className="field col-6">
+                    <InputText style={{'width': '100%'}}></InputText>
+                </div>
+                <div  className="field col-6">
+                    <InputText style={{'width': '100%'}}></InputText>
+                </div>
             </div>
         </div>
     );
