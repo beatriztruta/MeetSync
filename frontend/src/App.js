@@ -4,6 +4,11 @@ function App() {
   return (
     <div className="container">
       <div className="header"></div>
+      <ul>
+        <li><a href="#inicio">Início</a></li>
+        <li><a href="#criar-sala">Criar Sala</a></li>
+        <li><a href="#votar">Votar</a></li>
+      </ul>
       <h1>MeetSync</h1>
       <div className="form-group">
         <label htmlFor="name">Seu nome</label>
