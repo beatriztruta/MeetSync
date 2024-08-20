@@ -1,7 +1,9 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%;
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
+  height: 100vh;
+  background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('./assets/imgs/background-pginicial.png');
 }
+
