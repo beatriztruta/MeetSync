@@ -2,7 +2,8 @@ import Menu from '../../components/Menu';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';        
+import { Calendar } from 'primereact/calendar';  
+import { Button } from 'primereact/button';      
 import './style.css';
 import { useState } from 'react';
 
@@ -64,7 +65,7 @@ export default function CriarSala() {
                     <Dropdown
                         options={duracoes} optionLabel="name" 
                         placeholder="Selecione a Duração"
-                        style={{ width: '60%' }}
+                        style={{ width: '60%', textAlign: 'left' }}
                         value={duracaoEscolhida}
                         onChange={(e) => setDuracaoEscolhida(e.value.code)}
                         className="fundo-desfocado"
@@ -77,10 +78,12 @@ export default function CriarSala() {
                         selectionMode="range"
                         readOnlyInput
                         hideOnRangeSelection
-                        style={{ marginTop: '0.6em', width: '60%' }}
+                        style={{ width: '60%' }}
+                        className="fundo-desfocado"
                     />
                     </div>
                 </div>
+                <Button label="Cria Sala" className="fundo-desfocado botao-salvar" style={{ color: 'black' }}/>
             </div>
         </div>
     );

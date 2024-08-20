@@ -4,3 +4,13 @@
     width: 50%;
     text-align: center;
 }
+
+.botao-salvar:hover {
+    background-color: #fafafa;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.botao-salvar:active {
+    transform: translateY(2px);
+}
