@@ -1,11 +1,11 @@
+import { useState } from 'react';
 import Menu from '../../components/Menu';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Dropdown } from 'primereact/dropdown';
 import { Calendar } from 'primereact/calendar';  
-import { Button } from 'primereact/button';      
+import { Button } from 'primereact/button'; 
 import './style.css';
-import { useState } from 'react';
 
 export default function CriarSala() {
     
@@ -18,12 +18,12 @@ export default function CriarSala() {
     ];
 
     const [duracaoEscolhida, setDuracaoEscolhida] = useState(null);
-    const [dates, setDates] = useState(null);
+    const [datas, setDatas] = useState(null);
 
     return(
         <div>
             <Menu/>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div className="flex flex-column align-items-center">
                             <div
                                 className="fundo-desfocado"
                                 style={{
@@ -38,7 +38,7 @@ export default function CriarSala() {
                                 Criar Sala
                             </div>
                 <div 
-                    className="formulario-criar-sala fundo-desfocado grid"
+                    className="flex text-center m-3 fundo-desfocado grid w-full xl:w-8 lg:w-6"
                 >
                     <div className="col-12">
                         <InputText
@@ -73,17 +73,18 @@ export default function CriarSala() {
                     </div>
                     <div className="col-12">
                     <Calendar
-                        value={dates}
-                        onChange={(e) => setDates(e.value)}
+                        value={datas}
+                        onChange={(e) => setDatas(e.value)}
                         selectionMode="range"
                         readOnlyInput
                         hideOnRangeSelection
                         style={{ width: '60%' }}
                         className="fundo-desfocado"
+                        placeholder="Selecione os limites de datas"
                     />
                     </div>
+                    <Button label="Cria Sala" className="create-btn w-full mt-3" style={{ margin: '0.5em' }}/>
                 </div>
-                <Button label="Cria Sala" className="fundo-desfocado botao-salvar" style={{ color: 'black' }}/>
             </div>
         </div>
     );
