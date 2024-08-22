@@ -14,7 +14,7 @@ export default function ConteudoPrincipal(){
 
             <div className="formulario-inicio">
                 <label htmlFor="name">Seu nome</label>
-                <input type="text" placeholder="Digite o seu nome"/>
+                <input id="texto-pg-inicial" type="text" placeholder="Digite o seu nome"/>
                 <button className="create-btn" onClick={() => {navigate('/criar-sala')}}>+ Criar Sala</button>
             </div>
       </div>
