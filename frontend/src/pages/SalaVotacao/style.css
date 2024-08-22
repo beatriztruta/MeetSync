@@ -1,0 +1,117 @@
+/* Centralizando a página */
+.conteudo-principal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw; /* Garante que a largura seja 100% da viewport */
+  height: 100vh; /* Garante que a altura seja 100% da viewport */
+  background-color: #f4f4f4; /* Cor de fundo suave para diferenciar */
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilização do container de votação */
+.voting-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #e1bee7;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  text-align: center;
+  /* Ajuste para centralizar verticalmente */
+}
+
+/* Área de seleção de horários */
+.horarios {
+  margin-bottom: 15px;
+}
+
+/* Estilo para labels e campos de texto */
+label {
+  display: block;
+  margin: 5px 0;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* Botões */
+button {
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Resultados */
+#resultados {
+  margin-top: 20px;
+}
+
+#resultados ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+#resultados li {
+  background-color: #d1c4e9;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+/* Botão de criação */
+.create-btn {
+  width: 100%; 
+  padding: 15px;
+  background: linear-gradient(135deg, #2F4F4F, #4d7979);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.create-btn:hover {
+  background-color: #4b8686;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.create-btn:active {
+  transform: translateY(2px); /* Pressionar o botão */
+}
+
+/* Botões de ícones */
+.icon-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center; /* Centraliza os ícones */
+  gap: 10px;
+}
+
+.icon-button {
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 24px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.icon-button:hover {
+  background-color: #4a148c;
+}
