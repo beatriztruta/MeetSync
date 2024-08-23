@@ -79,7 +79,6 @@ export default function CriarSala() {
                         readOnlyInput
                         hideOnRangeSelection
                         style={{ width: '60%' }}
-                        className="fundo-desfocado"
                         placeholder="Selecione os limites de datas"
                     />
                     </div>
