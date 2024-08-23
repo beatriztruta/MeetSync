@@ -1,5 +1,4 @@
 import { Dropdown } from 'primereact/dropdown';
-import { ListBox } from 'primereact/listbox';
 import './style.css';
 import { useState } from 'react';
 
@@ -35,7 +34,7 @@ export default function NovoHorario() {
                     placeholder="Selecione a Duração"
                     style={{ textAlign: 'left' }}
                     value={duracaoEscolhida}
-                    //onChange={(e) => setDuracaoEscolhida(e.value.code)}
+                    onChange={(e) => setDuracaoEscolhida(e.value.code)}
                     className="fundo-desfocado"
                 />
             </div>
