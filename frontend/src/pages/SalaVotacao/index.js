@@ -3,6 +3,7 @@ import { ListBox } from 'primereact/listbox';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCog, faShare } from "@fortawesome/free-solid-svg-icons"; // Certifique-se de que os ícones corretos estão importados
 import Menu from "../../components/Menu";
+import "./style.css";
 
 function SalaVotacao() {
   // Estados para armazenar o nome, o horário selecionado e os resultados
@@ -53,7 +54,7 @@ function SalaVotacao() {
       </div>
       <div
         className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
-        style={{ margin: '1em' }}
+        style={{ margin: '1em', padding: '1em' }}
       >
       <form onSubmit={handleVotacao}>
         <div className="horarios">
@@ -100,7 +101,7 @@ function SalaVotacao() {
         />
 
         <div>
-          <button className="create-btn">Votar</button>
+          <button className="vote-btn">Votar</button>
         </div>
       </form>
 
@@ -116,13 +117,13 @@ function SalaVotacao() {
       </div>
 
       <div className="icon-buttons">
-        <button className="icon-button" onClick={handleDelete}>
+        <button className="icon-button" onClick={handleDelete} style={{ backgroundColor: "grey"}}>
           <FontAwesomeIcon icon={faTrash} />
         </button>
-        <button className="icon-button">
+        <button className="icon-button" style={{ backgroundColor: "grey"}}>
           <FontAwesomeIcon icon={faCog} />
         </button>
-        <button className="icon-button">
+        <button className="icon-button" style={{ backgroundColor: "grey"}}>
           <FontAwesomeIcon icon={faShare} />
         </button>
       </div>

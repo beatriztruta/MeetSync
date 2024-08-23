@@ -45,7 +45,7 @@ button {
 }
 
 /* Botão de criação */
-.create-btn {
+.vote-btn {
   width: 100%; 
   padding: 15px;
   background: linear-gradient(135deg, #2F4F4F, #4d7979);
@@ -58,13 +58,13 @@ button {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.create-btn:hover {
+.vote-btn:hover {
   background-color: #4b8686;
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
 }
 
-.create-btn:active {
+.vote-btn:active {
   transform: translateY(2px); /* Pressionar o botão */
 }
 
@@ -87,5 +87,5 @@ button {
 }
 
 .icon-button:hover {
-  background-color: #4a148c;
+  background-color:  #2F4F4F;
 }
