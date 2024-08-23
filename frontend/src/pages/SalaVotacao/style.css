@@ -1,29 +1,3 @@
-/* Centralizando a página */
-.conteudo-principal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw; /* Garante que a largura seja 100% da viewport */
-  height: 100vh; /* Garante que a altura seja 100% da viewport */
-  background-color: #f4f4f4; /* Cor de fundo suave para diferenciar */
-  margin: 0;
-  padding: 0;
-}
-
-/* Estilização do container de votação */
-.voting-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #e1bee7;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 400px;
-  text-align: center;
-  /* Ajuste para centralizar verticalmente */
-}
-
 /* Área de seleção de horários */
 .horarios {
   margin-bottom: 15px;

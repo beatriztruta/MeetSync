@@ -1,12 +1,16 @@
 import React, { useState } from "react";
+import { ListBox } from 'primereact/listbox';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCog, faShare } from "@fortawesome/free-solid-svg-icons"; // Certifique-se de que os ícones corretos estão importados
+import Menu from "../../components/Menu";
 
-function App() {
+function SalaVotacao() {
   // Estados para armazenar o nome, o horário selecionado e os resultados
   const [nome, setNome] = useState("");
   const [horarioSelecionado, setHorarioSelecionado] = useState("");
   const [resultados, setResultados] = useState([]);
+
+  const duracoes = ['30 minutos', '1 hora', '2 horas', '3 horas'];
 
   // Função chamada quando o formulário é enviado
   const handleVotacao = (event) => {
@@ -34,8 +38,23 @@ function App() {
   };
 
   return (
-    <div className="voting-container">
-      <h1>Votação de Horários</h1>
+    <div className="flex flex-column align-items-center">
+      <Menu/>
+      <div className="fundo-desfocado"
+        style={{
+                marginTop: '0.5em',
+                padding: '0.5em', 
+                width: '20%',
+                fontSize: '1.5em',
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}>
+                Sala de Votação
+      </div>
+      <div
+        className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
+        style={{ margin: '1em' }}
+      >
       <form onSubmit={handleVotacao}>
         <div className="horarios">
           <label>
@@ -96,7 +115,6 @@ function App() {
         </ul>
       </div>
 
-      {/* Botões de ícones */}
       <div className="icon-buttons">
         <button className="icon-button" onClick={handleDelete}>
           <FontAwesomeIcon icon={faTrash} />
@@ -109,7 +127,9 @@ function App() {
         </button>
       </div>
     </div>
+    </div>
+    
   );
 }
 
-export default App;
+export default SalaVotacao;
