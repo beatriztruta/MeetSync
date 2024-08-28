@@ -16,19 +16,7 @@
     font-size: 1.25em;
     padding: 5px;
 }
-
-.menu-ms {
-    background-color: #282c34;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-}
-  
-.App-logo {
-    height: 40px;
-}
-  
+ 
 nav ul {
     list-style: none;
     display: flex;
