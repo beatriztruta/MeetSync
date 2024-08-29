@@ -146,40 +146,51 @@ export default function Horarios() {
                 onChange={(e) => handleDateChange(e.value)}
                 selectionMode="multiple"
                 inline
+                style={{ margin: '1em' }}
                 showWeek
+                dateFormat="dd/mm/yyyy"
             />
-            <ScrollPanel style={{ width: '100%', height: '300px' }} className="custombar1">
+            <ScrollPanel style={{ width: '100%', height: '300px', margin: '1em' }} className="custombar1">
                 {datasSelecionadas.length === 0 
-                ? <div  style={{ width: '100%', height: '300px' }} >oi</div>
+                ? <div  style={{ width: '100%', height: '300px' }} >{' '}</div>
                 : datasSelecionadas.map((date) => (
                     <div key={date} className="time-card">
                         <h3>Data selecionada: {date}</h3>
                         {Object.keys(times[date] || {}).map((timeId) => (
-                        <div key={timeId}>
-                            <label>
-                                Hora de início:
+                        <div
+                        key={timeId}
+                        className="flex flex-column justify-content-evenly align-items-center"
+                        style={{ bor}}
+                        >
+                            <div className="col-12 flex flex-row justify-content-center align-items-center">
+                                <span style={{ marginRight: '0.5em' }}>Hora de início:</span>
                             <Dropdown
                                 value={times[date][timeId]?.startTime || ''}
                                 onChange={(e) =>
                                 handleTimeChange(date, timeId, 'startTime', e.target.value)
                                 }
                                 options={horariosDia} optionLabel="time"
+                                style={{ width: '45%'}}
                             />
-                            </label>
-                            <label>
-                            Duração
+                            </div>
+                            <div className="col-12 flex flex-row justify-content-center align-items-center">
+                            <span style={{ marginRight: '3em' }}>Duração: </span>
                             <Dropdown
                                 value={times[date][timeId]?.duration || '1h'}
                                 onChange={(e) =>
                                 handleTimeChange(date, timeId, 'duration', e.target.value)
                                 }
                                 options={duracoes} optionLabel="name"
-                            >
-                            </Dropdown>
-                            </label>
+                                style={{ width: '45%'}}
+                            />
+                            </div>
                         </div>
                         ))}
-                        <Button onClick={() => handleAddTime(date)}>Adicionar outra hora a esse dia + </Button>
+                        <Button
+                            style={{ marginTop: '0.5em' }}
+                            onClick={() => handleAddTime(date)}>
+                                <i className="pi pi-plus"></i> add
+                        </Button>
                     </div>
                 ))}
             </ScrollPanel>

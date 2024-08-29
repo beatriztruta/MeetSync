@@ -12,10 +12,11 @@ export default function CriarSala() {
             <Menu/>
             <div className="flex flex-column align-items-center">
                             <div
-                                className="fundo-desfocado pt-2 mt-2 font-bold text-center"
+                                className="fundo-desfocado mt-3 font-bold text-center"
                                 style={{
                                     width: '20%',
                                     fontSize: '1.5em',
+                                    padding: '0.5em',
                                 }}
                             >
                                 Criar Sala
@@ -37,10 +38,10 @@ export default function CriarSala() {
                             style={{ width: '60%' }}
                         />
                     </div>
-                    <div className="col-12 h-7rem">
+                    <div className="col-12">
                         <InputTextarea
                             className="fundo-desfocado"
-                            style={{ width: '60%' }}
+                            style={{ width: '60%', height: '7em' }}
                             placeholder="Descrição"
                         />
                     </div>
