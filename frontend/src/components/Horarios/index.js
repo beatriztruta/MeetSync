@@ -156,7 +156,7 @@ export default function Horarios() {
     });
 
     return (
-        <div className="flex flex-row justify-content-evenly align-items-center">
+        <div className="flex xl:flex-row lg:flex-row md:flex-column sm:flex-column justify-content-evenly align-items-center">
             <Calendar
                 value={datasSelecionadas.map(date => new Date(date))}
                 onChange={(e) => setdatasSelecionadas(e.value)}
@@ -186,7 +186,7 @@ export default function Horarios() {
                         key={timeId}
                         className="flex flex-column justify-content-evenly align-items-center"
                         >
-                            <div className="col-12 flex flex-row justify-content-center align-items-center">
+                            <div className="col-12 flex flex-row justify-content-around align-items-center">
                                 <span  style={{ width: '55%'}}>Hora de início:</span>
                             <Dropdown
                                 value={times[date][timeId]?.startTime || ''}
@@ -197,7 +197,7 @@ export default function Horarios() {
                                 style={{ width: '45%'}}
                             />
                             </div>
-                            <div className="col-12 flex flex-row justify-content-center align-items-center">
+                            <div className="col-12 flex flex-row justify-content-around align-items-center">
                             <span  style={{ width: '55%'}}>Duração: </span>
                             <Dropdown
                                 value={times[date][timeId]?.duration || '1h'}
