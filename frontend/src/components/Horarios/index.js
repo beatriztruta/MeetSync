@@ -3,6 +3,7 @@ import { ScrollPanel } from 'primereact/scrollpanel';
 import React, { useState } from 'react';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
+import { addLocale } from 'primereact/api';
 
 export default function Horarios() {
 
@@ -142,6 +143,18 @@ export default function Horarios() {
         return `${day}/${month}/${year}`;
     }
 
+    addLocale('pt-br', {
+        firstDayOfWeek: 1,
+        showMonthAfterYear: true,
+        dayNames: ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'],
+        dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+        dayNamesMin: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
+        monthNames: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+        monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dec'],
+        today: 'Hoje',
+        clear: 'Limpar'
+    });
+
     return (
         <div className="flex flex-row justify-content-evenly align-items-center">
             <Calendar
@@ -149,9 +162,10 @@ export default function Horarios() {
                 onChange={(e) => setdatasSelecionadas(e.value)}
                 selectionMode="multiple"
                 inline
-                style={{ margin: '1em' }}
+                style={{ margin: '1em',  width: '95%', height: '95%' }}
                 showWeek
                 dateFormat="dd/mm/yyyy"
+                locale="pt-br"
             />
             <ScrollPanel style={{ width: '100%', height: '300px', margin: '1em' }} className="custombar1">
                 {datasSelecionadas.length === 0 
