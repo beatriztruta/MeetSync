@@ -3,15 +3,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCog, faShare } from "@fortawesome/free-solid-svg-icons";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { ListBox } from 'primereact/listbox'; // Certifique-se de que o ListBox está importado corretamente
+import { ListBox } from 'primereact/listbox';
+import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
 import "./style.css";
-import "primereact/resources/themes/saga-blue/theme.css"; // Estilos do PrimeReact
-import "primereact/resources/primereact.min.css"; // Componentes principais do PrimeReact
-
+import "primereact/resources/themes/saga-blue/theme.css"; 
+import "primereact/resources/primereact.min.css"; 
 
 function SalaVotacao() {
-  // Estados para armazenar o nome, os horários selecionados e os resultados
   const [nome, setNome] = useState("");
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
@@ -22,7 +21,6 @@ function SalaVotacao() {
     { label: "03h-04h", value: "03h-04h" }
   ];
 
-  // Função chamada quando o formulário é enviado
   const handleVotacao = (event) => {
     event.preventDefault();
 
@@ -31,23 +29,19 @@ function SalaVotacao() {
       return;
     }
 
-    // Adicionar o voto aos resultados
     setResultados((prevResultados) => [
       ...prevResultados,
       { nome, horarios: [...horariosSelecionados] },
     ]);
 
-    // Limpar os campos após o voto
     setNome("");
     setHorariosSelecionados([]);
   };
 
-  // Função para lidar com o clique da lixeira
   const handleDelete = () => {
-    setResultados([]); // Limpa todos os resultados ao clicar no botão de lixeira
+    setResultados([]);
   };
 
-  // Agrupar votos por horário
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
       if (!acc[horario]) {
@@ -58,7 +52,6 @@ function SalaVotacao() {
     return acc;
   }, {});
 
-  // Convertendo o objeto em uma lista de dados para o DataTable
   const resultadosTabela = Object.keys(resultadosAgrupados).map((horario) => ({
     horario,
     totalVotos: resultadosAgrupados[horario].votos.length,
@@ -98,13 +91,13 @@ function SalaVotacao() {
           </div>
 
           <label htmlFor="nome">Nome:</label>
-          <input
-            type="text"
+          <InputText
             id="nome"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             placeholder="Digite seu nome"
             required
+            style={{ width: '100%' }} 
           />
 
           <div>

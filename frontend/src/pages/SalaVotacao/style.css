@@ -1,9 +1,8 @@
-/* Área de seleção de horários */
 .horarios {
   margin-bottom: 15px;
 }
 
-/* Estilo para labels e campos de texto */
+
 label {
   display: block;
   margin: 5px 0;
@@ -17,7 +16,7 @@ input[type="text"] {
   border-radius: 5px;
 }
 
-/* Botões */
+
 button {
   color: white;
   border: none;
@@ -27,7 +26,6 @@ button {
   width: 100%;
 }
 
-/* Resultados */
 #resultados {
   margin-top: 20px;
 }
@@ -44,7 +42,7 @@ button {
   border-radius: 5px;
 }
 
-/* Botão de criação */
+
 .vote-btn {
   width: 100%; 
   padding: 15px;
@@ -65,14 +63,14 @@ button {
 }
 
 .vote-btn:active {
-  transform: translateY(2px); /* Pressionar o botão */
+  transform: translateY(2px);
 }
 
-/* Botões de ícones */
+
 .icon-buttons {
   margin-top: 20px;
   display: flex;
-  justify-content: center; /* Centraliza os ícones */
+  justify-content: center; 
   gap: 10px;
 }
 
