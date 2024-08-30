@@ -34,21 +34,23 @@ export default function CriarSala() {
                     <div className="col-12">
                         <InputText
                             className="fundo-desfocado"
-                            placeholder="Título"
+                            placeholder="Título da reunião"
                             style={{ width: '60%' }}
                         />
                     </div>
                     <div className="col-12">
                         <InputTextarea
                             className="fundo-desfocado"
-                            style={{ width: '60%', height: '7em' }}
+                            style={{ width: '60%', height: '8em' }}
                             placeholder="Descrição"
                         />
                     </div>
                     <div className="col-12">
                         <Horarios/>
                     </div>
-                    <Button label="Cria Sala" className="create-btn w-full mt-3" style={{ margin: '0.5em' }}/>
+                    <div className="col-12 flex flex-row justify-content-center">
+                    <Button label="Cria Sala" className="create-btn w-6 mt-3" style={{ margin: '0.5em' }}/>
+                    </div>
                 </div>
             </div>
         </div>

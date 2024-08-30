@@ -116,13 +116,6 @@ export default function Horarios() {
         },
     ];
 
-    const handleDateChange = (dates) => {
-        console.log(dates);
-        const datasFormatadas = Array.from(new Set(dates.map(date => date.toISOString().split('T')[0])));
-        console.log(datasFormatadas);
-        setdatasSelecionadas(dates);
-    };
-  
     const handleTimeChange = (dateStr, timeId, field, value) => {
         setTimes((prevTimes) => ({
             ...prevTimes,
@@ -153,7 +146,7 @@ export default function Horarios() {
         <div className="flex flex-row justify-content-evenly align-items-center">
             <Calendar
                 value={datasSelecionadas.map(date => new Date(date))}
-                onChange={(e) => handleDateChange(e.value)}
+                onChange={(e) => setdatasSelecionadas(e.value)}
                 selectionMode="multiple"
                 inline
                 style={{ margin: '1em' }}
@@ -162,9 +155,17 @@ export default function Horarios() {
             />
             <ScrollPanel style={{ width: '100%', height: '300px', margin: '1em' }} className="custombar1">
                 {datasSelecionadas.length === 0 
-                ? <div  style={{ width: '100%', height: '300px' }} >{' '}</div>
+                ? <div
+                    style={{ width: '100%', height: '300px' }}
+                    className="flex flex-column align-items-center justify-content-center"
+                >
+                    <h1>Horários Escolhidos</h1>
+                    <p style={{ color: 'grey' }}>
+                        Clique nos dias desejados e escolha<br></br> os horários de início e duração
+                    </p>
+                </div>
                 : datasSelecionadas.map((date) => (
-                    <div key={date} className="time-card">
+                    <div key={date} className="time-card" style={{ marginLeft: '0.5em' }}>
                         <h3>Data selecionada: {formatDate(date)}</h3>
                         {Object.keys(times[date] || {}).map((timeId) => (
                         <div
@@ -172,7 +173,7 @@ export default function Horarios() {
                         className="flex flex-column justify-content-evenly align-items-center"
                         >
                             <div className="col-12 flex flex-row justify-content-center align-items-center">
-                                <span style={{ marginRight: '0.5em' }}>Hora de início:</span>
+                                <span  style={{ width: '55%'}}>Hora de início:</span>
                             <Dropdown
                                 value={times[date][timeId]?.startTime || ''}
                                 onChange={(e) =>
@@ -183,7 +184,7 @@ export default function Horarios() {
                             />
                             </div>
                             <div className="col-12 flex flex-row justify-content-center align-items-center">
-                            <span style={{ marginRight: '3em' }}>Duração: </span>
+                            <span  style={{ width: '55%'}}>Duração: </span>
                             <Dropdown
                                 value={times[date][timeId]?.duration || '1h'}
                                 onChange={(e) =>
@@ -196,6 +197,7 @@ export default function Horarios() {
                         </div>
                         ))}
                         <Button
+                            className="create-btn"
                             style={{ marginTop: '0.5em' }}
                             onClick={() => handleAddTime(date)}>
                                 <i className="pi pi-plus"></i> add
