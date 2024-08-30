@@ -117,8 +117,10 @@ export default function Horarios() {
     ];
 
     const handleDateChange = (dates) => {
+        console.log(dates);
         const datasFormatadas = Array.from(new Set(dates.map(date => date.toISOString().split('T')[0])));
-        setdatasSelecionadas(datasFormatadas);
+        console.log(datasFormatadas);
+        setdatasSelecionadas(dates);
     };
   
     const handleTimeChange = (dateStr, timeId, field, value) => {
@@ -139,6 +141,14 @@ export default function Horarios() {
         }));
     };
 
+    function formatDate(date) {
+        let day = String(date.getDate()).padStart(2, '0');
+        let month = String(date.getMonth() + 1).padStart(2, '0');
+        let year = date.getFullYear();
+        
+        return `${day}/${month}/${year}`;
+    }
+
     return (
         <div className="flex flex-row justify-content-evenly align-items-center">
             <Calendar
@@ -155,12 +165,11 @@ export default function Horarios() {
                 ? <div  style={{ width: '100%', height: '300px' }} >{' '}</div>
                 : datasSelecionadas.map((date) => (
                     <div key={date} className="time-card">
-                        <h3>Data selecionada: {date}</h3>
+                        <h3>Data selecionada: {formatDate(date)}</h3>
                         {Object.keys(times[date] || {}).map((timeId) => (
                         <div
                         key={timeId}
                         className="flex flex-column justify-content-evenly align-items-center"
-                        style={{ bor}}
                         >
                             <div className="col-12 flex flex-row justify-content-center align-items-center">
                                 <span style={{ marginRight: '0.5em' }}>Hora de início:</span>
