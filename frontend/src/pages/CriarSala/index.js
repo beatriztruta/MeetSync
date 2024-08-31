@@ -12,9 +12,8 @@ export default function CriarSala() {
             <Menu/>
             <div className="flex flex-column align-items-center">
                             <div
-                                className="fundo-desfocado mt-3 font-bold text-center"
+                                className="fundo-desfocado mt-3 font-bold text-center w-4 md:w-3"
                                 style={{
-                                    width: '20%',
                                     fontSize: '1.5em',
                                     padding: '0.5em',
                                 }}
@@ -26,22 +25,20 @@ export default function CriarSala() {
                 >
                     <div className="col-12">
                         <InputText
-                            className="fundo-desfocado"
+                            className="fundo-desfocado w-9 md:w-7"
                             placeholder="Nome"
-                            style={{ width: '60%' }}
                         />
                     </div>
                     <div className="col-12">
                         <InputText
-                            className="fundo-desfocado"
+                            className="fundo-desfocado w-9 md:w-7"
                             placeholder="Título da reunião"
-                            style={{ width: '60%' }}
                         />
                     </div>
                     <div className="col-12">
                         <InputTextarea
-                            className="fundo-desfocado"
-                            style={{ width: '60%', height: '8em' }}
+                            className="fundo-desfocado w-9 md:w-7"
+                            style={{ height: '8em' }}
                             placeholder="Descrição"
                         />
                     </div>

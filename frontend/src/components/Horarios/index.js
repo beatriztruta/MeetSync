@@ -156,7 +156,7 @@ export default function Horarios() {
     });
 
     return (
-        <div className="flex xl:flex-row lg:flex-row md:flex-column sm:flex-column justify-content-evenly align-items-center">
+        <div className="flex flex-column md:flex-row justify-content-evenly align-items-center">
             <Calendar
                 value={datasSelecionadas.map(date => new Date(date))}
                 onChange={(e) => setdatasSelecionadas(e.value)}
