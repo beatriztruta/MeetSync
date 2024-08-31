@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCog, faShare } from "@fortawesome/free-solid-svg-icons";
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { ListBox } from 'primereact/listbox';
 import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
 import "./style.css";
@@ -16,10 +13,18 @@ function SalaVotacao() {
   const [resultados, setResultados] = useState([]);
 
   const horariosDisponiveis = [
-    { label: "01h-02h", value: "01h-02h" },
-    { label: "02h-03h", value: "02h-03h" },
-    { label: "03h-04h", value: "03h-04h" }
+    { id: 1, date: '2024-09-01', time: '01h-02h' },
+    { id: 2, date: '2024-09-02', time: '02h-03h' },
+    { id: 3, date: '2024-09-03', time: '03h-04h' },
   ];
+
+  const toggleHorarioSelection = (id) => {
+    setHorariosSelecionados(prevSelectedHorarios =>
+      prevSelectedHorarios.includes(id)
+        ? prevSelectedHorarios.filter(horarioId => horarioId !== id)
+        : [...prevSelectedHorarios, id]
+    );
+  };
 
   const handleVotacao = (event) => {
     event.preventDefault();
@@ -44,10 +49,12 @@ function SalaVotacao() {
 
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
-      if (!acc[horario]) {
-        acc[horario] = { horario, votos: [] };
+      const horarioData = horariosDisponiveis.find(h => h.id === horario);
+      const label = `${horarioData.date} - ${horarioData.time}`;
+      if (!acc[label]) {
+        acc[label] = { horario: label, votos: [] };
       }
-      acc[horario].votos.push(resultado.nome);
+      acc[label].votos.push(resultado.nome);
     });
     return acc;
   }, {});
@@ -81,13 +88,20 @@ function SalaVotacao() {
         <form onSubmit={handleVotacao}>
           <div className="horarios">
             <label htmlFor="horarios">Selecione os horários:</label>
-            <ListBox
-              multiple
-              value={horariosSelecionados}
-              options={horariosDisponiveis}
-              onChange={(e) => setHorariosSelecionados(e.value)}
-              style={{ width: '15rem' }}
-            />
+            <div className="cards-container">
+              {horariosDisponiveis.map((horario) => (
+                <div
+                  key={horario.id}
+                  className={`card ${horariosSelecionados.includes(horario.id) ? 'selected' : ''}`}
+                  onClick={() => toggleHorarioSelection(horario.id)}
+                >
+                  <div className="card-content">
+                    <h3>{horario.date}</h3>
+                    <p>{horario.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
           <label htmlFor="nome">Nome:</label>
@@ -107,11 +121,17 @@ function SalaVotacao() {
 
         <div id="resultados">
           <h2>Resultados</h2>
-          <DataTable value={resultadosTabela}>
-            <Column field="horario" header="Horário" />
-            <Column field="totalVotos" header="Total de Votos" />
-            <Column field="pessoas" header="Pessoas que Votaram" />
-          </DataTable>
+          <div className="cards-container">
+            {resultadosTabela.map((resultado) => (
+              <div className="card" key={resultado.horario}>
+                <div className="card-content">
+                  <h3>{resultado.horario}</h3>
+                  <p><strong>Total de Votos:</strong> {resultado.totalVotos}</p>
+                  <p><strong>Pessoas que Votaram:</strong> {resultado.pessoas}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className="icon-buttons">
