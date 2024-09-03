@@ -130,13 +130,12 @@ function SalaVotacao() {
           <h2>Resultados</h2>
             <div className="card">
               <DataTable value={resultadosTabela} tableStyle={{ minWidth: '50rem' }}>
-                  <Column field="horario" header="Horário"></Column>
-                  <Column field="totalVotos" header="Total de Votos"></Column>
-                  <Column field="pessoas" header="Pessoas"></Column>
+                  <Column field="horario" header="Horário" style={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
+                  <Column field="totalVotos" header="Total de Votos" style={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
+                  <Column field="pessoas" header="Pessoas" style={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
               </DataTable>
           </div>
         </div>
-
         <div className="icon-buttons">
           <button
             className="icon-button"
