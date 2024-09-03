@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faCog, faShare } from "@fortawesome/free-solid-svg-icons";
 import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
-import "./style.css";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -47,6 +49,11 @@ function SalaVotacao() {
     setResultados([]);
   };
 
+  function formatDate(date) {
+    let dados =  date.split('-');
+    return `${dados[2]}/${dados[1]}/${dados[0]}`;
+}
+
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
       const horarioData = horariosDisponiveis.find(h => h.id === horario);
@@ -87,7 +94,7 @@ function SalaVotacao() {
       >
         <form onSubmit={handleVotacao}>
           <div className="horarios">
-            <label htmlFor="horarios">Selecione os horários:</label>
+            <label htmlFor="horarios" style={{ textAlign: 'center', color: 'white' }}>Selecione os horários:</label>
             <div className="cards-container">
               {horariosDisponiveis.map((horario) => (
                 <div
@@ -96,7 +103,7 @@ function SalaVotacao() {
                   onClick={() => toggleHorarioSelection(horario.id)}
                 >
                   <div className="card-content">
-                    <h3>{horario.date}</h3>
+                    <h3>{formatDate(horario.date.split(' ')[0])}</h3>
                     <p>{horario.time}</p>
                   </div>
                 </div>
@@ -115,22 +122,18 @@ function SalaVotacao() {
           />
 
           <div>
-            <button className="vote-btn">Votar</button>
+            <button className="vote-btn" style={{ fontWeight: 'bold' }}>Votar</button>
           </div>
         </form>
 
         <div id="resultados">
           <h2>Resultados</h2>
-          <div className="cards-container">
-            {resultadosTabela.map((resultado) => (
-              <div className="card" key={resultado.horario}>
-                <div className="card-content">
-                  <h3>{resultado.horario}</h3>
-                  <p><strong>Total de Votos:</strong> {resultado.totalVotos}</p>
-                  <p><strong>Pessoas que Votaram:</strong> {resultado.pessoas}</p>
-                </div>
-              </div>
-            ))}
+            <div className="card">
+              <DataTable value={resultadosTabela} tableStyle={{ minWidth: '50rem' }}>
+                  <Column field="horario" header="Horário"></Column>
+                  <Column field="totalVotos" header="Total de Votos"></Column>
+                  <Column field="pessoas" header="Pessoas"></Column>
+              </DataTable>
           </div>
         </div>
 
