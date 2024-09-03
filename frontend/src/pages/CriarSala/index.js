@@ -1,38 +1,21 @@
-import { useState } from 'react';
 import Menu from '../../components/Menu';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
-import { Dropdown } from 'primereact/dropdown';
-import { Calendar } from 'primereact/calendar';  
 import { Button } from 'primereact/button'; 
+import Horarios from '../../components/Horarios';
 import './style.css';
 
 export default function CriarSala() {
     
-    const duracoes = [
-        { name: '30 minutos', code: '0.5' },
-        { name: '1 hora', code: '1' },
-        { name: '2 horas', code: '2' },
-        { name: '3 horas', code: '3' },
-        { name: '4 horas', code: '4' }
-    ];
-
-    const [duracaoEscolhida, setDuracaoEscolhida] = useState(null);
-    const [datas, setDatas] = useState(null);
-
     return(
         <div>
             <Menu/>
             <div className="flex flex-column align-items-center">
                             <div
-                                className="fundo-desfocado"
+                                className="fundo-desfocado mt-3 font-bold text-center w-4 md:w-3"
                                 style={{
-                                    marginTop: '0.5em',
-                                    padding: '0.5em', 
-                                    width: '20%',
                                     fontSize: '1.5em',
-                                    fontWeight: 'bold',
-                                    textAlign: 'center'
+                                    padding: '0.5em',
                                 }}
                             >
                                 Criar Sala
@@ -42,48 +25,29 @@ export default function CriarSala() {
                 >
                     <div className="col-12">
                         <InputText
-                            className="fundo-desfocado"
+                            className="fundo-desfocado w-9 md:w-7"
                             placeholder="Nome"
-                            style={{ width: '60%' }}
                         />
                     </div>
                     <div className="col-12">
                         <InputText
-                            className="fundo-desfocado"
-                            placeholder="Título"
-                            style={{ width: '60%' }}
+                            className="fundo-desfocado w-9 md:w-7"
+                            placeholder="Título da reunião"
                         />
                     </div>
                     <div className="col-12">
                         <InputTextarea
-                            className="fundo-desfocado"
-                            style={{ height: '7em', width: '60%' }}
+                            className="fundo-desfocado w-9 md:w-7"
+                            style={{ height: '8em' }}
                             placeholder="Descrição"
                         />
                     </div>
                     <div className="col-12">
-                    <Dropdown
-                        options={duracoes} optionLabel="name" 
-                        placeholder="Selecione a Duração"
-                        style={{ width: '60%', textAlign: 'left' }}
-                        value={duracaoEscolhida}
-                        onChange={(e) => setDuracaoEscolhida(e.value.code)}
-                        className="fundo-desfocado"
-                    />
+                        <Horarios/>
                     </div>
-                    <div className="col-12">
-                    <Calendar
-                        value={datas}
-                        onChange={(e) => setDatas(e.value)}
-                        selectionMode="range"
-                        readOnlyInput
-                        hideOnRangeSelection
-                        style={{ width: '60%' }}
-                        className="fundo-desfocado"
-                        placeholder="Selecione os limites de datas"
-                    />
+                    <div className="col-12 flex flex-row justify-content-center">
+                    <Button label="Cria Sala" className="create-btn w-6 mt-3" style={{ margin: '0.5em' }}/>
                     </div>
-                    <Button label="Cria Sala" className="create-btn w-full mt-3" style={{ margin: '0.5em' }}/>
                 </div>
             </div>
         </div>
