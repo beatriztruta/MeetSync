@@ -65,6 +65,9 @@ function SalaVotacao() {
     pessoas: resultadosAgrupados[horario].votos.join(", "),
   }));
 
+  // Ordene os resultados por total de votos (ranking)
+  const sortedResultados = resultadosTabela.sort((a, b) => b.totalVotos - a.totalVotos);
+
   return (
     <div className="flex flex-column align-items-center">
       <Menu />
@@ -88,7 +91,7 @@ function SalaVotacao() {
         <form onSubmit={handleVotacao}>
           <div className="horarios">
             <label htmlFor="horarios">Selecione os horários:</label>
-            <div className="cards-container">
+            <div className="cards-selection-container">
               {horariosDisponiveis.map((horario) => (
                 <div
                   key={horario.id}
@@ -121,9 +124,10 @@ function SalaVotacao() {
 
         <div id="resultados">
           <h2>Resultados</h2>
-          <div className="cards-container">
-            {resultadosTabela.map((resultado) => (
+          <div className="cards-results-container">
+            {sortedResultados.map((resultado, index) => (
               <div className="card" key={resultado.horario}>
+                <span className="card-rank">#{index + 1}</span>
                 <div className="card-content">
                   <h3>{resultado.horario}</h3>
                   <p><strong>Total de Votos:</strong> {resultado.totalVotos}</p>
@@ -137,7 +141,7 @@ function SalaVotacao() {
         <div className="icon-buttons">
           <button
             className="icon-button"
-            onClick={handleDelete}
+            onClick={handleDelete}ssss
             style={{ backgroundColor: "grey" }}
           >
             <FontAwesomeIcon icon={faTrash} />
