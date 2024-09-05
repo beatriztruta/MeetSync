@@ -4,16 +4,4 @@
     text-align: center;
     margin-bottom: 10px;
     font-weight: bold;
-    background-color: rgba(255, 255, 255, 0.5);
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    animation: go-back-2 1s;
 }
-  
-@keyframes go-back-2 {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(150px);
-    }
-  }
