@@ -8,37 +8,17 @@ label {
   font-weight: bold;
 }
 
-input[type="text"], 
-.p-inputtext, 
-.p-listbox {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); 
-  font-size: 16px;
-}
-
-button {
-  color: white;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  width: 100%;
-}
-
 .vote-btn {
   padding: 15px;
   background: linear-gradient(135deg, #2F4F4F, #4d7979);
   color: #fff;
   border: none;
-  border-radius: 5px; 
+  border-radius: 4px; 
   cursor: pointer;
   margin-top: 20px;
   transition: all 0.3s ease;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  width: 100%
 }
 
 .vote-btn:hover {
@@ -53,19 +33,6 @@ button {
 
 #resultados {
   margin-top: 20px;
-}
-
-#resultados ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-#resultados li {
-  background-color: #d1c4e9;
-  padding: 10px;
-  margin-bottom: 5px;
-  border-radius: 5px;
-  font-size: 1.2em;
 }
 
 .icon-buttons {
@@ -89,14 +56,6 @@ button {
   background-color: #2F4F4F;
 }
 
-.fundo-desfocado {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
-  padding: 20px;
-  backdrop-filter: blur(10px); 
-}
-
 .cards-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -108,7 +67,7 @@ button {
 
 .card {
   background-color: white;
-  border-radius: 10px;
+  border-radius: 6px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   padding: 20px;
   text-align: center;

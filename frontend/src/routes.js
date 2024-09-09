@@ -11,7 +11,6 @@ export default function RoutesApp(){
             <Route path = '/criar-sala' element = {<CriarSala/>}/>
             <Route path = '/sala-votacao' element = {<SalaVotacao/>}/>
         </Routes>
-        
         </BrowserRouter>
     );
 }
