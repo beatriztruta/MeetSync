@@ -68,5 +68,45 @@ label {
 }
 
 .create-btn:active {
-    transform: translateY(2px); /* Pressionar o botão */
+    transform: translateY(2px);
+}
+
+/* Media queries para telas menores */
+@media (max-width: 768px) {
+    .conteudo-principal {
+        height: auto; 
+        padding: 1rem;
+    }
+
+    .titulo h1 {
+        font-size: 2.5rem;
+    }
+
+    .formulario-inicio {
+        margin-left: 0; 
+        width: 100%;
+    }
+
+    #texto-pg-inicial {
+        width: 80%; 
+    }
+
+    .create-btn {
+        width: 30% !important; 
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo h1 {
+        font-size: 2rem; 
+    }
+
+    #texto-pg-inicial {
+        width: 90%; 
+    }
+
+    .create-btn {
+        width: 40% !important;
+        padding: 10px !important; 
+    }
 }
