@@ -9,8 +9,8 @@ export default function PaginaInicial() {
     <div className="container">
         <Menu></Menu>
         <ConteudoPrincipal></ConteudoPrincipal>
-        <OQueE></OQueE>
-        <ComoUsar></ComoUsar>
+        <OQueE isSection></OQueE>
+        <ComoUsar isSection></ComoUsar>
     </div>
   );
 }
