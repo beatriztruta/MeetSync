@@ -56,7 +56,7 @@ export default function CriarSala() {
                         />
                     </div>
                     <div className="col-12">
-                        <Horarios sala={sala} atualizarHorarios={atualizarCampo} />
+                        <Horarios atualizarHorarios={atualizarCampo} />
                     </div>
                     <div className="col-12 flex flex-row justify-content-center">
                     <Button
