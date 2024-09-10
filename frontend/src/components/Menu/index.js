@@ -10,10 +10,10 @@ export default function Menu() {
     const [roomId, setRoomId] = useState('');
 
     const handleJoinRoom = () => {
-        if (roomId) {
+        if (roomId.trim()) {
             window.location.href = `/voting-room/${roomId}`; // Redireciona para a sala de votação com o ID inserido
         } else {
-            alert('Por favor, insira um ID de sala.');
+            alert('Por favor, insira um ID de sala válido.');
         }
     };
 
@@ -43,11 +43,11 @@ export default function Menu() {
             <input 
                 type="text" 
                 placeholder="ID da Sala" 
-                className="p-inputtext p-component" 
+                className="p-inputtext p-component custom-input" 
                 value={roomId} 
                 onChange={(e) => setRoomId(e.target.value)} 
             />
-            <button className="p-button p-component p-button-icon-only" onClick={handleJoinRoom}>
+            <button className="p-button p-component custom-button" onClick={handleJoinRoom}>
                 <span className="pi pi-sign-in" />
             </button>
         </div>
