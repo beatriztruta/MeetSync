@@ -53,6 +53,7 @@ label {
     padding: 15px !important;
     background: linear-gradient(135deg, #2F4F4F, #4d7979) !important; 
     color: #fff !important;
+    font-weight: bold !important;
     border: none !important;
     border-radius: 4px !important;
     cursor: pointer !important;
