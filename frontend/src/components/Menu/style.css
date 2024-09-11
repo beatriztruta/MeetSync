@@ -1,37 +1,4 @@
-/* Navbar.css */
-.App-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-}
 
-.menu-ms {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: row;
-    background-color: #28a745; /* Verde */
-    color: #ffffff; /* Texto branco */
-    width: 100%;
-    font-size: 1.25em;
-    padding: 5px;
-}
-
-nav ul {
-    list-style: none;
-    display: flex;
-}
-
-nav ul li {
-    margin-right: 20px;
-}
-
-nav ul li a {
-    color: #ffffff; /* Texto branco nos links */
-    text-decoration: none;
-}
-
-/* Estilos personalizados para o input e o botão */
 .custom-input {
     padding: 5px;
     margin-right: 10px;
@@ -44,6 +11,24 @@ nav ul li a {
     cursor: pointer;
 }
 
+.custom-input::placeholder {
+    color: #ebdede;
+    opacity: 1;
+}
+
 .custom-button:hover {
-    background-color: #218838; /* Tom mais escuro de verde ao passar o mouse */
+    background-color: #218838; 
+}
+
+.p-menuitem-text {
+    color: #fff;
+    font-size:1.2em;
+}
+
+.p-menubar-root-list {
+    background-color: #2f4f4f;
+}
+
+.p-menuitem-text:hover {
+    color: black;
 }
