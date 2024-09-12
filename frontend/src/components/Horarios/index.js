@@ -82,7 +82,14 @@ export default function Horarios({  atualizarHorarios }) {
         <div className="flex flex-column md:flex-row justify-content-evenly align-items-center">
             <Calendar
                 value={datasSelecionadas.map(date => new Date(date))}
-                onChange={(e) => setdatasSelecionadas(e.value)}
+                onChange={(e) => {
+                    const formattedDates = e.value.map(date => formatDate(date));
+                    const datas = [];
+                    formattedDates.forEach(data => {
+                        datas.push(data);
+                    });
+                    setdatasSelecionadas(datas);
+                }}
                 selectionMode="multiple"
                 inline
                 style={{ margin: '1em',  width: '95%', height: '95%' }}
@@ -103,7 +110,7 @@ export default function Horarios({  atualizarHorarios }) {
                 </div>
                 : datasSelecionadas.map((date) => (
                     <div key={date} className="time-card" style={{ marginLeft: '0.5em' }}>
-                        <h3>Data selecionada: {formatDate(date)}</h3>
+                        <h3>Data selecionada: {date}</h3>
                         {Object.keys(times[date] || {}).map((timeId) => (
                         <div
                         key={timeId}
