@@ -132,7 +132,6 @@ export default function Horarios({  atualizarHorarios }) {
                             <Dropdown
                                 value={times[date][timeId]?.duration}
                                 onChange={(e) =>{
-                                    console.log(e.target.value);
                                     handleTimeChange(date, timeId, 'duration', e.target.value);
                                 }}
                                 options={duracoes} optionLabel="name"

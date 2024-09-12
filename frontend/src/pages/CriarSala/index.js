@@ -15,6 +15,50 @@ export default function CriarSala() {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
     
+      function calcularDataFim(dataInicio, horaInicio, duracao) {
+        const [dia, mes, ano] = dataInicio.split("/").map(Number);
+        const [horas, minutos] = horaInicio.split(":").map(Number);
+      
+        let dataHoraInicio = new Date(ano, mes - 1, dia, horas, minutos);
+      
+        const horasAdicionar = Math.floor(duracao); 
+        const minutosAdicionar = (duracao % 1) * 60; 
+      
+        dataHoraInicio.setHours(dataHoraInicio.getHours() + horasAdicionar);
+        dataHoraInicio.setMinutes(dataHoraInicio.getMinutes() + minutosAdicionar);
+      
+        const dataFim = dataHoraInicio.toLocaleDateString('pt-BR');
+        const horaFim = dataHoraInicio.toTimeString().slice(0, 5);
+      
+        return `${dataFim} ${horaFim}`;
+      }
+
+    const submitData = (sala) => {
+
+        let horarioFinalTodosDias = {};
+
+        for (const diaInicio in sala.horarios) {
+            const horariosDia = sala.horarios[diaInicio];
+
+            let horariosFinalPorDia = [];
+
+            for (const id in horariosDia) {
+                const data = horariosDia[id];
+                const horarioFim = calcularDataFim(diaInicio, data.startTime, data.duration.code).split(' ');
+
+                const meeting = {
+                    "startTime": data.startTime.time,
+                    "duration": data.duration.code,
+                    "endDate": horarioFim[0],
+                    "endTime": horarioFim[1]
+                  };
+                horariosFinalPorDia.push(meeting);
+            }
+            horarioFinalTodosDias[diaInicio] = horariosFinalPorDia;  
+        }
+        atualizarCampo('horarios', horarioFinalTodosDias);
+    }
+
     return(
         <div>
             <Menu/>
@@ -63,7 +107,10 @@ export default function CriarSala() {
                         label="Cria Sala"
                         className="create-btn w-6 mt-3"
                         style={{ margin: '0.5em' }}
-                        onClick={() => console.log(sala)}
+                        onClick={() =>{ 
+                            submitData(sala);
+                            console.log(sala);
+                        }}
                     />
                     </div>
                 </div>
