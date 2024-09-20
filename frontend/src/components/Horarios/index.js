@@ -87,7 +87,7 @@ export default function Horarios({  atualizarHorarios }) {
             });
         }).flat();
 
-        return { times: formatted };
+        return formatted ;
     }
 
     addLocale('pt-br', {
