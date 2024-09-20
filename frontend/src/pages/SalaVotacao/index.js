@@ -70,7 +70,6 @@ function SalaVotacao() {
     pessoas: resultadosAgrupados[horario].votos.join(", "),
   }));
 
-  // Ordene os resultados por total de votos (ranking)
   const sortedResultados = resultadosTabela.sort((a, b) => b.totalVotos - a.totalVotos);
 
   return (

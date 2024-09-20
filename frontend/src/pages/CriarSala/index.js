@@ -1,14 +1,15 @@
 import React, { useRef } from 'react';
 import { useState } from 'react';
-import Menu from '../../components/Menu';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button'; 
-import Horarios from '../../components/Horarios';
 import { Calendar } from 'primereact/calendar';
 import { addLocale } from 'primereact/api';
 import { Toast } from 'primereact/toast';
 import { useLocation } from 'react-router-dom';
+import { postRoom } from '../../service/RoomService';
+import Menu from '../../components/Menu';
+import Horarios from '../../components/Horarios';
 import './style.css';
 
 export default function CriarSala() {
@@ -56,6 +57,7 @@ export default function CriarSala() {
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
             console.log('É valido');
             console.log(sala);
+            postRoom(sala);
         } else {
             showError();
         }
@@ -145,7 +147,6 @@ export default function CriarSala() {
                         style={{ margin: '0.5em' }}
                         onClick={() =>{ 
                             submitData(sala);
-                            //console.log(sala);
                         }}
                     />
                     </div>
