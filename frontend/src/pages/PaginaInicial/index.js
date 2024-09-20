@@ -7,10 +7,10 @@ import './style.css';
 export default function PaginaInicial() {
   return (
     <div className="container">
-        <Menu></Menu>
+        <Menu isPaginaInicial/>
         <ConteudoPrincipal></ConteudoPrincipal>
-        <OQueE isSection></OQueE>
-        <ComoUsar isSection></ComoUsar>
+        <OQueE isSection/>
+        <ComoUsar isSection/>
     </div>
   );
 }

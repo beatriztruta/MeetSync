@@ -5,7 +5,7 @@ import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
 import './style.css';
 
-export default function Menu() {
+export default function Menu({ isPaginaInicial }) {
     const [roomId, setRoomId] = useState('');
     const navigate = useNavigate();
 
@@ -32,7 +32,8 @@ export default function Menu() {
 
     const start = <img src={logo} alt="Logo" style={{ marginRight: '10px', height: '50px' }} />;
     const end = (
-        <div className="p-inputgroup">
+        isPaginaInicial
+        ? <div className="p-inputgroup">
             <InputText 
                 placeholder="ID da Sala" 
                 className="p-inputtext custom-input" 
@@ -42,6 +43,7 @@ export default function Menu() {
                 <span className="pi pi-sign-in" />
             </button>
         </div>
+        : ''
     );
 
         return (
