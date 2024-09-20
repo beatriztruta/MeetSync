@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import './style.css'
+import { useState } from 'react';
 
 export default function ConteudoPrincipal(){
 
+    const [nome, setNome] = useState('');
     const navigate = useNavigate();
 
     return(
@@ -14,8 +16,14 @@ export default function ConteudoPrincipal(){
 
             <div className="formulario-inicio">
                 <label htmlFor="name">Seu nome</label>
-                <input id="texto-pg-inicial" type="text" placeholder="Digite o seu nome"/>
-                <button className="create-btn" onClick={() => {navigate('/criar-sala')}}>+ Criar Sala</button>
+                <input
+                    id="texto-pg-inicial"
+                    type="text"
+                    placeholder="Digite o seu nome"
+                    onChange={(e) =>setNome(e.target.value)}
+                />
+                {console.log('aa ' + nome)}
+                <button className="create-btn" onClick={() => {navigate('/criar-sala', { state: { nomeUser: nome } })}}>+ Criar Sala</button>
             </div>
       </div>
     );
