@@ -79,13 +79,13 @@ export default function CriarSala() {
                     </div>
                     <div className="col-12">
                         <Calendar
+                            placeholder='Quando deseja encerrar essa sala?'
                             value={datetime24h}
-                            id="calendar-24h"
                             onChange={(e) => {
                                 setDateTime24h(e.value);
-                                atualizarCampo('endAt', e.value);
+                                atualizarCampo('endingAt', e.value);
                             }}
-                            className="fundo-desfocado w-9 md:w-7"
+                            className="fundo-desfocado w-7 md:w-5"
                             locale="pt-br"
                             showTime
                             dateFormat="dd/mm/yy"
