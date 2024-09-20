@@ -5,59 +5,34 @@ import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Button } from 'primereact/button'; 
 import Horarios from '../../components/Horarios';
+import { Calendar } from 'primereact/calendar';
+import { addLocale } from 'primereact/api';
 import './style.css';
 
 export default function CriarSala() {
 
     const[sala, setSala] = useState({});
-    
+    const [datetime24h, setDateTime24h] = useState(null);
+
     const atualizarCampo = (field, value) => {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
-    
-      function calcularDataFim(dataInicio, horaInicio, duracao) {
-        const [dia, mes, ano] = dataInicio.split("/").map(Number);
-        const [horas, minutos] = horaInicio.split(":").map(Number);
-      
-        let dataHoraInicio = new Date(ano, mes - 1, dia, horas, minutos);
-      
-        const horasAdicionar = Math.floor(duracao); 
-        const minutosAdicionar = (duracao % 1) * 60; 
-      
-        dataHoraInicio.setHours(dataHoraInicio.getHours() + horasAdicionar);
-        dataHoraInicio.setMinutes(dataHoraInicio.getMinutes() + minutosAdicionar);
-      
-        const dataFim = dataHoraInicio.toLocaleDateString('pt-BR');
-        const horaFim = dataHoraInicio.toTimeString().slice(0, 5);
-      
-        return `${dataFim} ${horaFim}`;
-      }
 
     const submitData = (sala) => {
-
-        let horarioFinalTodosDias = {};
-
-        for (const diaInicio in sala.horarios) {
-            const horariosDia = sala.horarios[diaInicio];
-
-            let horariosFinalPorDia = [];
-
-            for (const id in horariosDia) {
-                const data = horariosDia[id];
-                const horarioFim = calcularDataFim(diaInicio, data.startTime, data.duration.code).split(' ');
-
-                const meeting = {
-                    "startTime": data.startTime.time,
-                    "duration": data.duration.code,
-                    "endDate": horarioFim[0],
-                    "endTime": horarioFim[1]
-                  };
-                horariosFinalPorDia.push(meeting);
-            }
-            horarioFinalTodosDias[diaInicio] = horariosFinalPorDia;  
-        }
-        atualizarCampo('horarios', horarioFinalTodosDias);
+        //validar campos vazios
     }
+
+    addLocale('pt-br', {
+        firstDayOfWeek: 1,
+        showMonthAfterYear: true,
+        dayNames: ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'],
+        dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+        dayNamesMin: ['DOM', 'SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB'],
+        monthNames: ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro'],
+        monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dec'],
+        today: 'Hoje',
+        clear: 'Limpar'
+    });
 
     return(
         <div>
@@ -80,7 +55,7 @@ export default function CriarSala() {
                             className="fundo-desfocado w-9 md:w-7"
                             placeholder="Nome"
                             required
-                            onChange={(e) => atualizarCampo('nome', e.target.value)}
+                            onChange={(e) => atualizarCampo('name', e.target.value)}
                         />
                     </div>
                     <div className="col-12">
@@ -88,7 +63,7 @@ export default function CriarSala() {
                             className="fundo-desfocado w-9 md:w-7"
                             placeholder="Título da reunião"
                             required
-                            onChange={(e) => atualizarCampo('titulo', e.target.value)}
+                            onChange={(e) => atualizarCampo('title', e.target.value)}
                         />
                     </div>
                     <div className="col-12">
@@ -96,11 +71,28 @@ export default function CriarSala() {
                             className="fundo-desfocado w-9 md:w-7"
                             style={{ height: '8em' }}
                             placeholder="Descrição"
-                            onChange={(e) => atualizarCampo('descricao', e.target.value)}
+                            onChange={(e) => atualizarCampo('description', e.target.value)}
                         />
                     </div>
                     <div className="col-12">
                         <Horarios atualizarHorarios={atualizarCampo} />
+                    </div>
+                    <div className="col-12">
+                        <Calendar
+                            value={datetime24h}
+                            id="calendar-24h"
+                            onChange={(e) => {
+                                setDateTime24h(e.value);
+                                atualizarCampo('endAt', e.value);
+                            }}
+                            className="fundo-desfocado w-9 md:w-7"
+                            locale="pt-br"
+                            showTime
+                            dateFormat="dd/mm/yy"
+                            hourFormat="24"
+                            minDate={new Date()}
+                        />
+                        
                     </div>
                     <div className="col-12 flex flex-row justify-content-center">
                     <Button
@@ -108,7 +100,7 @@ export default function CriarSala() {
                         className="create-btn w-6 mt-3"
                         style={{ margin: '0.5em' }}
                         onClick={() =>{ 
-                            submitData(sala);
+                            //submitData(sala);
                             console.log(sala);
                         }}
                     />

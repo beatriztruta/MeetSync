@@ -23,7 +23,8 @@ export default function Horarios({  atualizarHorarios }) {
                     }
                 }
             };
-            atualizarHorarios('horarios', updatedTimes);
+            const formattedTimes = formatTimesForPostRoom(updatedTimes);
+            atualizarHorarios('times', formattedTimes);
             return updatedTimes;
         });
     };    
@@ -52,8 +53,8 @@ export default function Horarios({  atualizarHorarios }) {
                 delete updatedTimes[dateStr];
             }
     
-                
-            atualizarHorarios('horarios', updatedTimes);
+            const formattedTimes = formatTimesForPostRoom(updatedTimes);
+            atualizarHorarios('times', formattedTimes);
             return updatedTimes;
         });
     };
@@ -64,6 +65,29 @@ export default function Horarios({  atualizarHorarios }) {
         let year = date.getFullYear();
         
         return `${day}/${month}/${year}`;
+    }
+
+    function formatTimesForPostRoom(times) {
+        const formatted = Object.keys(times).map(dateStr => {
+            return Object.keys(times[dateStr]).map(timeId => {
+                const { startTime, duration } = times[dateStr][timeId];
+                const data = new Date(dateStr);
+
+                const start = new Date(dateStr);
+                start.setHours(startTime.code);
+                
+                const end = new Date(start);
+                end.setHours(end.getHours() + parseInt(duration.code));
+
+                return {
+                    date: formatDate(data),
+                    start: start,
+                    end: end,
+                };
+            });
+        }).flat();
+
+        return { times: formatted };
     }
 
     addLocale('pt-br', {
@@ -81,21 +105,14 @@ export default function Horarios({  atualizarHorarios }) {
     return (
         <div className="flex flex-column md:flex-row justify-content-evenly align-items-center">
             <Calendar
-                value={datasSelecionadas.map(date => new Date(date))}
-                onChange={(e) => {
-                    const formattedDates = e.value.map(date => formatDate(date));
-                    const datas = [];
-                    formattedDates.forEach(data => {
-                        datas.push(data);
-                    });
-                    setdatasSelecionadas(datas);
-                }}
+                value={datasSelecionadas}
+                onChange={(e) => setdatasSelecionadas(e.value)}
                 selectionMode="multiple"
+                readOnlyInput
                 inline
-                style={{ margin: '1em',  width: '95%', height: '95%' }}
-                showWeek
                 dateFormat="dd/mm/yyyy"
                 locale="pt-br"
+                style={{ margin: '1em',  width: '95%', height: '95%' }}
             />
             <ScrollPanel style={{ width: '100%', height: '300px', margin: '1em' }} className="custombar1">
                 {datasSelecionadas.length === 0 
@@ -110,7 +127,7 @@ export default function Horarios({  atualizarHorarios }) {
                 </div>
                 : datasSelecionadas.map((date) => (
                     <div key={date} className="time-card" style={{ marginLeft: '0.5em' }}>
-                        <h3>Data selecionada: {date}</h3>
+                        <h3>Data selecionada: {formatDate(date)}</h3>
                         {Object.keys(times[date] || {}).map((timeId) => (
                         <div
                         key={timeId}
