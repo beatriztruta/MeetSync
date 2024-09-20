@@ -35,22 +35,17 @@ export default function CriarSala() {
     }
 
     const isValidTimesList = (list) => {
-        if(list === undefined) {
+        if (!list) {
             return false;
         }
     
-        let isValid = true;
-
-        for (let index = 0; index < list.length; index++) {
-            const hour = list[index];
-            if(isValidValue(hour.date) && isValidValue(hour.start) && isValidValue(hour.end)) {
-                isValid = true;
-            } else {
-                return false;
-            }
-        }
-        return isValid;
-    }
+        return list.every(hour => 
+            isValidValue(hour.date) && 
+            isValidValue(hour.start) && 
+            isValidValue(hour.end)
+        );
+    };
+    
 
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
