@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -25,6 +25,10 @@ export default function CriarSala() {
     const toast = useRef(null);
 
     const [visibleDialog, setVisibleDialog] = useState(false);
+
+    useEffect(() => {
+        nomeUser && atualizarCampo('name', nomeUser);
+    }, [nomeUser]);
 
     const atualizarCampo = (field, value) => {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
