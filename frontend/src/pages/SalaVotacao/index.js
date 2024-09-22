@@ -7,6 +7,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { getRoom } from '../../service/RoomService';
+import { postVote } from '../../service/VoteService';
 import "./style.css";
 
 function SalaVotacao() {
@@ -37,7 +38,7 @@ function SalaVotacao() {
         "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
       },
       {
-          "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
+          "timeId": "60701241-7316-4d50-86c8-a2d892d75d7f",
           "date": "2024-09-03T00:00:00.000Z",
           "start": "2024-09-03T03:00:00.000Z",
           "end": "2024-09-03T04:00:00.000Z",
@@ -92,6 +93,12 @@ function SalaVotacao() {
       return;
     }
 
+    const voteInformation = {
+      "userName": nome,
+      "times": horariosSelecionados,
+    };
+    postVote(voteInformation);
+
     setResultados((prevResultados) => [
       ...prevResultados,
       { nome, horarios: [...horariosSelecionados] },
@@ -108,8 +115,6 @@ function SalaVotacao() {
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
       const horarioData = horariosDisponiveis.find(h => h.id === horario);
-      console.log(horarioData);
-      console.log(horario);
       const label = `${horarioData.date} - ${horarioData.time}`;
       if (!acc[label]) {
         acc[label] = { horario: label, votos: [] };
