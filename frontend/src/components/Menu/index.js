@@ -30,7 +30,7 @@ export default function Menu({ isPaginaInicial }) {
         },
     ];
 
-    const start = <img src={logo} alt="Logo" style={{ marginRight: '10px', height: '50px' }} />;
+    const start = <a href='/'><img src={logo} alt="Logo" style={{ marginRight: '10px', height: '70px' }} /></a>;
     const end = (
         isPaginaInicial
         ? <div className="p-inputgroup">
