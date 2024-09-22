@@ -11,8 +11,8 @@ import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
 import { isValidValue, isValidTimesList } from '../../utils/functions';
-import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 import './style.css';
+import { Dialog } from 'primereact/dialog';
 
 export default function CriarSala() {
 
@@ -24,6 +24,8 @@ export default function CriarSala() {
     const [datetime24h, setDateTime24h] = useState(null);
     const toast = useRef(null);
 
+    const [visibleDialog, setVisibleDialog] = useState(false);
+
     const atualizarCampo = (field, value) => {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
@@ -34,10 +36,13 @@ export default function CriarSala() {
 
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
-        && isValidDateValue(sala.endingAt) && isValidTimesList(sala.times)) {
+        && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
             console.log('É valido');
             console.log(sala);
-            postRoom(sala);
+            setVisibleDialog(true);
+            console.log(visibleDialog);
+            
+           //postRoom(sala);
         } else {
             showError();
         }
@@ -130,6 +135,21 @@ export default function CriarSala() {
                         }}
                     />
                     </div>
+                    <Dialog
+                        header="Sala de Votação Criada!"
+                        visible={visibleDialog}
+                        style={{ width: '50vw' }}
+                        onHide={() => {
+                            if (!visibleDialog)
+                                return;
+                            setVisibleDialog(false);
+                        }}
+                    >
+                    <p className="m-0">
+                        Compartilhe o link!<br/>
+                        link   
+                    </p>
+                    </Dialog>
                 </div>
             </div>
         </div>
