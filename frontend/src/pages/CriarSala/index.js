@@ -10,6 +10,8 @@ import { useLocation } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
+import { isValidValue, isValidTimesList } from '../../utils/functions';
+import { isValidDateValue } from '@testing-library/user-event/dist/utils';
 import './style.css';
 
 export default function CriarSala() {
@@ -30,26 +32,9 @@ export default function CriarSala() {
         toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha os campos obrigatórios', life: 3000});
     }
 
-    const isValidValue = (value) => {
-        return value !== undefined && value !== '' && value !== ' ' && value != null;
-    }
-
-    const isValidTimesList = (list) => {
-        if (!list) {
-            return false;
-        }
-    
-        return list.every(hour => 
-            isValidValue(hour.date) && 
-            isValidValue(hour.start) && 
-            isValidValue(hour.end)
-        );
-    };
-    
-
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
-        && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
+        && isValidDateValue(sala.endingAt) && isValidTimesList(sala.times)) {
             console.log('É valido');
             console.log(sala);
             postRoom(sala);

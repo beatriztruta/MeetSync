@@ -22,7 +22,6 @@ export default function ConteudoPrincipal(){
                     placeholder="Digite o seu nome"
                     onChange={(e) =>setNome(e.target.value)}
                 />
-                {console.log('aa ' + nome)}
                 <button className="create-btn" onClick={() => {navigate('/criar-sala', { state: { nomeUser: nome } })}}>+ Criar Sala</button>
             </div>
       </div>

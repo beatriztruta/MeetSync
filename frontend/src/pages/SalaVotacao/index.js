@@ -8,6 +8,7 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { getRoom } from '../../service/RoomService';
 import { postVote } from '../../service/VoteService';
+import { isValidValue } from '../../utils/functions';
 import "./style.css";
 
 function SalaVotacao() {
@@ -88,7 +89,7 @@ function SalaVotacao() {
   const handleVotacao = (event) => {
     event.preventDefault();
 
-    if (horariosSelecionados.length === 0) {
+    if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
       showError();
       return;
     }
@@ -179,7 +180,6 @@ function SalaVotacao() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Digite seu nome"
-              required
               style={{ width: '100%' }} 
             />
 
