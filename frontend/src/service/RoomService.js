@@ -7,6 +7,7 @@ export function getRoom(idRoom) {
     .then((response) => {
         room = response.data;
         console.log(room);
+        return room;
     })
     .catch((error) => {
         console.log(error);

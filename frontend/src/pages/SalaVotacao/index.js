@@ -1,22 +1,80 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Toast } from 'primereact/toast';
+import { getRoom } from '../../service/RoomService';
 import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
+  const [room, setRoom] = useState([]);
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
+  const toast = useRef(null);
 
-  const horariosDisponiveis = [
-    { id: 1, date: '2024-09-01', time: '01h-02h' },
-    { id: 2, date: '2024-09-02', time: '02h-03h' },
-    { id: 3, date: '2024-09-03', time: '03h-04h' },
-  ];
+  useEffect(() => {
+    const room = getRoom();
+    setRoom(room);
+
+    const times = [
+      {
+          "timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
+          "date": "2024-09-05T00:00:00.000Z",
+          "start": "2024-09-05T01:00:00.000Z",
+          "end": "2024-09-05T02:00:00.000Z",
+          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+      },
+      {
+        "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
+        "date": "2024-09-02T00:00:00.000Z",
+        "start": "2024-09-02T02:00:00.000Z",
+        "end": "2024-09-02T03:00:00.000Z",
+        "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+      },
+      {
+          "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
+          "date": "2024-09-03T00:00:00.000Z",
+          "start": "2024-09-03T03:00:00.000Z",
+          "end": "2024-09-03T04:00:00.000Z",
+          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+      }
+    ];
+    //times sera substituido por room.Time da req
+    //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
+    setHorariosDisponiveis(formatTimesFromGet(times));
+  }, []);
+
+  const showError = () => {
+    toast.current.show({severity:'error', summary: 'Erro', detail:'Por favor, selecione pelo menos um horário.', life: 3000});
+  }
+
+  const formatTimesFromGet = (times) => {
+    return times.map((item) => {
+
+      const data = new Date(item.date);
+      const dia = String(data.getUTCDate()).padStart(2, '0');
+      const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+      const ano = data.getUTCFullYear();
+  
+      const dataFormatada = `${dia}/${mes}/${ano}`;
+  
+      const horaInicio = new Date(item.start).getUTCHours();
+      const horaFim = new Date(item.end).getUTCHours();
+  
+      const horarioFormatado = `${horaInicio}h-${horaFim}h`;
+  
+      return {
+        id: item.timeId,
+        date: dataFormatada,
+        time: horarioFormatado
+      };
+    });
+  };
 
   const toggleHorarioSelection = (id) => {
     setHorariosSelecionados(prevSelectedHorarios =>
@@ -30,7 +88,7 @@ function SalaVotacao() {
     event.preventDefault();
 
     if (horariosSelecionados.length === 0) {
-      alert("Por favor, selecione pelo menos um horário.");
+      showError();
       return;
     }
 
@@ -47,14 +105,11 @@ function SalaVotacao() {
     setResultados([]);
   };
 
-  function formatDate(date) {
-    let dados =  date.split('-');
-    return `${dados[2]}/${dados[1]}/${dados[0]}`;
-}
-
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
       const horarioData = horariosDisponiveis.find(h => h.id === horario);
+      console.log(horarioData);
+      console.log(horario);
       const label = `${horarioData.date} - ${horarioData.time}`;
       if (!acc[label]) {
         acc[label] = { horario: label, votos: [] };
@@ -74,6 +129,7 @@ function SalaVotacao() {
 
   return (
     <div>
+      <Toast ref={toast} />
       <Menu />
       <div className="flex flex-column align-items-center">
         <div
@@ -104,7 +160,7 @@ function SalaVotacao() {
                     onClick={() => toggleHorarioSelection(horario.id)}
                   >
                     <div className="card-content">
-                      <h3>{formatDate(horario.date.split(' ')[0])}</h3>
+                      <h3>{horario.date.split(' ')[0]}</h3>
                       <p>{horario.time}</p>
                     </div>
                   </div>
