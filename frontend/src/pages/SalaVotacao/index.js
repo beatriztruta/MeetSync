@@ -51,8 +51,9 @@ function SalaVotacao() {
     setHorariosDisponiveis(formatTimesFromGet(times));
   }, []);
 
-  const showError = () => {
-    toast.current.show({severity:'error', summary: 'Erro', detail:'Por favor, selecione pelo menos um horário.', life: 3000});
+  const showError = (typeError) => {
+    const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
+    toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
   }
 
   const formatTimesFromGet = (times) => {
@@ -90,7 +91,8 @@ function SalaVotacao() {
     event.preventDefault();
 
     if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-      showError();
+      const typeError = horariosSelecionados.length === 0 ? 'horario' : 'nome';
+      showError(typeError);
       return;
     }
 
@@ -109,8 +111,9 @@ function SalaVotacao() {
     setHorariosSelecionados([]);
   };
 
-  const handleDelete = () => {
-    setResultados([]);
+  const handleDelete = (event) => {
+    event.preventDefault();
+    setHorariosSelecionados([]);
   };
 
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
@@ -135,7 +138,7 @@ function SalaVotacao() {
 
   return (
     <div>
-      <Toast ref={toast} />
+      <Toast ref={toast}/>
       <Menu />
       <div className="flex flex-column align-items-center">
         <div
@@ -155,7 +158,7 @@ function SalaVotacao() {
           className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
           style={{ margin: "1em", padding: "1em" }}
         >
-          <form onSubmit={handleVotacao}>
+          <form>
             <div className="horarios">
               <label htmlFor="horarios" style={{ textAlign: 'center', color: 'white' }}>Selecione os horários:</label>
               <div className="cards-container">
@@ -172,6 +175,16 @@ function SalaVotacao() {
                   </div>
                 ))}
               </div>
+              <div className="flex justify-content-center">
+                <button
+                  type="button"
+                  className="icon-button"
+                  onClick={handleDelete}
+                  style={{ backgroundColor: "grey" }}
+                > 
+                  <i className="pi pi-spin pi-trash"/>
+                </button>
+              </div>
             </div>
 
             <label htmlFor="nome">Nome:</label>
@@ -184,7 +197,13 @@ function SalaVotacao() {
             />
 
             <div>
-              <button className="vote-btn" style={{ fontWeight: 'bold' }}>Votar</button>
+              <button
+                className="vote-btn"
+                style={{ fontWeight: 'bold' }}
+                onClick={(e) => handleVotacao(e)}
+              >
+                Votar
+              </button>
             </div>
           </form>
 
@@ -199,13 +218,6 @@ function SalaVotacao() {
             </div>
           </div>
           <div className="icon-buttons">
-            <button
-              className="icon-button"
-              onClick={handleDelete}
-              style={{ backgroundColor: "grey" }}
-            > 
-              <i className="pi pi-spin pi-trash"/>
-            </button>
           </div>
         </div>
       </div>
