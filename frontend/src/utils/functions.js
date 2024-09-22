@@ -3,7 +3,7 @@ export const isValidValue = (value) => {
 }
 
 export const isValidTimesList = (list) => {
-    if (!list) {
+    if (!list || list.length === 0) {
         return false;
     }
 

@@ -10,6 +10,8 @@ import { getRoom } from '../../service/RoomService';
 import { postVote } from '../../service/VoteService';
 import { isValidValue } from '../../utils/functions';
 import "./style.css";
+import { useLocation, useParams } from "react-router-dom";
+import { Dialog } from "primereact/dialog";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -17,10 +19,16 @@ function SalaVotacao() {
   const [resultados, setResultados] = useState([]);
   const [room, setRoom] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
+
   const toast = useRef(null);
 
+  const { idRoom } = useParams();
+  const location = useLocation();
+  const { isCriador, link } = location.state || {};
+  const [visibleDialog, setVisibleDialog] = useState(isCriador);
+
   useEffect(() => {
-    const room = getRoom();
+    const room = getRoom(idRoom);
     setRoom(room);
 
     const times = [
@@ -46,10 +54,10 @@ function SalaVotacao() {
           "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
       }
     ];
-    //times sera substituido por room.Time da req
+    //times sera substituido por room.Time da requisicao
     //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
     setHorariosDisponiveis(formatTimesFromGet(times));
-  }, []);
+  }, [idRoom]);
 
   const showError = (typeError) => {
     const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
@@ -221,6 +229,21 @@ function SalaVotacao() {
           </div>
         </div>
       </div>
+      {isCriador && <Dialog
+        header="Sala de Votação Criada!"
+        visible={visibleDialog}
+        style={{ width: '50vw' }}
+        onHide={() => {
+          if (!visibleDialog)
+            return;
+            setVisibleDialog(false);
+          }}
+        >
+          <p className="m-0">
+            Compartilhe o link!<br/>
+            {link}   
+          </p>
+      </Dialog>}
     </div>
 
   );

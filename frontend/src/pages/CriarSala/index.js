@@ -6,13 +6,12 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { addLocale } from 'primereact/api';
 import { Toast } from 'primereact/toast';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
 import { isValidValue, isValidTimesList } from '../../utils/functions';
 import './style.css';
-import { Dialog } from 'primereact/dialog';
 
 export default function CriarSala() {
 
@@ -24,7 +23,7 @@ export default function CriarSala() {
     const [datetime24h, setDateTime24h] = useState(null);
     const toast = useRef(null);
 
-    const [visibleDialog, setVisibleDialog] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         nomeUser && atualizarCampo('name', nomeUser);
@@ -43,10 +42,13 @@ export default function CriarSala() {
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
             console.log('É valido');
             console.log(sala);
-            setVisibleDialog(true);
-            console.log(visibleDialog);
             
-           //postRoom(sala);
+            //postRoom(sala);
+
+            //redirecionar para a sala
+            const id = 1;
+            navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
+
         } else {
             showError();
         }
@@ -139,21 +141,6 @@ export default function CriarSala() {
                         }}
                     />
                     </div>
-                    <Dialog
-                        header="Sala de Votação Criada!"
-                        visible={visibleDialog}
-                        style={{ width: '50vw' }}
-                        onHide={() => {
-                            if (!visibleDialog)
-                                return;
-                            setVisibleDialog(false);
-                        }}
-                    >
-                    <p className="m-0">
-                        Compartilhe o link!<br/>
-                        link   
-                    </p>
-                    </Dialog>
                 </div>
             </div>
         </div>
