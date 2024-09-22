@@ -15,7 +15,7 @@ export default function ConteudoPrincipal(){
     }
 
     return(
-        <>
+        <div>
             <div className="conteudo-principal">
                 <div className="titulo">
                     <h1>MeetSync</h1>
