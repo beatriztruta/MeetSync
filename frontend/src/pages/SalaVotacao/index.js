@@ -28,6 +28,42 @@ function SalaVotacao() {
   const [visibleDialog, setVisibleDialog] = useState(isCriador);
 
   useEffect(() => {
+    const formatTimesFromGet = (times) => {
+      return times.map((item) => {
+  
+        const data = new Date(item.date);
+        const dia = String(data.getUTCDate()).padStart(2, '0');
+        const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+        const ano = data.getUTCFullYear();
+    
+        const dataFormatada = `${dia}/${mes}/${ano}`;
+    
+        const horaInicio = new Date(item.start).getUTCHours();
+        const horaFim = new Date(item.end).getUTCHours();
+    
+        const horarioFormatado = `${horaInicio}h-${horaFim}h`;
+    
+        if (item.vote) {
+          console.log('aqui');
+          const votosPorPessoa = {};
+          item.vote.forEach((vote) => {
+            if (!votosPorPessoa[vote.userName]) {
+              votosPorPessoa[vote.userName] = [vote.timeId];
+            } else {
+              votosPorPessoa[vote.userName].push(vote.timeId);
+            }
+          });
+          formatResultadosFromGet(votosPorPessoa);
+        } 
+  
+        return {
+          id: item.timeId,
+          date: dataFormatada,
+          time: horarioFormatado
+        };
+      });
+    };
+
     const room = getRoom(idRoom);
     setRoom(room);
 
@@ -37,7 +73,11 @@ function SalaVotacao() {
           "date": "2024-09-05T00:00:00.000Z",
           "start": "2024-09-05T01:00:00.000Z",
           "end": "2024-09-05T02:00:00.000Z",
-          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
+          "vote": [
+            {"timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
+            "userName": "Livia"},
+          ],
       },
       {
         "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
@@ -57,6 +97,7 @@ function SalaVotacao() {
     //times sera substituido por room.Time da requisicao
     //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
     setHorariosDisponiveis(formatTimesFromGet(times));
+
   }, [idRoom]);
 
   const showError = (typeError) => {
@@ -64,27 +105,18 @@ function SalaVotacao() {
     toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
   }
 
-  const formatTimesFromGet = (times) => {
-    return times.map((item) => {
+  const formatResultadosFromGet = (votosPorPessoa) => {
 
-      const data = new Date(item.date);
-      const dia = String(data.getUTCDate()).padStart(2, '0');
-      const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
-      const ano = data.getUTCFullYear();
-  
-      const dataFormatada = `${dia}/${mes}/${ano}`;
-  
-      const horaInicio = new Date(item.start).getUTCHours();
-      const horaFim = new Date(item.end).getUTCHours();
-  
-      const horarioFormatado = `${horaInicio}h-${horaFim}h`;
-  
-      return {
-        id: item.timeId,
-        date: dataFormatada,
-        time: horarioFormatado
+    const lista = [];
+    for (const chave in votosPorPessoa) {
+      const res = {
+        'nome': chave,
+        'horarios': votosPorPessoa[chave],
       };
-    });
+      lista.push(res);
+    
+    }
+    setResultados(lista);
   };
 
   const toggleHorarioSelection = (id) => {

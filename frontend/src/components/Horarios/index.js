@@ -54,7 +54,6 @@ export default function Horarios({  atualizarHorarios }) {
             }
     
             const formattedTimes = formatTimesForPostRoom(updatedTimes);
-            console.log(formattedTimes);
             atualizarHorarios('times', formattedTimes);
             return updatedTimes;
         });
