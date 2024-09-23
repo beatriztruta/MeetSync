@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
@@ -9,9 +10,9 @@ import { Toast } from 'primereact/toast';
 import { getRoom } from '../../service/RoomService';
 import { postVote } from '../../service/VoteService';
 import { isValidValue } from '../../utils/functions';
-import "./style.css";
-import { useLocation, useParams } from "react-router-dom";
 import { Dialog } from "primereact/dialog";
+import { ProgressSpinner } from 'primereact/progressspinner';
+import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -19,6 +20,7 @@ function SalaVotacao() {
   const [resultados, setResultados] = useState([]);
   const [room, setRoom] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const toast = useRef(null);
 
@@ -97,7 +99,7 @@ function SalaVotacao() {
     //times sera substituido por room.Time da requisicao
     //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
     setHorariosDisponiveis(formatTimesFromGet(times));
-
+    setLoading(false);
   }, [idRoom]);
 
   const showError = (typeError) => {
@@ -178,6 +180,10 @@ function SalaVotacao() {
 
   return (
     <div>
+      {loading
+      ? <div className="flex align-items-center justify-content-center" style={{height: '100vh', width: '100vw' }}><ProgressSpinner /></div>
+      :
+      <>
       <Toast ref={toast}/>
       <Menu />
       <div className="flex flex-column align-items-center">
@@ -276,6 +282,7 @@ function SalaVotacao() {
             {link}   
           </p>
       </Dialog>}
+    </>}
     </div>
 
   );
