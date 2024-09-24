@@ -40,9 +40,6 @@ export default function CriarSala() {
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
-            console.log('É valido');
-            console.log(sala);
-            
             postRoom(sala).then((id) => {
               navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } })
             });
