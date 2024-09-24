@@ -43,17 +43,22 @@ export default function CriarSala() {
             console.log('É valido');
             console.log(sala);
             
-            //postRoom(sala);
-
-            //redirecionar para a sala
-            //getIdRoom
-            const id = 1;
-            navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
-
+            postRoom(sala).then((id) => {
+              navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } })
+            });
         } else {
             showError();
         }
     }
+
+    
+    function formatDate(date) {
+      let day = String(date.getDate()).padStart(2, '0');
+      let month = String(date.getMonth() + 1).padStart(2, '0');
+      let year = date.getFullYear();
+      
+      return `${year}-${month}-${day}`;
+  }
 
     addLocale('pt-br', {
         firstDayOfWeek: 1,
@@ -118,10 +123,10 @@ export default function CriarSala() {
                     <div className="col-12">
                         <Calendar
                             placeholder='Quando deseja encerrar essa votação?*'
-                            value={datetime24h}
+                            svalue={datetime24h}
                             onChange={(e) => {
                                 setDateTime24h(e.value);
-                                atualizarCampo('endingAt', e.value);
+                                atualizarCampo('endingAt', formatDate(e.value));
                             }}
                             className="fundo-desfocado w-7 md:w-5"
                             locale="pt-br"
