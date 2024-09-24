@@ -87,7 +87,7 @@ export default function Horarios({  atualizarHorarios }) {
             });
         }).flat();
 
-        return formatted ;
+        return formatted;
     }
 
     addLocale('pt-br', {
@@ -113,6 +113,7 @@ export default function Horarios({  atualizarHorarios }) {
                 dateFormat="dd/mm/yyyy"
                 locale="pt-br"
                 style={{ margin: '1em',  width: '95%', height: '95%' }}
+                minDate={new Date()}
             />
             <ScrollPanel style={{ width: '100%', height: '300px', margin: '1em' }} className="custombar1">
                 {datasSelecionadas.length === 0 

@@ -29,6 +29,9 @@
     background-color: #2f4f4f;
 }
 
-.p-menuitem-text:hover {
-    color: black;
+.p-menuitem-link:hover {
+    background-color: #548b8b;
+    border-radius: 5px;
 }
+
+

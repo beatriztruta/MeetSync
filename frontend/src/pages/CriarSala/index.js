@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useState } from 'react';
 import { InputText } from 'primereact/inputtext';
 import { InputTextarea } from 'primereact/inputtextarea';
@@ -6,10 +6,11 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { addLocale } from 'primereact/api';
 import { Toast } from 'primereact/toast';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
+import { isValidValue, isValidTimesList } from '../../utils/functions';
 import './style.css';
 
 export default function CriarSala() {
@@ -22,6 +23,12 @@ export default function CriarSala() {
     const [datetime24h, setDateTime24h] = useState(null);
     const toast = useRef(null);
 
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        nomeUser && atualizarCampo('name', nomeUser);
+    }, [nomeUser]);
+
     const atualizarCampo = (field, value) => {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
@@ -30,29 +37,19 @@ export default function CriarSala() {
         toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha os campos obrigatórios', life: 3000});
     }
 
-    const isValidValue = (value) => {
-        return value !== undefined && value !== '' && value !== ' ' && value != null;
-    }
-
-    const isValidTimesList = (list) => {
-        if (!list) {
-            return false;
-        }
-    
-        return list.every(hour => 
-            isValidValue(hour.date) && 
-            isValidValue(hour.start) && 
-            isValidValue(hour.end)
-        );
-    };
-    
-
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
             console.log('É valido');
             console.log(sala);
-            postRoom(sala);
+            
+            //postRoom(sala);
+
+            //redirecionar para a sala
+            //getIdRoom
+            const id = 1;
+            navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
+
         } else {
             showError();
         }
@@ -72,7 +69,7 @@ export default function CriarSala() {
 
     return(
         <div>
-            <Toast ref={toast} />
+            <Toast ref={toast} className='toast'/>
             <Menu/>
             <div className="flex flex-column align-items-center">
                             <div

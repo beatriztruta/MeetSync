@@ -7,6 +7,7 @@ export function getRoom(idRoom) {
     .then((response) => {
         room = response.data;
         console.log(room);
+        return room;
     })
     .catch((error) => {
         console.log(error);
@@ -25,7 +26,7 @@ export function postRoom(room) {
 }
 
 export function deleteRoom(idRoom) {
-    axios.delete(`http://localhost:4000/api/room/${idRoom}`)
+    axios.delete(`http://localhost:3000/api/room/${idRoom}`)
     .then(() => {
         console.log('deu certo');
     })

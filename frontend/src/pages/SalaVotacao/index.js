@@ -1,22 +1,125 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { useLocation, useParams } from "react-router-dom";
 import { InputText } from 'primereact/inputtext';
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { Toast } from 'primereact/toast';
+import { getRoom } from '../../service/RoomService';
+import { postVote } from '../../service/VoteService';
+import { isValidValue } from '../../utils/functions';
+import { Dialog } from "primereact/dialog";
+import { ProgressSpinner } from 'primereact/progressspinner';
 import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
+  const [room, setRoom] = useState([]);
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const horariosDisponiveis = [
-    { id: 1, date: '2024-09-01', time: '01h-02h' },
-    { id: 2, date: '2024-09-02', time: '02h-03h' },
-    { id: 3, date: '2024-09-03', time: '03h-04h' },
-  ];
+  const toast = useRef(null);
+
+  const { idRoom } = useParams();
+  const location = useLocation();
+  const { isCriador, link } = location.state || {};
+  const [visibleDialog, setVisibleDialog] = useState(isCriador);
+
+  useEffect(() => {
+    const formatTimesFromGet = (times) => {
+      return times.map((item) => {
+  
+        const data = new Date(item.date);
+        const dia = String(data.getUTCDate()).padStart(2, '0');
+        const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+        const ano = data.getUTCFullYear();
+    
+        const dataFormatada = `${dia}/${mes}/${ano}`;
+    
+        const horaInicio = new Date(item.start).getUTCHours();
+        const horaFim = new Date(item.end).getUTCHours();
+    
+        const horarioFormatado = `${horaInicio}h-${horaFim}h`;
+    
+        if (item.vote) {
+          console.log('aqui');
+          const votosPorPessoa = {};
+          item.vote.forEach((vote) => {
+            if (!votosPorPessoa[vote.userName]) {
+              votosPorPessoa[vote.userName] = [vote.timeId];
+            } else {
+              votosPorPessoa[vote.userName].push(vote.timeId);
+            }
+          });
+          formatResultadosFromGet(votosPorPessoa);
+        } 
+  
+        return {
+          id: item.timeId,
+          date: dataFormatada,
+          time: horarioFormatado
+        };
+      });
+    };
+
+    const room = getRoom(idRoom);
+    setRoom(room);
+
+    const times = [
+      {
+          "timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
+          "date": "2024-09-05T00:00:00.000Z",
+          "start": "2024-09-05T01:00:00.000Z",
+          "end": "2024-09-05T02:00:00.000Z",
+          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
+          "vote": [
+            {"timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
+            "userName": "Livia"},
+          ],
+      },
+      {
+        "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
+        "date": "2024-09-02T00:00:00.000Z",
+        "start": "2024-09-02T02:00:00.000Z",
+        "end": "2024-09-02T03:00:00.000Z",
+        "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+      },
+      {
+          "timeId": "60701241-7316-4d50-86c8-a2d892d75d7f",
+          "date": "2024-09-03T00:00:00.000Z",
+          "start": "2024-09-03T03:00:00.000Z",
+          "end": "2024-09-03T04:00:00.000Z",
+          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+      }
+    ];
+    //times sera substituido por room.Time da requisicao
+    //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
+    setHorariosDisponiveis(formatTimesFromGet(times));
+    setLoading(false);
+  }, [idRoom]);
+
+  const showError = (typeError) => {
+    const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
+    toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
+  }
+
+  const formatResultadosFromGet = (votosPorPessoa) => {
+
+    const lista = [];
+    for (const chave in votosPorPessoa) {
+      const res = {
+        'nome': chave,
+        'horarios': votosPorPessoa[chave],
+      };
+      lista.push(res);
+    
+    }
+    setResultados(lista);
+  };
 
   const toggleHorarioSelection = (id) => {
     setHorariosSelecionados(prevSelectedHorarios =>
@@ -29,10 +132,17 @@ function SalaVotacao() {
   const handleVotacao = (event) => {
     event.preventDefault();
 
-    if (horariosSelecionados.length === 0) {
-      alert("Por favor, selecione pelo menos um horário.");
+    if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
+      const typeError = horariosSelecionados.length === 0 ? 'horario' : 'nome';
+      showError(typeError);
       return;
     }
+
+    const voteInformation = {
+      "userName": nome,
+      "times": horariosSelecionados,
+    };
+    postVote(voteInformation);
 
     setResultados((prevResultados) => [
       ...prevResultados,
@@ -43,14 +153,10 @@ function SalaVotacao() {
     setHorariosSelecionados([]);
   };
 
-  const handleDelete = () => {
-    setResultados([]);
+  const handleDelete = (event) => {
+    event.preventDefault();
+    setHorariosSelecionados([]);
   };
-
-  function formatDate(date) {
-    let dados =  date.split('-');
-    return `${dados[2]}/${dados[1]}/${dados[0]}`;
-}
 
   const resultadosAgrupados = resultados.reduce((acc, resultado) => {
     resultado.horarios.forEach(horario => {
@@ -74,6 +180,10 @@ function SalaVotacao() {
 
   return (
     <div>
+      {loading
+      ? <div className="flex align-items-center justify-content-center" style={{height: '100vh', width: '100vw' }}><ProgressSpinner /></div>
+      : <>
+      <Toast ref={toast} className='toast'/>
       <Menu />
       <div className="flex flex-column align-items-center">
         <div
@@ -93,7 +203,7 @@ function SalaVotacao() {
           className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
           style={{ margin: "1em", padding: "1em" }}
         >
-          <form onSubmit={handleVotacao}>
+          <form>
             <div className="horarios">
               <label htmlFor="horarios" style={{ textAlign: 'center', color: 'white' }}>Selecione os horários:</label>
               <div className="cards-container">
@@ -104,11 +214,21 @@ function SalaVotacao() {
                     onClick={() => toggleHorarioSelection(horario.id)}
                   >
                     <div className="card-content">
-                      <h3>{formatDate(horario.date.split(' ')[0])}</h3>
+                      <h3>{horario.date.split(' ')[0]}</h3>
                       <p>{horario.time}</p>
                     </div>
                   </div>
                 ))}
+              </div>
+              <div className="flex justify-content-center">
+                <button
+                  type="button"
+                  className="icon-button"
+                  onClick={handleDelete}
+                  style={{ backgroundColor: "grey" }}
+                > 
+                  <i className="pi pi-spin pi-trash"/>
+                </button>
               </div>
             </div>
 
@@ -118,12 +238,17 @@ function SalaVotacao() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Digite seu nome"
-              required
               style={{ width: '100%' }} 
             />
 
             <div>
-              <button className="vote-btn" style={{ fontWeight: 'bold' }}>Votar</button>
+              <button
+                className="vote-btn"
+                style={{ fontWeight: 'bold' }}
+                onClick={(e) => handleVotacao(e)}
+              >
+                Votar
+              </button>
             </div>
           </form>
 
@@ -132,22 +257,31 @@ function SalaVotacao() {
               <div className="card">
                 <DataTable value={sortedResultados} tableStyle={{ minWidth: '50rem' }}>
                     <Column field="horario" header="Horário" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                    <Column field="totalVotos" header="Total de Votos" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
+                    <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
                     <Column field="pessoas" header="Pessoas" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
                 </DataTable>
             </div>
           </div>
           <div className="icon-buttons">
-            <button
-              className="icon-button"
-              onClick={handleDelete}
-              style={{ backgroundColor: "grey" }}
-            > 
-              <i className="pi pi-spin pi-trash"/>
-            </button>
           </div>
         </div>
       </div>
+      {isCriador && <Dialog
+        header="Sala de Votação Criada!"
+        visible={visibleDialog}
+        style={{ width: '50vw' }}
+        onHide={() => {
+          if (!visibleDialog)
+            return;
+            setVisibleDialog(false);
+          }}
+        >
+          <p className="m-0">
+            Compartilhe o link!<br/>
+            {link}   
+          </p>
+      </Dialog>}
+    </>}
     </div>
 
   );
