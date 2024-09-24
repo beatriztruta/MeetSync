@@ -29,7 +29,7 @@ function SalaVotacao() {
   const { isCriador, link } = location.state || {};
   const [visibleDialog, setVisibleDialog] = useState(isCriador);
 
-  useEffect(() => {
+  async function fetchRoom(idRoom) {
     const formatTimesFromGet = (times) => {
       return times.map((item) => {
   
@@ -46,7 +46,6 @@ function SalaVotacao() {
         const horarioFormatado = `${horaInicio}h-${horaFim}h`;
     
         if (item.vote) {
-          console.log('aqui');
           const votosPorPessoa = {};
           item.vote.forEach((vote) => {
             if (!votosPorPessoa[vote.userName]) {
@@ -66,42 +65,35 @@ function SalaVotacao() {
       });
     };
 
-    const room = getRoom(idRoom);
-    setRoom(room);
+    try {
+      const room = await getRoom(idRoom); 
+      console.log("Room object:", room); 
+      const timesFormatted = formatTimesFromGet(room.Time);
+      setHorariosDisponiveis(timesFormatted);
+      setRoom(room);
+    } catch (error) {
+      console.error("Erro ao buscar a sala:", error); 
+    }
+  }
 
-    const times = [
-      {
-          "timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
-          "date": "2024-09-05T00:00:00.000Z",
-          "start": "2024-09-05T01:00:00.000Z",
-          "end": "2024-09-05T02:00:00.000Z",
-          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
-          "vote": [
-            {"timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
-            "userName": "Livia"},
-          ],
-      },
-      {
-        "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
-        "date": "2024-09-02T00:00:00.000Z",
-        "start": "2024-09-02T02:00:00.000Z",
-        "end": "2024-09-02T03:00:00.000Z",
-        "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
-      },
-      {
-          "timeId": "60701241-7316-4d50-86c8-a2d892d75d7f",
-          "date": "2024-09-03T00:00:00.000Z",
-          "start": "2024-09-03T03:00:00.000Z",
-          "end": "2024-09-03T04:00:00.000Z",
-          "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+  useEffect(() => {
+    const fetchAndSetRoom = async () => {
+      setLoading(true);
+      try {
+        const roomData = await fetchRoom(idRoom);
+        setRoom(roomData);
+      } catch (error) {
+        console.error("Erro ao definir a sala:", error);
+      } finally {
+        setLoading(false);
       }
-    ];
-    //times sera substituido por room.Time da requisicao
-    //setHorariosDisponiveis(formatTimesFromGet(room?.Time));
-    setHorariosDisponiveis(formatTimesFromGet(times));
-    setLoading(false);
-  }, [idRoom]);
+    };
 
+    fetchAndSetRoom(); 
+  }, [idRoom, room]); 
+
+
+  
   const showError = (typeError) => {
     const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
     toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
