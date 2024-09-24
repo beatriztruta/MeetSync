@@ -182,9 +182,8 @@ function SalaVotacao() {
     <div>
       {loading
       ? <div className="flex align-items-center justify-content-center" style={{height: '100vh', width: '100vw' }}><ProgressSpinner /></div>
-      :
-      <>
-      <Toast ref={toast}/>
+      : <>
+      <Toast ref={toast} className='toast'/>
       <Menu />
       <div className="flex flex-column align-items-center">
         <div

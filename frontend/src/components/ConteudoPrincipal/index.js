@@ -42,7 +42,7 @@ export default function ConteudoPrincipal(){
                     </button>
                 </div>
             </div>
-            <Toast ref={toast} />
+            <Toast ref={toast} className='toast' />
         </div>
     );
 }

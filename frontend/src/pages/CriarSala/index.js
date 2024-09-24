@@ -68,7 +68,7 @@ export default function CriarSala() {
 
     return(
         <div>
-            <Toast ref={toast} />
+            <Toast ref={toast} className='toast'/>
             <Menu/>
             <div className="flex flex-column align-items-center">
                             <div
