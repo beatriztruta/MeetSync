@@ -1,22 +1,18 @@
 import axios from 'axios';
 
-export function getRoom(idRoom) {
-    let room = '';
-
-    axios.get(`http://localhost:3000/api/room/${idRoom}`)
-    .then((response) => {
-        room = response.data;
-        console.log(room);
-        return room;
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+export async function getRoom(idRoom) {
+    try {
+      const response = await axios.get(`http://localhost:3000/api/room/${idRoom}`);
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
 }
 
 export async function postRoom(room) {
   try {
     const response = await axios.post("http://localhost:3000/api/room/", room);
+    console.log('aqui' + response.data.roomId);
     return response.data.roomId;
   } catch (error) {
     console.log(error);
