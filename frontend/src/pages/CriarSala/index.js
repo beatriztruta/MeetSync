@@ -30,6 +30,7 @@ export default function CriarSala() {
     }, [nomeUser]);
 
     const atualizarCampo = (field, value) => {
+      console.log('aqui');
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
 
@@ -37,17 +38,60 @@ export default function CriarSala() {
         toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha os campos obrigatórios', life: 3000});
     }
 
+    
+    function formatTimesForPostRoom(times) {
+      const formatted = Object.keys(times).map(dateStr => {
+          return Object.keys(times[dateStr]).map(timeId => {
+              const { startTime, duration } = times[dateStr][timeId];
+              const data = new Date(dateStr);
+
+              console.log(data);
+              console.log(data.toISOString());
+              const start = new Date(dateStr);
+              start.setHours(startTime.code);
+              
+              const end = new Date(start);
+              end.setHours(end.getHours() + parseInt(duration.code));
+
+              return {
+                  date: data,
+                  start: start,
+                  end: end,
+              };
+          });
+      }).flat();
+
+      return formatted;
+  }
+
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
-            postRoom(sala).then((id) => {
-              navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } })
-            });
+          fetchRoom(sala);
         } else {
-            showError();
+          showError();
         }
-    }
 
+    }
+    
+    const fetchAndSetRoom = async (sala) => {
+      try {
+        const idRoom = await fetchRoom(sala);
+
+      } catch (error) {
+        console.error("Erro ao definir a sala:", error);
+      }
+    };
+
+    async function fetchRoom(sala) {
+      try {
+        const id = await postRoom(sala); 
+        console.log("id object:", id); 
+        navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
+      } catch (error) {
+        console.error("Erro ao criar a sala:", error); 
+      }
+    }
     
     function formatDate(date) {
       let day = String(date.getDate()).padStart(2, '0');

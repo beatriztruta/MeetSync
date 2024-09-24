@@ -80,7 +80,7 @@ export default function Horarios({  atualizarHorarios }) {
                 end.setHours(end.getHours() + parseInt(duration.code));
 
                 return {
-                    date: formatDate(data),
+                    date: data,
                     start: start,
                     end: end,
                 };
