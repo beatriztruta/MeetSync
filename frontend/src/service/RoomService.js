@@ -26,7 +26,7 @@ export function postRoom(room) {
 }
 
 export function deleteRoom(idRoom) {
-    axios.delete(`http://localhost:4000/api/room/${idRoom}`)
+    axios.delete(`http://localhost:3000/api/room/${idRoom}`)
     .then(() => {
         console.log('deu certo');
     })

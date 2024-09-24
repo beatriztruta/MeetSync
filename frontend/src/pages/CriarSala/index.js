@@ -46,6 +46,7 @@ export default function CriarSala() {
             //postRoom(sala);
 
             //redirecionar para a sala
+            //getIdRoom
             const id = 1;
             navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
 
