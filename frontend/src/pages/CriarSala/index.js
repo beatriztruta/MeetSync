@@ -47,7 +47,8 @@ export default function CriarSala() {
                 "times": convertToISOTimezone(sala.times),
                 'endingAt': sala.endingAt
             };
-            fetchRoom(salaPost);
+            //fetchRoom(salaPost);
+            fetchAndSetRoom(salaPost);
         } else {
           showError();
         }
@@ -66,7 +67,7 @@ export default function CriarSala() {
       try {
         const idRoom = await fetchRoom(sala);
         console.log("id object:", idRoom); 
-        navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: 'linkk' } });
+        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: 'linkk' } });
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       }
@@ -75,8 +76,10 @@ export default function CriarSala() {
     async function fetchRoom(sala) {
       try {
         const id = await postRoom(sala); 
+        return id;
       } catch (error) {
         console.error("Erro ao criar a sala:", error); 
+        return null;
       }
     }
     
