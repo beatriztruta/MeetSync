@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
-import { isValidValue, isValidTimesList } from '../../utils/functions';
+import { isValidValue, isValidTimesList, createLink } from '../../utils/functions';
 import './style.css';
 
 export default function CriarSala() {
@@ -30,7 +30,6 @@ export default function CriarSala() {
     }, [nomeUser]);
 
     const atualizarCampo = (field, value) => {
-      console.log('aqui');
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
 
@@ -38,46 +37,38 @@ export default function CriarSala() {
         toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha os campos obrigatórios', life: 3000});
     }
 
-    
-    function formatTimesForPostRoom(times) {
-      const formatted = Object.keys(times).map(dateStr => {
-          return Object.keys(times[dateStr]).map(timeId => {
-              const { startTime, duration } = times[dateStr][timeId];
-              const data = new Date(dateStr);
-
-              console.log(data);
-              console.log(data.toISOString());
-              const start = new Date(dateStr);
-              start.setHours(startTime.code);
-              
-              const end = new Date(start);
-              end.setHours(end.getHours() + parseInt(duration.code));
-
-              return {
-                  date: data,
-                  start: start,
-                  end: end,
-              };
-          });
-      }).flat();
-
-      return formatted;
-  }
-
     const submitData = (sala) => {
         if(isValidValue(sala.name) && isValidValue(sala.title)
         && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
-          fetchRoom(sala);
+            const salaPost = {
+                "name": sala.name,
+                "title": sala.title,
+                "description": sala.description? sala.description : "",
+                "times": convertToISOTimezone(sala.times),
+                'endingAt': sala.endingAt
+            };
+            //fetchRoom(salaPost);
+            fetchAndSetRoom(salaPost);
         } else {
           showError();
         }
 
     }
-    
+
+    function convertToISOTimezone(dates) {
+        return dates.map(dateObj => ({
+            date: new Date(dateObj.date).toISOString(),
+            start: new Date(dateObj.start).toISOString(),
+            end: new Date(dateObj.end).toISOString()
+        }));
+    }
+
     const fetchAndSetRoom = async (sala) => {
       try {
         const idRoom = await fetchRoom(sala);
-
+        console.log("id object:", idRoom); 
+        const link = createLink(idRoom);
+        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: link } });
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       }
@@ -86,10 +77,10 @@ export default function CriarSala() {
     async function fetchRoom(sala) {
       try {
         const id = await postRoom(sala); 
-        console.log("id object:", id); 
-        navigate(`/sala-votacao/${id}`, { state: { isCriador: true, link: 'linkk' } });
+        return id;
       } catch (error) {
         console.error("Erro ao criar a sala:", error); 
+        return null;
       }
     }
     

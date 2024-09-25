@@ -13,3 +13,7 @@ export const isValidTimesList = (list) => {
         isValidValue(hour.end)
     );
 };
+
+export function createLink(idRoom) {
+    return `${window.location.origin}/sala-votacao/${idRoom}`;
+}
