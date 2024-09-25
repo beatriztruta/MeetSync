@@ -13,6 +13,7 @@ import { isValidValue } from '../../utils/functions';
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import "./style.css";
+import { Button } from "primereact/button";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -21,6 +22,7 @@ function SalaVotacao() {
   const [room, setRoom] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [loading, setLoading] = useState(true);
+  //const [copied, setCopied] = useState(false);
 
   const toast = useRef(null);
 
@@ -75,6 +77,15 @@ function SalaVotacao() {
       console.error("Erro ao buscar a sala:", error); 
     }
   }
+
+  /*const handleCopyLink = () => {
+    navigator.clipboard.writeText(link).then(() => {
+      setCopied(true);  // Atualiza o estado para indicar que o link foi copiado
+      setTimeout(() => setCopied(false), 2000);  // Reseta o estado após 2 segundos
+    }).catch(err => {
+      console.error("Falha ao copiar o link: ", err);
+    });
+  };*/
 
   useEffect(() => {
     const fetchAndSetRoom = async () => {
@@ -270,7 +281,11 @@ function SalaVotacao() {
         >
           <p className="m-0">
             Compartilhe o link!<br/>
-            {link}   
+            <a href={link} target="_blank" rel="noopener noreferrer" >
+              {link}
+            </a>   
+            {/*<Button onClick={handleCopyLink}>Copiar link</Button>
+            {copied && <span style={{ color: 'green', marginLeft: '10px' }}>Link copiado!</span>}*/}
           </p>
       </Dialog>}
     </>}

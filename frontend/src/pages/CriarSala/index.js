@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
-import { isValidValue, isValidTimesList } from '../../utils/functions';
+import { isValidValue, isValidTimesList, createLink } from '../../utils/functions';
 import './style.css';
 
 export default function CriarSala() {
@@ -67,7 +67,8 @@ export default function CriarSala() {
       try {
         const idRoom = await fetchRoom(sala);
         console.log("id object:", idRoom); 
-        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: 'linkk' } });
+        const link = createLink(idRoom);
+        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: link } });
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       }
