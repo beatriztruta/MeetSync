@@ -17,13 +17,3 @@ export async function postRoom(room) {
     console.log(error);
   }
 }
-
-export function deleteRoom(idRoom) {
-    axios.delete(`http://localhost:3000/api/room/${idRoom}`)
-    .then(() => {
-        console.log('deu certo');
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-}
