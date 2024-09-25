@@ -12,7 +12,6 @@ export async function getRoom(idRoom) {
 export async function postRoom(room) {
   try {
     const response = await axios.post("http://localhost:3000/api/room/", room);
-    console.log('aqui' + response.data.roomId);
     return response.data.roomId;
   } catch (error) {
     console.log(error);
