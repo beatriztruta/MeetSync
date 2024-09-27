@@ -281,8 +281,8 @@ function SalaVotacao() {
         >
           <p className="m-0">
             Compartilhe o link!<br/>
-            <a href={link} target="_blank" rel="noopener noreferrer" >
-              {link}
+            <a href={link.link} target="_blank" rel="noopener noreferrer" >
+              {link.link}
             </a>   
             {/*<Button onClick={handleCopyLink}>Copiar link</Button>
             {copied && <span style={{ color: 'green', marginLeft: '10px' }}>Link copiado!</span>}*/}

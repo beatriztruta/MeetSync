@@ -17,3 +17,13 @@ export const isValidTimesList = (list) => {
 export function createLink(idRoom) {
     return `${window.location.origin}/sala-votacao/${idRoom}`;
 }
+
+export function hasDuplicate(times) {
+  return times.some((time, index) => 
+    times.findIndex(t => 
+      t.date === time.date && 
+      t.start === time.start && 
+      t.end === time.end
+    ) !== index
+  );
+}

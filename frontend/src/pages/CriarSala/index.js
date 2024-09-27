@@ -10,7 +10,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { postRoom } from '../../service/RoomService';
 import Menu from '../../components/Menu';
 import Horarios from '../../components/Horarios';
-import { isValidValue, isValidTimesList, createLink } from '../../utils/functions';
+import { isValidValue, isValidTimesList, createLink, hasDuplicate } from '../../utils/functions';
 import './style.css';
 
 export default function CriarSala() {
@@ -33,24 +33,25 @@ export default function CriarSala() {
         setSala(prevUser => ({ ...prevUser, [field]: value }));
       };
 
-    const showError = () => {
-        toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha os campos obrigatórios', life: 3000});
+    const showError = (msg) => {
+        toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
     }
 
     const submitData = (sala) => {
+      const timesConverted = convertToISOTimezone(sala.times);
         if(isValidValue(sala.name) && isValidValue(sala.title)
-        && isValidValue(sala.endingAt) && isValidTimesList(sala.times)) {
+        && isValidValue(sala.endingAt) && isValidTimesList(sala.times) && !hasDuplicate(timesConverted)) {
             const salaPost = {
                 "name": sala.name,
                 "title": sala.title,
                 "description": sala.description? sala.description : "",
-                "times": convertToISOTimezone(sala.times),
+                "times": timesConverted,
                 'endingAt': sala.endingAt
             };
-            //fetchRoom(salaPost);
             fetchAndSetRoom(salaPost);
         } else {
-          showError();
+          const msg = hasDuplicate(timesConverted) ? "Há horários duplicados" : 'Preencha os campos obrigatórios';
+          showError(msg);
         }
 
     }
@@ -66,11 +67,10 @@ export default function CriarSala() {
     const fetchAndSetRoom = async (sala) => {
       try {
         const idRoom = await fetchRoom(sala);
-        console.log("id object:", idRoom); 
         const link = createLink(idRoom);
-        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: link } });
+        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: {link} } });
       } catch (error) {
-        console.error("Erro ao definir a sala:", error);
+        console.error("Erro ao definir a sala:", error.response.data.message);
       }
     };
 
@@ -83,14 +83,6 @@ export default function CriarSala() {
         return null;
       }
     }
-    
-    function formatDate(date) {
-      let day = String(date.getDate()).padStart(2, '0');
-      let month = String(date.getMonth() + 1).padStart(2, '0');
-      let year = date.getFullYear();
-      
-      return `${year}-${month}-${day}`;
-  }
 
     addLocale('pt-br', {
         firstDayOfWeek: 1,
@@ -155,10 +147,10 @@ export default function CriarSala() {
                     <div className="col-12">
                         <Calendar
                             placeholder='Quando deseja encerrar essa votação?*'
-                            svalue={datetime24h}
+                            value={datetime24h}
                             onChange={(e) => {
                                 setDateTime24h(e.value);
-                                atualizarCampo('endingAt', formatDate(e.value));
+                                atualizarCampo('endingAt', e.value.toISOString());
                             }}
                             className="fundo-desfocado w-7 md:w-5"
                             locale="pt-br"
