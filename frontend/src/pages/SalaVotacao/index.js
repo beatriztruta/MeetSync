@@ -9,7 +9,7 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { getRoom } from '../../service/RoomService';
 import { postVote } from '../../service/VoteService';
-import { hashToId, isValidValue } from '../../utils/functions';
+import { hashToId, idToHash, isValidValue } from '../../utils/functions';
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import "./style.css";
@@ -312,9 +312,9 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: '0.5em' }}>{idRoom}</p>
+              <p style={{ marginRight: '0.5em' }}>{idToHash(idRoom)}</p>
               <Button 
-                onClick={() => handleCopyId(idRoom)} 
+                onClick={() => handleCopyId(idToHash(idRoom))} 
                 className="basic-btn"
                 style={{ padding: '0.5em' }}
               >

@@ -4,6 +4,7 @@ import logo from '../../assets/imgs/logo.png';
 import { Menubar } from 'primereact/menubar';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
+import { hashToId } from '../../utils/functions';
 import './style.css';
 
 export default function Menu({ isPaginaInicial }) {
@@ -17,7 +18,8 @@ export default function Menu({ isPaginaInicial }) {
 
     const handleJoinRoom = () => {
         if (roomId.trim()) {
-            navigate(`/sala-votacao/${roomId}`);
+            const idFromHash = hashToId(roomId);
+            navigate(`/sala-votacao/${idFromHash}`);
         } else {
             showError();
         }
@@ -37,6 +39,7 @@ export default function Menu({ isPaginaInicial }) {
     ];
 
     const start = <a href='/'><img src={logo} alt="Logo" style={{ marginRight: '10px', height: '70px' }} /></a>;
+    
     const end = (
         isPaginaInicial
         ? <div className="p-inputgroup">
