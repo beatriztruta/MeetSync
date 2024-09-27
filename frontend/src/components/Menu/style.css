@@ -5,7 +5,7 @@
 }
 
 .custom-button {
-    background-color: #28a745;
+    background: linear-gradient(135deg, #1e3535, #64aaaa) !important; 
     color: white;
     border: none;
     cursor: pointer;

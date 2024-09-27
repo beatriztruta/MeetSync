@@ -1,9 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import './style.css'
 import { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import { isValidValue } from '../../utils/functions';
 import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import './style.css'
 
 export default function ConteudoPrincipal(){
 
@@ -27,14 +28,11 @@ export default function ConteudoPrincipal(){
                     <label htmlFor="name">Seu nome</label>
                     <InputText
                         id="texto-pg-inicial"
-                        //type="text"
-                        //className="fundo-desfocado"
-                       // className="p-inputtext custom-input"
                         placeholder="Digite o seu nome"
                         onChange={(e) =>setNome(e.target.value)}
                         value={nome}
                     />
-                    <button
+                    <Button
                     className="create-btn"
                     onClick={() => {
                         isValidValue(nome) 
@@ -43,7 +41,7 @@ export default function ConteudoPrincipal(){
                         }}
                     >
                         + Criar Sala
-                    </button>
+                    </Button>
                 </div>
             </div>
             <Toast ref={toast} className='toast' />
