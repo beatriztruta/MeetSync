@@ -3,6 +3,7 @@ import './style.css'
 import { useRef, useState } from 'react';
 import { Toast } from 'primereact/toast';
 import { isValidValue } from '../../utils/functions';
+import { InputText } from 'primereact/inputtext';
 
 export default function ConteudoPrincipal(){
 
@@ -24,11 +25,14 @@ export default function ConteudoPrincipal(){
 
                 <div className="formulario-inicio">
                     <label htmlFor="name">Seu nome</label>
-                    <input
+                    <InputText
                         id="texto-pg-inicial"
-                        type="text"
+                        //type="text"
+                        //className="fundo-desfocado"
+                       // className="p-inputtext custom-input"
                         placeholder="Digite o seu nome"
                         onChange={(e) =>setNome(e.target.value)}
+                        value={nome}
                     />
                     <button
                     className="create-btn"
