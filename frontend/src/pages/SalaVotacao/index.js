@@ -268,7 +268,7 @@ function SalaVotacao() {
 
           <div id="resultados">
             <h2>Resultados</h2>
-              <div className="card">
+              <div className=".card-resultados">
                 <DataTable value={sortedResultados} tableStyle={{ minWidth: '50rem' }}>
                     <Column field="horario" header="Horário" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
                     <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
