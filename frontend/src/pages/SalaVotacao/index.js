@@ -118,7 +118,7 @@ function SalaVotacao() {
   }
 
   const showInfoCopied = (msg) => {
-    toastCopied.current.show({severity:'sucess', summary: 'Sucesso!', detail: msg, life: 3000});
+    toastCopied.current.show({severity:'success', summary: 'Sucesso!', detail: msg, life: 3000});
 }
 
   const formatResultadosFromGet = (votosPorPessoa) => {
@@ -283,7 +283,8 @@ function SalaVotacao() {
       {isCriador && <Dialog
         header="Sala de Votação Criada!"
         visible={visibleDialog}
-        style={{ width: '50vw' }}
+        style={{ width: '40vw' }}
+        breakpoints={{ '960px': '75vw', '641px': '100vw' }}
         onHide={() => {
           if (!visibleDialog)
             return;
