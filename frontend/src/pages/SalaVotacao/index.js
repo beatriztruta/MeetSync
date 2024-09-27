@@ -22,9 +22,9 @@ function SalaVotacao() {
   const [room, setRoom] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [loading, setLoading] = useState(true);
-  //const [copied, setCopied] = useState(false);
 
   const toast = useRef(null);
+  const toastCopied = useRef(null);
 
   const { idRoom } = useParams();
   const location = useLocation();
@@ -77,14 +77,22 @@ function SalaVotacao() {
     }
   }
 
-  /*const handleCopyLink = () => {
-    navigator.clipboard.writeText(link).then(() => {
-      setCopied(true);  // Atualiza o estado para indicar que o link foi copiado
-      setTimeout(() => setCopied(false), 2000);  // Reseta o estado após 2 segundos
+  const handleCopyLink = (infoCopiada) => {
+    console.log(infoCopiada);
+    navigator.clipboard.writeText(infoCopiada).then(() => {
+      showInfoCopied("Link copiado!");
     }).catch(err => {
-      console.error("Falha ao copiar o link: ", err);
+      console.error("Falha ao copiar a info: ", err);
     });
-  };*/
+  };
+
+  const handleCopyId = (infoCopiada) => {
+    navigator.clipboard.writeText(infoCopiada).then(() => {
+      showInfoCopied("ID copiado!");
+    }).catch(err => {
+      console.error("Falha ao copiar a info: ", err);
+    });
+  };
 
   useEffect(() => {
     const fetchAndSetRoom = async () => {
@@ -104,11 +112,14 @@ function SalaVotacao() {
   }, [idRoom, room]); 
 
 
-  
   const showError = (typeError) => {
     const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
     toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
   }
+
+  const showInfoCopied = (msg) => {
+    toastCopied.current.show({severity:'sucess', summary: 'Sucesso!', detail: msg, life: 3000});
+}
 
   const formatResultadosFromGet = (votosPorPessoa) => {
 
@@ -279,18 +290,41 @@ function SalaVotacao() {
             setVisibleDialog(false);
           }}
         >
-          <p className="m-0">
-            Compartilhe o link!<br/>
-            <a href={link.link} target="_blank" rel="noopener noreferrer" >
-              {link.link}
-            </a>  
-            ou envie o ID da sala para as pessoas!
-            {idRoom} 
-            {/*<Button onClick={handleCopyLink}>Copiar link</Button>
-            {copied && <span style={{ color: 'green', marginLeft: '10px' }}>Link copiado!</span>}*/}
-          </p>
+          <div className="m-0 flex flex-column">
+            <strong>Compartilhe o link!</strong><br/>
+            <div className="flex flex-row align-items-center mb-2">
+              <a 
+                href={link.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ marginRight: '0.5em' }}
+              >
+                {link.link}
+              </a>  
+              <Button 
+                onClick={() => handleCopyLink(link.link)}
+                className="basic-btn"
+                style={{ padding: '0.5em' }}
+              >
+                  <i className="pi pi-clipboard"></i>
+              </Button>
+            </div>
+            <strong>Ou envie o ID da sala para as pessoas:</strong>
+            <div className="flex flex-row align-items-center">
+              <p style={{ marginRight: '0.5em' }}>{idRoom}</p>
+              <Button 
+                onClick={() => handleCopyId(idRoom)} 
+                className="basic-btn"
+                style={{ padding: '0.5em' }}
+              >
+                <i className="pi pi-clipboard"></i>
+              </Button>
+            </div>
+          </div>
       </Dialog>}
     </>}
+    <Toast ref={toast} className='toast' />
+    <Toast ref={toastCopied} className='toast' />
     </div>
 
   );

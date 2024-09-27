@@ -32,4 +32,20 @@ body, html {
   border: 0 !important;
 }
 
+.basic-btn {
+  background: linear-gradient(135deg, #2F4F4F, #4d7979) !important; 
+  color: #fff !important;
+  font-weight: bold !important;
+  border: none !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+
+}
+
+.basic-btn:active {
+  transform: translateY(2px);
+}
+
 
