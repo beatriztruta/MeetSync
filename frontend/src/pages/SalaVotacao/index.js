@@ -9,7 +9,7 @@ import { Column } from 'primereact/column';
 import { Toast } from 'primereact/toast';
 import { getRoom } from '../../service/RoomService';
 import { postVote } from '../../service/VoteService';
-import { isValidValue } from '../../utils/functions';
+import { hashToId, isValidValue } from '../../utils/functions';
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import "./style.css";
@@ -69,7 +69,6 @@ function SalaVotacao() {
 
     try {
       const room = await getRoom(idRoom); 
-      console.log("Room object:", room); 
       const timesFormatted = formatTimesFromGet(room.Time);
       setHorariosDisponiveis(timesFormatted);
       setRoom(room);
@@ -91,7 +90,8 @@ function SalaVotacao() {
     const fetchAndSetRoom = async () => {
       setLoading(true);
       try {
-        const roomData = await fetchRoom(idRoom);
+        const idFromHash = hashToId(idRoom);
+        const roomData = await fetchRoom(idFromHash);
         setRoom(roomData);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
@@ -224,14 +224,14 @@ function SalaVotacao() {
                 ))}
               </div>
               <div className="flex justify-content-center">
-                <button
+                <Button
                   type="button"
                   className="icon-button"
                   onClick={handleDelete}
                   style={{ backgroundColor: "grey" }}
                 > 
                   <i className="pi pi-spin pi-trash"/>
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -245,13 +245,13 @@ function SalaVotacao() {
             />
 
             <div>
-              <button
+              <Button
                 className="vote-btn"
                 style={{ fontWeight: 'bold' }}
                 onClick={(e) => handleVotacao(e)}
               >
                 Votar
-              </button>
+              </Button>
             </div>
           </form>
 
@@ -283,7 +283,9 @@ function SalaVotacao() {
             Compartilhe o link!<br/>
             <a href={link.link} target="_blank" rel="noopener noreferrer" >
               {link.link}
-            </a>   
+            </a>  
+            ou envie o ID da sala para as pessoas!
+            {idRoom} 
             {/*<Button onClick={handleCopyLink}>Copiar link</Button>
             {copied && <span style={{ color: 'green', marginLeft: '10px' }}>Link copiado!</span>}*/}
           </p>
