@@ -1,19 +1,19 @@
-import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
-import { Toast } from 'primereact/toast';
-import { isValidValue } from '../../utils/functions';
-import { InputText } from 'primereact/inputtext';
-import { Button } from 'primereact/button';
-import './style.css'
+import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { Toast } from "primereact/toast";
+import { isValidValue } from "../../utils/functions";
+import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
+import "./style.css"
 
 export default function ConteudoPrincipal(){
 
-    const [nome, setNome] = useState('');
+    const [nome, setNome] = useState("");
     const navigate = useNavigate();
 
     const toast = useRef(null);
     const showError = () => {
-        toast.current.show({severity:'error', summary: 'Erro', detail:'Preencha o nome', life: 3000});
+        toast.current.show({severity:"error", summary: "Erro", detail:"Preencha o nome", life: 3000});
     }
 
     return(
@@ -36,7 +36,7 @@ export default function ConteudoPrincipal(){
                     className="create-btn"
                     onClick={() => {
                         isValidValue(nome) 
-                        ? navigate('/criar-sala', { state: { nomeUser: nome } })
+                        ? navigate("/criar-sala", { state: { nomeUser: nome } })
                         : showError()
                         }}
                     >
@@ -44,7 +44,7 @@ export default function ConteudoPrincipal(){
                     </Button>
                 </div>
             </div>
-            <Toast ref={toast} className='toast' />
+            <Toast ref={toast} className="toast" />
         </div>
     );
 }

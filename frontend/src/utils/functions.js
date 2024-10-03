@@ -1,13 +1,16 @@
 const base62chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 export const isValidValue = (value) => {
-    return value !== undefined && value !== '' && value !== ' ' && value != null;
+    return value !== undefined && value !== "" && value !== " " && value != null;
 }
 
 export const isValidTimesList = (list) => {
+  console.log(list);
     if (!list || list.length === 0) {
         return false;
     }
+
+    //ha algum dia adicionado, mas sem horario
 
     return list.every(hour => 
         isValidValue(hour.date) && 
@@ -31,7 +34,7 @@ export function hasDuplicate(times) {
 }
 
 export function idToHash(number) {
-  let encoded = '';
+  let encoded = "";
   while (number > 0) {
     let remainder = number % 62;
     encoded = base62chars[remainder] + encoded;

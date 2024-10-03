@@ -1,17 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { InputText } from 'primereact/inputtext';
+import { InputText } from "primereact/inputtext";
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { getRoom } from '../../service/RoomService';
-import { postVote } from '../../service/VoteService';
-import { hashToId, idToHash, isValidValue } from '../../utils/functions';
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import { Toast } from "primereact/toast";
+import { getRoom } from "../../service/RoomService";
+import { postVote } from "../../service/VoteService";
+import { hashToId, idToHash, isValidValue } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
-import { ProgressSpinner } from 'primereact/progressspinner';
+import { ProgressSpinner } from "primereact/progressspinner";
 import "./style.css";
 import { Button } from "primereact/button";
 
@@ -36,8 +36,8 @@ function SalaVotacao() {
       return times.map((item) => {
   
         const data = new Date(item.date);
-        const dia = String(data.getUTCDate()).padStart(2, '0');
-        const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+        const dia = String(data.getUTCDate()).padStart(2, "0");
+        const mes = String(data.getUTCMonth() + 1).padStart(2, "0");
         const ano = data.getUTCFullYear();
     
         const dataFormatada = `${dia}/${mes}/${ano}`;
@@ -113,12 +113,12 @@ function SalaVotacao() {
 
 
   const showError = (typeError) => {
-    const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
-    toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
+    const msg = typeError === "horario" ? "Por favor, selecione pelo menos um horário." : "Preencha seu nome";
+    toast.current.show({severity:"error", summary: "Erro", detail: msg, life: 3000});
   }
 
   const showInfoCopied = (msg) => {
-    toastCopied.current.show({severity:'success', summary: 'Sucesso!', detail: msg, life: 3000});
+    toastCopied.current.show({severity:"success", summary: "Sucesso!", detail: msg, life: 3000});
 }
 
   const formatResultadosFromGet = (votosPorPessoa) => {
@@ -126,8 +126,8 @@ function SalaVotacao() {
     const lista = [];
     for (const chave in votosPorPessoa) {
       const res = {
-        'nome': chave,
-        'horarios': votosPorPessoa[chave],
+        "nome": chave,
+        "horarios": votosPorPessoa[chave],
       };
       lista.push(res);
     
@@ -147,7 +147,7 @@ function SalaVotacao() {
     event.preventDefault();
 
     if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-      const typeError = horariosSelecionados.length === 0 ? 'horario' : 'nome';
+      const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
       showError(typeError);
       return;
     }
@@ -195,9 +195,9 @@ function SalaVotacao() {
   return (
     <div>
       {loading
-      ? <div className="flex align-items-center justify-content-center" style={{height: '100vh', width: '100vw' }}><ProgressSpinner /></div>
+      ? <div className="flex align-items-center justify-content-center" style={{height: "100vh", width: "100vw" }}><ProgressSpinner /></div>
       : <>
-      <Toast ref={toast} className='toast'/>
+      <Toast ref={toast} className="toast"/>
       <Menu />
       <div className="flex flex-column align-items-center">
         <div
@@ -219,16 +219,16 @@ function SalaVotacao() {
         >
           <form>
             <div className="horarios">
-              <label htmlFor="horarios" style={{ textAlign: 'center', color: 'white' }}>Selecione os horários:</label>
+              <label htmlFor="horarios" style={{ textAlign: "center", color: "white" }}>Selecione os horários:</label>
               <div className="cards-container">
                 {horariosDisponiveis.map((horario) => (
                   <div
                     key={horario.id}
-                    className={`card ${horariosSelecionados.includes(horario.id) ? 'selected' : ''}`}
+                    className={`card ${horariosSelecionados.includes(horario.id) ? "selected" : ""}`}
                     onClick={() => toggleHorarioSelection(horario.id)}
                   >
                     <div className="card-content">
-                      <h3>{horario.date.split(' ')[0]}</h3>
+                      <h3>{horario.date.split(" ")[0]}</h3>
                       <p>{horario.time}</p>
                     </div>
                   </div>
@@ -252,13 +252,13 @@ function SalaVotacao() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Digite seu nome"
-              style={{ width: '100%' }} 
+              style={{ width: "100%" }} 
             />
 
             <div>
               <Button
                 className="vote-btn"
-                style={{ fontWeight: 'bold' }}
+                style={{ fontWeight: "bold" }}
                 onClick={(e) => handleVotacao(e)}
               >
                 Votar
@@ -269,10 +269,10 @@ function SalaVotacao() {
           <div id="resultados">
             <h2>Resultados</h2>
               <div className=".card-resultados">
-                <DataTable value={sortedResultados} tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="horario" header="Horário" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                    <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                    <Column field="pessoas" header="Pessoas" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
+                <DataTable value={sortedResultados} tableStyle={{ minWidth: "50rem" }}>
+                    <Column field="horario" header="Horário" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
+                    <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
+                    <Column field="pessoas" header="Pessoas" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
                 </DataTable>
             </div>
           </div>
@@ -283,8 +283,8 @@ function SalaVotacao() {
       {isCriador && <Dialog
         header="Sala de Votação Criada!"
         visible={visibleDialog}
-        style={{ width: '40vw' }}
-        breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+        style={{ width: "40vw" }}
+        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
         onHide={() => {
           if (!visibleDialog)
             return;
@@ -298,25 +298,25 @@ function SalaVotacao() {
                 href={link.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ marginRight: '0.5em' }}
+                style={{ marginRight: "0.5em" }}
               >
                 {link.link}
               </a>  
               <Button 
                 onClick={() => handleCopyLink(link.link)}
                 className="basic-btn"
-                style={{ padding: '0.5em' }}
+                style={{ padding: "0.5em" }}
               >
                   <i className="pi pi-clipboard"></i>
               </Button>
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: '0.5em' }}>{idToHash(idRoom)}</p>
+              <p style={{ marginRight: "0.5em" }}>{idToHash(idRoom)}</p>
               <Button 
                 onClick={() => handleCopyId(idToHash(idRoom))} 
                 className="basic-btn"
-                style={{ padding: '0.5em' }}
+                style={{ padding: "0.5em" }}
               >
                 <i className="pi pi-clipboard"></i>
               </Button>
@@ -324,8 +324,8 @@ function SalaVotacao() {
           </div>
       </Dialog>}
     </>}
-    <Toast ref={toast} className='toast' />
-    <Toast ref={toastCopied} className='toast' />
+    <Toast ref={toast} className="toast" />
+    <Toast ref={toastCopied} className="toast" />
     </div>
 
   );

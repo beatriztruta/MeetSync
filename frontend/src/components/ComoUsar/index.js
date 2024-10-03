@@ -1,8 +1,8 @@
-import { Image } from 'primereact/image';
-import p0 from '../../assets/imgs/comousar/p0.png';
-import p1 from '../../assets/imgs/comousar/p1.png';
-import p2 from '../../assets/imgs/comousar/p2.png';
-import './style.css'
+import { Image } from "primereact/image";
+import p0 from "../../assets/imgs/comousar/p0.png";
+import p1 from "../../assets/imgs/comousar/p1.png";
+import p2 from "../../assets/imgs/comousar/p2.png";
+import "./style.css"
 
 export default function ComoUsar({ isSection }) {
     return (
