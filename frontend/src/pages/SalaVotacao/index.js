@@ -227,7 +227,7 @@ function SalaVotacao() {
             : ''}
             <Divider/>
           </div>
-          {room?.endingAt < new Date() && 
+          {room?.endingAt > new Date() && 
           <form>
             <div className="horarios">
               <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>
