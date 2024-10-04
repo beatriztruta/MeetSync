@@ -14,6 +14,7 @@ import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
 import "./style.css";
 import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -78,7 +79,6 @@ function SalaVotacao() {
   }
 
   const handleCopyLink = (infoCopiada) => {
-    console.log(infoCopiada);
     navigator.clipboard.writeText(infoCopiada).then(() => {
       showInfoCopied("Link copiado!");
     }).catch(err => {
@@ -217,9 +217,19 @@ function SalaVotacao() {
           className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
           style={{ margin: "1em", padding: "1em" }}
         >
+          <div className="flex flex-column align-items-center">
+            <h3>Titulo: {room?.title}</h3>
+            {room?.description ?
+              <>
+                <Divider/>
+                <p><strong>Descrição:</strong> {room.description}</p>
+              </>
+            : ''}
+            <Divider/>
+          </div>
           <form>
             <div className="horarios">
-              <label htmlFor="horarios" style={{ textAlign: "center", color: "white" }}>Selecione os horários:</label>
+              <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>
               <div className="cards-container">
                 {horariosDisponiveis.map((horario) => (
                   <div

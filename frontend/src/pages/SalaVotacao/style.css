@@ -80,7 +80,12 @@ label {
   margin-bottom: 5px;
 }
 
-/* Responsividade */
+.p-divider {
+  width: 60vw;
+  margin: 0;
+  padding:0;
+}
+
 @media (max-width: 768px) {
   .cards-container {
     grid-template-columns: 1fr;
