@@ -4,8 +4,6 @@ import { InputText } from "primereact/inputtext";
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
 import { Toast } from "primereact/toast";
 import { getRoom } from "../../service/RoomService";
 import { postVote } from "../../service/VoteService";
@@ -238,7 +236,7 @@ function SalaVotacao() {
           className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
           style={{ margin: "1em", padding: "1em" }}
         >
-          <div className="flex flex-column align-items-center">
+          <div className="flex flex-column align-items-center w-full">
             <h3>Titulo: {room?.title}</h3>
             {room?.description ?
               <>
@@ -298,18 +296,39 @@ function SalaVotacao() {
             </div>
           </form>}
 
-          <div id="resultados">
-            <h2>Resultados</h2>
-              <div className=".card-resultados">
-                <DataTable
-                  value={sortedResultados}
-                  tableStyle={{ minWidth: "50rem" }}
-                  emptyMessage="Nenhum resultado disponível."
-                >
-                    <Column field="horario" header="Horário" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
-                    <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
-                    <Column field="pessoas" header="Pessoas" headerStyle={{ background: "linear-gradient(135deg, #2F4F4F, #4d7979)", color: "white" }}></Column>
-                </DataTable>
+          <div id="resultados" className="w-full">
+            <h2 style={{textAlign: 'center'}}>Resultados</h2>
+              <div className="card-resultados">
+                <div className="card-container">
+                  {sortedResultados.length > 0 ? (
+                    sortedResultados.map((item, index) => {
+                      const [data, horas] = item.horario.split(" - ");
+
+                      return (<div key={index} className="card-res">
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Horário</div>
+                          <h4 className="card-title">
+                            <span >{data} |{' '}</span>
+                            <span>{horas}</span>
+                          </h4>
+                        </div>
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Total de Votos</div>
+                          <p className="card-info">{item.totalVotos}</p>
+                        </div>
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Pessoas</div>
+                          <p className="card-info">{item.pessoas}</p>
+                        </div>
+                      </div>);
+                    })
+                  ) : (
+                    <div className="card-res no-result">
+                      <h4>Nenhum resultado disponível</h4>
+                      <p>A votação ainda não possui dados. Tente novamente mais tarde.</p>
+                    </div>
+                  )}
+                </div>
             </div>
           </div>
           <div className="icon-buttons">
