@@ -12,9 +12,9 @@ import { postVote } from "../../service/VoteService";
 import { hashToId, idToHash, isValidValue } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
-import "./style.css";
 import { Button } from "primereact/button";
 import { Divider } from "primereact/divider";
+import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -69,7 +69,29 @@ function SalaVotacao() {
     };
 
     try {
-      const room = await getRoom(idRoom); 
+      //const room = await getRoom(idRoom); 
+      const room = {
+        "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
+        "endingAt": "2024-10-05T00:00:00.000Z",
+        "createdAt": "2024-09-18T00:22:10.796Z",
+        "updatedAt": "2024-09-18T00:22:10.796Z",
+        "Time": [
+            {
+                "timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
+                "date": "2024-09-02T00:00:00.000Z",
+                "start": "2024-09-02T08:00:00.000Z",
+                "end": "2024-09-02T10:00:00.000Z",
+                "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+            },
+            {
+                "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
+                "date": "2024-09-03T00:00:00.000Z",
+                "start": "2024-09-03T13:00:00.000Z",
+                "end": "2024-09-03T15:00:00.000Z",
+                "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+            }
+        ]
+    };
       const timesFormatted = formatTimesFromGet(room.Time);
       setHorariosDisponiveis(timesFormatted);
       setRoom(room);
@@ -99,8 +121,7 @@ function SalaVotacao() {
       setLoading(true);
       try {
         const idFromHash = hashToId(idRoom);
-        const roomData = await fetchRoom(idFromHash);
-        setRoom(roomData);
+        await fetchRoom(idFromHash);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       } finally {
@@ -109,7 +130,7 @@ function SalaVotacao() {
     };
 
     fetchAndSetRoom(); 
-  }, [idRoom, room]); 
+  }, [idRoom]); 
 
 
   const showError = (typeError) => {
@@ -227,7 +248,7 @@ function SalaVotacao() {
             : ''}
             <Divider/>
           </div>
-          {room?.endingAt > new Date() && 
+          {room?.endingAt > new Date().toISOString() && 
           <form>
             <div className="horarios">
               <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>

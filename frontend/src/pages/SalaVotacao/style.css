@@ -65,6 +65,26 @@ label {
   margin: 20px auto;
 }
 
+.card {
+  background-color: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.card.selected {
+  background: linear-gradient(135deg, #2F4F4F, #4d7979);
+  color: white;
+  transform: scale(1.05);
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
 .card-resultados {
   background-color: white;
   border-radius: 6px;
