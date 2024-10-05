@@ -132,7 +132,11 @@ function SalaVotacao() {
 
 
   const showError = (typeError) => {
-    const msg = typeError === "horario" ? "Por favor, selecione pelo menos um horário." : "Preencha seu nome";
+    let msg = typeError === "horario" 
+              ? "Por favor, selecione pelo menos um horário." 
+              : typeError === "nome repetido" 
+                ? "Esse usuário já votou. Insira outro nome" 
+                :  "Preencha seu nome";
     toast.current.show({severity:"error", summary: "Erro", detail: msg, life: 3000});
   }
 
@@ -162,28 +166,36 @@ function SalaVotacao() {
     );
   };
 
+  const validNome = (nome) => {
+    return !resultados.some(item => item.nome === nome);
+  };
+
   const handleVotacao = (event) => {
     event.preventDefault();
 
-    if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-      const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
-      showError(typeError);
-      return;
+    if (!validNome(nome)) {
+      showError("nome repetido");
+    } else {
+      if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
+        const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
+        showError(typeError);
+        return;
+      }
+
+      const voteInformation = {
+        "userName": nome,
+        "times": horariosSelecionados,
+      };
+      postVote(voteInformation);
+
+      setResultados((prevResultados) => [
+        ...prevResultados,
+        { nome, horarios: [...horariosSelecionados] },
+      ]);
+
+      setNome("");
+      setHorariosSelecionados([]);
     }
-
-    const voteInformation = {
-      "userName": nome,
-      "times": horariosSelecionados,
-    };
-    postVote(voteInformation);
-
-    setResultados((prevResultados) => [
-      ...prevResultados,
-      { nome, horarios: [...horariosSelecionados] },
-    ]);
-
-    setNome("");
-    setHorariosSelecionados([]);
   };
 
   const handleDelete = (event) => {
