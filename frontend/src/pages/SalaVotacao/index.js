@@ -87,9 +87,23 @@ function SalaVotacao() {
                 "start": "2024-09-03T13:00:00.000Z",
                 "end": "2024-09-03T15:00:00.000Z",
                 "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+            },
+            {
+              "timeId": "60701342-7316-4d50-86c8-a2d892d75d7f",
+              "date": "2024-09-05T00:00:00.000Z",
+              "start": "2024-09-05T14:00:00.000Z",
+              "end": "2024-09-05T16:00:00.000Z",
+              "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
+            },{
+              "timeId": "60701342-7416-4d50-86c8-a2d892d75d7f",
+              "date": "2024-09-05T00:00:00.000Z",
+              "start": "2024-09-05T18:00:00.000Z",
+              "end": "2024-09-05T19:00:00.000Z",
+              "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
             }
-        ]
-    };
+          ]
+      };
+
       const timesFormatted = formatTimesFromGet(room.Time);
       setHorariosDisponiveis(timesFormatted);
       setRoom(room);
