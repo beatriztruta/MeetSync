@@ -70,7 +70,7 @@ function SalaVotacao() {
       //const room = await getRoom(idRoom); 
       const room = {
         "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
-        "endingAt": "2024-10-05T00:00:00.000Z",
+        "endingAt": "2024-10-12T00:00:00.000Z",
         "createdAt": "2024-09-18T00:22:10.796Z",
         "updatedAt": "2024-09-18T00:22:10.796Z",
         "Time": [
