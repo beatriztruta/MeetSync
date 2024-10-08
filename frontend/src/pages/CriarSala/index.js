@@ -73,8 +73,7 @@ export default function CriarSala() {
       try {
         const idRoom = await fetchRoom(sala);
         const link = createLink(idRoom);
-        //idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: {link} } });
-        navigate(`/sala-votacao/12345678910121314`, { state: { isCriador: true, link: {link} } });
+        idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: {link} } });
       } catch (error) {
         console.error("Erro ao definir a sala:", error.response.data.message);
       }
@@ -170,7 +169,7 @@ export default function CriarSala() {
 
                     <div className="col-12 flex flex-row justify-content-center">
                     <Button
-                        label="Cria Sala"
+                        label="+ Cria Sala"
                         className="create-btn w-6 mt-3"
                         style={{ margin: "0.5em" }}
                         onClick={() =>{ 
