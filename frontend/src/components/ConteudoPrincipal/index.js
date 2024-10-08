@@ -26,8 +26,9 @@ export default function ConteudoPrincipal(){
 
                 <div className="formulario-inicio">
                     <label htmlFor="name">Seu nome</label>
-                    <InputText
+                    <InputText 
                         id="texto-pg-inicial"
+                        className="p-inputtext custom-input" 
                         placeholder="Digite o seu nome"
                         onChange={(e) =>setNome(e.target.value)}
                         value={nome}
