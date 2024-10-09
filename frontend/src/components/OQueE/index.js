@@ -1,10 +1,10 @@
-import './style.css';
+import "./style.css";
 
 export default function OQueE({ isSection }) {
     return(
         <div className="section-o-que-e flex flex-column">
-            <div className='fundo-desfocado-2'>
-            {isSection && <h2 style={{ fontWeight: 'bold' }}>O Que É?</h2>}
+            <div className="fundo-desfocado-2">
+            {isSection && <h2 style={{ fontWeight: "bold" }}>O Que É?</h2>}
             <h3>Nosso sistema foi projetado para transformar a maneira como você organiza encontros em grupo, 
                 tornando o processo mais eficiente e livre de complicações. Com apenas alguns passos simples, 
                 você pode criar uma sala para seu evento ou reunião. Em seguida, compartilhe o link gerado com 

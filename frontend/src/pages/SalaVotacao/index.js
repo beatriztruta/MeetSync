@@ -1,19 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { InputText } from 'primereact/inputtext';
+import { InputText } from "primereact/inputtext";
 import Menu from "../../components/Menu";
 import "primereact/resources/themes/saga-blue/theme.css"; 
 import "primereact/resources/primereact.min.css"; 
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { Toast } from 'primereact/toast';
-import { getRoom } from '../../service/RoomService';
-import { postVote } from '../../service/VoteService';
-import { isValidValue } from '../../utils/functions';
+import { Toast } from "primereact/toast";
+import { getRoom } from "../../service/RoomService";
+import { postVote } from "../../service/VoteService";
+import { hashToId, idToHash, isValidValue } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
-import { ProgressSpinner } from 'primereact/progressspinner';
-import "./style.css";
+import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
+import { Divider } from "primereact/divider";
+import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
@@ -22,9 +21,9 @@ function SalaVotacao() {
   const [room, setRoom] = useState([]);
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [loading, setLoading] = useState(true);
-  //const [copied, setCopied] = useState(false);
 
   const toast = useRef(null);
+  const toastCopied = useRef(null);
 
   const { idRoom } = useParams();
   const location = useLocation();
@@ -36,8 +35,8 @@ function SalaVotacao() {
       return times.map((item) => {
   
         const data = new Date(item.date);
-        const dia = String(data.getUTCDate()).padStart(2, '0');
-        const mes = String(data.getUTCMonth() + 1).padStart(2, '0');
+        const dia = String(data.getUTCDate()).padStart(2, "0");
+        const mes = String(data.getUTCMonth() + 1).padStart(2, "0");
         const ano = data.getUTCFullYear();
     
         const dataFormatada = `${dia}/${mes}/${ano}`;
@@ -69,7 +68,6 @@ function SalaVotacao() {
 
     try {
       const room = await getRoom(idRoom); 
-      console.log("Room object:", room); 
       const timesFormatted = formatTimesFromGet(room.Time);
       setHorariosDisponiveis(timesFormatted);
       setRoom(room);
@@ -78,21 +76,28 @@ function SalaVotacao() {
     }
   }
 
-  /*const handleCopyLink = () => {
-    navigator.clipboard.writeText(link).then(() => {
-      setCopied(true);  // Atualiza o estado para indicar que o link foi copiado
-      setTimeout(() => setCopied(false), 2000);  // Reseta o estado após 2 segundos
+  const handleCopyLink = (infoCopiada) => {
+    navigator.clipboard.writeText(infoCopiada).then(() => {
+      showInfoCopied("Link copiado!");
     }).catch(err => {
-      console.error("Falha ao copiar o link: ", err);
+      console.error("Falha ao copiar a info: ", err);
     });
-  };*/
+  };
+
+  const handleCopyId = (infoCopiada) => {
+    navigator.clipboard.writeText(infoCopiada).then(() => {
+      showInfoCopied("ID copiado!");
+    }).catch(err => {
+      console.error("Falha ao copiar a info: ", err);
+    });
+  };
 
   useEffect(() => {
     const fetchAndSetRoom = async () => {
       setLoading(true);
       try {
-        const roomData = await fetchRoom(idRoom);
-        setRoom(roomData);
+        const idFromHash = hashToId(idRoom);
+        await fetchRoom(idFromHash);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       } finally {
@@ -101,22 +106,29 @@ function SalaVotacao() {
     };
 
     fetchAndSetRoom(); 
-  }, [idRoom, room]); 
+  }, [idRoom]); 
 
 
-  
   const showError = (typeError) => {
-    const msg = typeError === 'horario' ? 'Por favor, selecione pelo menos um horário.' : 'Preencha seu nome';
-    toast.current.show({severity:'error', summary: 'Erro', detail: msg, life: 3000});
+    let msg = typeError === "horario" 
+              ? "Por favor, selecione pelo menos um horário." 
+              : typeError === "nome repetido" 
+                ? "Esse usuário já votou. Insira outro nome" 
+                :  "Preencha seu nome";
+    toast.current.show({severity:"error", summary: "Erro", detail: msg, life: 3000});
   }
+
+  const showInfoCopied = (msg) => {
+    toastCopied.current.show({severity:"success", summary: "Sucesso!", detail: msg, life: 3000});
+}
 
   const formatResultadosFromGet = (votosPorPessoa) => {
 
     const lista = [];
     for (const chave in votosPorPessoa) {
       const res = {
-        'nome': chave,
-        'horarios': votosPorPessoa[chave],
+        "nome": chave,
+        "horarios": votosPorPessoa[chave],
       };
       lista.push(res);
     
@@ -132,28 +144,36 @@ function SalaVotacao() {
     );
   };
 
+  const validNome = (nome) => {
+    return !resultados.some(item => item.nome === nome);
+  };
+
   const handleVotacao = (event) => {
     event.preventDefault();
 
-    if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-      const typeError = horariosSelecionados.length === 0 ? 'horario' : 'nome';
-      showError(typeError);
-      return;
+    if (!validNome(nome)) {
+      showError("nome repetido");
+    } else {
+      if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
+        const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
+        showError(typeError);
+        return;
+      }
+
+      const voteInformation = {
+        "userName": nome,
+        "times": horariosSelecionados,
+      };
+      postVote(voteInformation);
+
+      setResultados((prevResultados) => [
+        ...prevResultados,
+        { nome, horarios: [...horariosSelecionados] },
+      ]);
+
+      setNome("");
+      setHorariosSelecionados([]);
     }
-
-    const voteInformation = {
-      "userName": nome,
-      "times": horariosSelecionados,
-    };
-    postVote(voteInformation);
-
-    setResultados((prevResultados) => [
-      ...prevResultados,
-      { nome, horarios: [...horariosSelecionados] },
-    ]);
-
-    setNome("");
-    setHorariosSelecionados([]);
   };
 
   const handleDelete = (event) => {
@@ -184,9 +204,9 @@ function SalaVotacao() {
   return (
     <div>
       {loading
-      ? <div className="flex align-items-center justify-content-center" style={{height: '100vh', width: '100vw' }}><ProgressSpinner /></div>
+      ? <div className="flex align-items-center justify-content-center" style={{height: "100vh", width: "100vw" }}><ProgressSpinner /></div>
       : <>
-      <Toast ref={toast} className='toast'/>
+      <Toast ref={toast} className="toast"/>
       <Menu />
       <div className="flex flex-column align-items-center">
         <div
@@ -206,32 +226,43 @@ function SalaVotacao() {
           className="fundo-desfocado flex flex-column align-items-center w-full xl:w-8 lg:w-6"
           style={{ margin: "1em", padding: "1em" }}
         >
+          <div className="flex flex-column align-items-center w-full">
+            <h3>Titulo: {room?.title}</h3>
+            {room?.description ?
+              <>
+                <Divider/>
+                <p><strong>Descrição:</strong> {room.description}</p>
+              </>
+            : ''}
+            <Divider/>
+          </div>
+          {room?.endingAt > new Date().toISOString() && 
           <form>
             <div className="horarios">
-              <label htmlFor="horarios" style={{ textAlign: 'center', color: 'white' }}>Selecione os horários:</label>
+              <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>
               <div className="cards-container">
                 {horariosDisponiveis.map((horario) => (
                   <div
                     key={horario.id}
-                    className={`card ${horariosSelecionados.includes(horario.id) ? 'selected' : ''}`}
+                    className={`card ${horariosSelecionados.includes(horario.id) ? "selected" : ""}`}
                     onClick={() => toggleHorarioSelection(horario.id)}
                   >
                     <div className="card-content">
-                      <h3>{horario.date.split(' ')[0]}</h3>
+                      <h3>{horario.date.split(" ")[0]}</h3>
                       <p>{horario.time}</p>
                     </div>
                   </div>
                 ))}
               </div>
               <div className="flex justify-content-center">
-                <button
+                <Button
                   type="button"
                   className="icon-button"
                   onClick={handleDelete}
                   style={{ backgroundColor: "grey" }}
                 > 
                   <i className="pi pi-spin pi-trash"/>
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -241,28 +272,53 @@ function SalaVotacao() {
               value={nome}
               onChange={(e) => setNome(e.target.value)}
               placeholder="Digite seu nome"
-              style={{ width: '100%' }} 
+              style={{ width: "100%" }} 
             />
 
             <div>
-              <button
+              <Button
                 className="vote-btn"
-                style={{ fontWeight: 'bold' }}
+                style={{ fontWeight: "bold" }}
                 onClick={(e) => handleVotacao(e)}
               >
                 Votar
-              </button>
+              </Button>
             </div>
-          </form>
+          </form>}
 
-          <div id="resultados">
-            <h2>Resultados</h2>
-              <div className="card">
-                <DataTable value={sortedResultados} tableStyle={{ minWidth: '50rem' }}>
-                    <Column field="horario" header="Horário" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                    <Column field="totalVotos" sortable header="Total de Votos" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                    <Column field="pessoas" header="Pessoas" headerStyle={{ background: 'linear-gradient(135deg, #2F4F4F, #4d7979)', color: 'white' }}></Column>
-                </DataTable>
+          <div id="resultados" className="w-full">
+            <h2 style={{textAlign: 'center'}}>Resultados</h2>
+              <div className="card-resultados">
+                <div className="card-container">
+                  {sortedResultados.length > 0 ? (
+                    sortedResultados.map((item, index) => {
+                      const [data, horas] = item.horario.split(" - ");
+
+                      return (<div key={index} className="card-res">
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Horário</div>
+                          <h4 className="card-title">
+                            <span >{data} |{' '}</span>
+                            <span>{horas}</span>
+                          </h4>
+                        </div>
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Total de Votos</div>
+                          <p className="card-info">{item.totalVotos}</p>
+                        </div>
+                        <div className="flex flex-row justify-content-between align-items-center">
+                          <div className="tag-badge">Pessoas</div>
+                          <p className="card-info">{item.pessoas}</p>
+                        </div>
+                      </div>);
+                    })
+                  ) : (
+                    <div className="card-res no-result">
+                      <h4>Nenhum resultado disponível</h4>
+                      <p>A votação ainda não possui dados. Tente novamente mais tarde.</p>
+                    </div>
+                  )}
+                </div>
             </div>
           </div>
           <div className="icon-buttons">
@@ -272,23 +328,49 @@ function SalaVotacao() {
       {isCriador && <Dialog
         header="Sala de Votação Criada!"
         visible={visibleDialog}
-        style={{ width: '50vw' }}
+        style={{ width: "40vw" }}
+        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
         onHide={() => {
           if (!visibleDialog)
             return;
             setVisibleDialog(false);
           }}
         >
-          <p className="m-0">
-            Compartilhe o link!<br/>
-            <a href={link.link} target="_blank" rel="noopener noreferrer" >
-              {link.link}
-            </a>   
-            {/*<Button onClick={handleCopyLink}>Copiar link</Button>
-            {copied && <span style={{ color: 'green', marginLeft: '10px' }}>Link copiado!</span>}*/}
-          </p>
+          <div className="m-0 flex flex-column">
+            <strong>Compartilhe o link!</strong><br/>
+            <div className="flex flex-row align-items-center mb-2">
+              <a 
+                href={link.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ marginRight: "0.5em" }}
+              >
+                {link.link}
+              </a>  
+              <Button 
+                onClick={() => handleCopyLink(link.link)}
+                className="basic-btn"
+                style={{ padding: "0.5em" }}
+              >
+                  <i className="pi pi-clipboard"></i>
+              </Button>
+            </div>
+            <strong>Ou envie o ID da sala para as pessoas:</strong>
+            <div className="flex flex-row align-items-center">
+              <p style={{ marginRight: "0.5em" }}>{idToHash(idRoom)}</p>
+              <Button 
+                onClick={() => handleCopyId(idToHash(idRoom))} 
+                className="basic-btn"
+                style={{ padding: "0.5em" }}
+              >
+                <i className="pi pi-clipboard"></i>
+              </Button>
+            </div>
+          </div>
       </Dialog>}
     </>}
+    <Toast ref={toast} className="toast" />
+    <Toast ref={toastCopied} className="toast" />
     </div>
 
   );
