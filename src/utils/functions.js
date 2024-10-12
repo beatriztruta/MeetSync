@@ -5,12 +5,9 @@ export const isValidValue = (value) => {
 }
 
 export const isValidTimesList = (list) => {
-  console.log(list);
     if (!list || list.length === 0) {
         return false;
     }
-
-    //ha algum dia adicionado, mas sem horario
 
     return list.every(hour => 
         isValidValue(hour.date) && 
