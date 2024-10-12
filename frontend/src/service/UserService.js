@@ -1,7 +1,8 @@
 import axios from "axios";
+import { BASE_URL } from '../utils/constants';
 
 export function postUser(user) {
-    axios.post("http://localhost:3000/api/users", user)
+    axios.post(`${BASE_URL}/api/users`, user)
     .then((response) => {
         console.log("deu certo");
         console.log(response.data);

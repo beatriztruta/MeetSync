@@ -1,3 +1,5 @@
+export const BASE_URL = "https://apimeetsync.ddns.net";
+
 export const duracoes = [
     { name: "30 minutos", code: "0.5" },
     { name: "1 hora", code: "1" },

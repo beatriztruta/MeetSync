@@ -1,9 +1,9 @@
 import axios from "axios";
+import { BASE_URL } from '../utils/constants';
 
 export function postVote(voteInformation) {
-    axios.post("http://localhost:3000/api/vote", voteInformation)
+    axios.post(`${BASE_URL}/api/vote`, voteInformation)
     .then((response) => {
-        console.log("deu certo");
         console.log(response.data);
       })
       .catch((error) => {
