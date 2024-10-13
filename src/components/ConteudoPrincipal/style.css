@@ -62,7 +62,6 @@ label {
     transform: translateY(2px);
 }
 
-/* Media queries para telas menores */
 @media (max-width: 768px) {
     .conteudo-principal {
         height: auto; 

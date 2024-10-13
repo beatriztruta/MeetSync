@@ -5,6 +5,7 @@ import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button";
 import { addLocale } from "primereact/api";
 import { duracoes, horariosDia } from "../../utils/constants";
+import './style.css';
 
 export default function Horarios({  atualizarHorarios }) {
 
@@ -165,7 +166,7 @@ export default function Horarios({  atualizarHorarios }) {
                         </div>
                         ))}
                         <Button
-                            className="create-btn justify-content-center"
+                            className="add-btn justify-content-center"
                             style={{ marginTop: "0.5em" }}
                             onClick={() => handleAddTime(date)}>
                                 <i className="pi pi-plus"></i>
