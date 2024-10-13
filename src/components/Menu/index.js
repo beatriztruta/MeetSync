@@ -17,7 +17,6 @@ export default function Menu({ isPaginaInicial }) {
 
     const handleJoinRoom = () => {
         if (roomId.trim()) {
-            const idFromHash = hashToId(roomId);
             navigate(`/sala-votacao/${roomId}`);
         } else {
             showError();

@@ -96,7 +96,6 @@ function SalaVotacao() {
     const fetchAndSetRoom = async () => {
       setLoading(true);
       try {
-        const idFromHash = hashToId(idRoom);
         await fetchRoom(idRoom);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
@@ -348,7 +347,7 @@ function SalaVotacao() {
                 {link}
               </a>  
               <Button 
-                onClick={() => handleCopyLink(link.link)}
+                onClick={() => handleCopyLink(link)}
                 className="basic-btn"
                 style={{ padding: "0.5em" }}
               >
@@ -357,7 +356,7 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: "0.5em", width: "90%"  }}>{idToHash(idRoom)}</p>
+              <p style={{ marginRight: "0.5em", width: "90%"  }}></p>
               <Button 
                 onClick={() => handleCopyId(idRoom)} 
                 className="basic-btn"
