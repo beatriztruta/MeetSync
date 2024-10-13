@@ -71,8 +71,7 @@ export default function CriarSala() {
 
     const fetchAndSetRoom = async (sala) => {
       try {
-        //const idRoom = await fetchRoom(sala);
-        const idRoom = "b25e7ccf-4e15-4a00-a0d2-d34b8e78a2e6";
+        const idRoom = await fetchRoom(sala);
         const link = createLink(idRoom);
         idRoom && navigate(`/sala-votacao/${idRoom}`, { state: { isCriador: true, link: link } });
       } catch (error) {

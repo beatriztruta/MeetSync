@@ -1,5 +1,3 @@
-const base62chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 export const isValidValue = (value) => {
     return value !== undefined && value !== "" && value !== " " && value != null;
 }

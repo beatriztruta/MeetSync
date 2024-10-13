@@ -46,9 +46,9 @@ function SalaVotacao() {
     
         const horarioFormatado = `${horaInicio}h-${horaFim}h`;
     
-        if (item.vote) {
+        if (item.Vote) {
           const votosPorPessoa = {};
-          item.vote.forEach((vote) => {
+          item.Vote.forEach((vote) => {
             if (!votosPorPessoa[vote.userName]) {
               votosPorPessoa[vote.userName] = [vote.timeId];
             } else {
@@ -67,31 +67,7 @@ function SalaVotacao() {
     };
 
     try {
-      let room = await getRoom(idRoom); 
-      room = {
-        "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269",
-        "endingAt": "2024-10-24T00:00:00.000Z",
-        "createdAt": "2024-09-18T00:22:10.796Z",
-        "updatedAt": "2024-09-18T00:22:10.796Z",
-        "title": "oi",
-        "description": "sim",
-        "Time": [
-            {
-                "timeId": "03b39fec-13a3-4549-a2d0-3f53947fddf2",
-                "date": "2024-09-02T00:00:00.000Z",
-                "start": "2024-09-02T08:00:00.000Z",
-                "end": "2024-09-02T10:00:00.000Z",
-                "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
-            },
-            {
-                "timeId": "60701341-7316-4d50-86c8-a2d892d75d7f",
-                "date": "2024-09-03T00:00:00.000Z",
-                "start": "2024-09-03T13:00:00.000Z",
-                "end": "2024-09-03T15:00:00.000Z",
-                "roomId": "35db430c-b4df-4ddf-9a2b-738f454d3269"
-            }
-        ]
-    };
+      const room = await getRoom(idRoom); 
       const timesFormatted = formatTimesFromGet(room.Time);
       setHorariosDisponiveis(timesFormatted);
       setRoom(room);
