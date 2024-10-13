@@ -7,7 +7,7 @@ import "primereact/resources/primereact.min.css";
 import { Toast } from "primereact/toast";
 import { getRoom } from "../../service/RoomService";
 import { postVote } from "../../service/VoteService";
-import { hashToId, idToHash, isValidValue } from "../../utils/functions";
+import { isValidValue } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
@@ -96,8 +96,7 @@ function SalaVotacao() {
     const fetchAndSetRoom = async () => {
       setLoading(true);
       try {
-        const idFromHash = hashToId(idRoom);
-        await fetchRoom(idFromHash);
+        await fetchRoom(idRoom);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       } finally {
@@ -345,10 +344,10 @@ function SalaVotacao() {
                 rel="noopener noreferrer"
                 style={{ marginRight: "0.5em" }}
               >
-                {link.link}
+                {link}
               </a>  
               <Button 
-                onClick={() => handleCopyLink(link.link)}
+                onClick={() => handleCopyLink(link)}
                 className="basic-btn"
                 style={{ padding: "0.5em" }}
               >
@@ -357,9 +356,9 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: "0.5em" }}>{idToHash(idRoom)}</p>
+              <p style={{ marginRight: "0.5em" }}>{idRoom}</p>
               <Button 
-                onClick={() => handleCopyId(idToHash(idRoom))} 
+                onClick={() => handleCopyId(idRoom)} 
                 className="basic-btn"
                 style={{ padding: "0.5em" }}
               >

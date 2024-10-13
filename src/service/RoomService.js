@@ -3,6 +3,7 @@ import { BASE_URL } from '../utils/constants';
 
 
 export async function getRoom(idRoom) {
+  console.log("id da req:" + idRoom);
     try {
       const response = await axios.get(`${BASE_URL}/api/room/${idRoom}`);
       return response.data;
