@@ -136,29 +136,33 @@ export default function Horarios({  atualizarHorarios }) {
                         className="flex flex-column justify-content-evenly align-items-center"
                         >
                             <div className="col-12 flex flex-row justify-content-around align-items-center">
-                                <span  style={{ width: "55%"}}>Hora de início:</span>
+                                <span  style={{ width: "55%" }} className="add-padding">Hora de início:</span>
                             <Dropdown
                                 value={times[date][timeId]?.startTime || ""}
                                 onChange={(e) =>
                                 handleTimeChange(date, timeId, "startTime", e.target.value)
                                 }
-                                options={horariosDia} optionLabel="time"
-                                style={{ width: "45%"}}
+                                options={horariosDia}
+                                optionLabel="time"
+                                className="add-padding"
+                                style={{ width: "45%" }}
                             />
                             </div>
                             <div className="col-12 flex flex-row justify-content-around align-items-center">
-                            <span  style={{ width: "55%"}}>Duração: </span>
+                            <span  style={{ width: "55%" }} className="add-padding">Duração: </span>
                             <Dropdown
                                 value={times[date][timeId]?.duration}
                                 onChange={(e) =>{
                                     handleTimeChange(date, timeId, "duration", e.target.value);
                                 }}
-                                options={duracoes} optionLabel="name"
-                                style={{ width: "45%"}}
+                                className="add-padding"
+                                options={duracoes}
+                                optionLabel="name"
+                                style={{ width: "45%" }}
                             />
-                            </div>
+                            </div> 
                             <Button
-                                className="p-button-danger create-btn justify-content-center"
+                                className="p-button-danger add-btn justify-content-center"
                                 onClick={() => handleRemoveTime(date, timeId)}
                             >
                                 <i className="pi pi-trash"></i>

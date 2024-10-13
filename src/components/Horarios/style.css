@@ -8,6 +8,7 @@
     cursor: pointer !important;
     transition: all 0.3s ease !important;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1) !important;
+    margin-top: 0.5em;
 }
   
 .add-btn:hover {
@@ -21,14 +22,7 @@
 }
 
 @media (max-width: 768px) {
-    .add-btn {
-        width: 30% !important; 
-    }
-}
-
-@media (max-width: 480px) {
-    .add-btn {
-        width: 40% !important;
-        padding: 10px !important; 
+    .add-padding {
+        padding: 0.4em;
     }
 }
