@@ -7,7 +7,7 @@ import "primereact/resources/primereact.min.css";
 import { Toast } from "primereact/toast";
 import { getRoom } from "../../service/RoomService";
 import { postVote } from "../../service/VoteService";
-import { hashToId, idToHash, isValidValue } from "../../utils/functions";
+import { isValidValue } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
@@ -46,9 +46,9 @@ function SalaVotacao() {
     
         const horarioFormatado = `${horaInicio}h-${horaFim}h`;
     
-        if (item.vote) {
+        if (item.Vote) {
           const votosPorPessoa = {};
-          item.vote.forEach((vote) => {
+          item.Vote.forEach((vote) => {
             if (!votosPorPessoa[vote.userName]) {
               votosPorPessoa[vote.userName] = [vote.timeId];
             } else {
@@ -97,7 +97,7 @@ function SalaVotacao() {
       setLoading(true);
       try {
         const idFromHash = hashToId(idRoom);
-        await fetchRoom(idFromHash);
+        await fetchRoom(idRoom);
       } catch (error) {
         console.error("Erro ao definir a sala:", error);
       } finally {
@@ -214,7 +214,7 @@ function SalaVotacao() {
           style={{
             marginTop: "0.5em",
             padding: "0.5em",
-            width: "20%",
+            width: "30%",
             fontSize: "1.5em",
             fontWeight: "bold",
             textAlign: "center",
@@ -315,7 +315,7 @@ function SalaVotacao() {
                   ) : (
                     <div className="card-res no-result">
                       <h4>Nenhum resultado disponível</h4>
-                      <p>A votação ainda não possui dados. Tente novamente mais tarde.</p>
+                      <p>A votação não possui votos.</p>
                     </div>
                   )}
                 </div>
@@ -328,8 +328,8 @@ function SalaVotacao() {
       {isCriador && <Dialog
         header="Sala de Votação Criada!"
         visible={visibleDialog}
-        style={{ width: "40vw" }}
-        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
+        style={{ width: "55vw" }}
+        breakpoints={{ "960px": "80vw", "641px": "100vw" }}
         onHide={() => {
           if (!visibleDialog)
             return;
@@ -340,12 +340,12 @@ function SalaVotacao() {
             <strong>Compartilhe o link!</strong><br/>
             <div className="flex flex-row align-items-center mb-2">
               <a 
-                href={link.link}
+                href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ marginRight: "0.5em" }}
+                style={{ marginRight: "0.5em", width: "90%"}}
               >
-                {link.link}
+                {link}
               </a>  
               <Button 
                 onClick={() => handleCopyLink(link.link)}
@@ -357,9 +357,9 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: "0.5em" }}>{idToHash(idRoom)}</p>
+              <p style={{ marginRight: "0.5em", width: "90%"  }}>{idToHash(idRoom)}</p>
               <Button 
-                onClick={() => handleCopyId(idToHash(idRoom))} 
+                onClick={() => handleCopyId(idRoom)} 
                 className="basic-btn"
                 style={{ padding: "0.5em" }}
               >

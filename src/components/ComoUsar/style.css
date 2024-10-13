@@ -28,16 +28,13 @@
         align-items: center;
     }
 
-    .text-container, .image-container {
-        margin-bottom: 0;
-    }
 
     .text-container {
         max-width: 50%;
         text-align: left;
     }
 
-    .image-container {
-        max-width: 30%;
+    .image-container, .text-container {
+        margin-bottom: 0;
     }
 }

@@ -12,7 +12,7 @@ export default function ComoUsar({ isSection }) {
             )}
             <div className="fundo-desfocado-2 content-block">
                 <div className="image-container">
-                    <Image src={unico} alt="passo unico" width="400" />
+                <Image src={unico} alt="passo unico" width="300" style={{ boxShadow: "0 0 0 0" }}/>
                 </div>
                 <div className="text-container">
                     <h2>
