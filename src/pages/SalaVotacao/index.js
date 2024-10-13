@@ -121,19 +121,36 @@ function SalaVotacao() {
     toastCopied.current.show({severity:"success", summary: "Sucesso!", detail: msg, life: 3000});
 }
 
-  const formatResultadosFromGet = (votosPorPessoa) => {
+const formatResultadosFromGet = (votosPorPessoa) => {
+  const lista = [];
 
-    const lista = [];
-    for (const chave in votosPorPessoa) {
-      const res = {
-        "nome": chave,
-        "horarios": votosPorPessoa[chave],
-      };
-      lista.push(res);
+  for (const chave in votosPorPessoa) {
+    const res = {
+      "nome": chave,
+      "horarios": votosPorPessoa[chave],
+    };
+    lista.push(res);
+  }
+
+  setResultados((prevResultados) => {
+    const novosResultados = [...prevResultados];
+
+    lista.forEach((novoItem) => {
+      novoItem.horarios.forEach((novoHorario) => {
+        const itemExistente = novosResultados.find(
+          (item) =>
+            item.nome === novoItem.nome && item.horarios.includes(novoHorario)
+        );
+
+        if (!itemExistente) {
+          novosResultados.push({ nome: novoItem.nome, horarios: [novoHorario] });
+        }
+      });
+    });
     
-    }
-    setResultados(lista);
-  };
+    return novosResultados;
+  });
+};
 
   const toggleHorarioSelection = (id) => {
     setHorariosSelecionados(prevSelectedHorarios =>
@@ -356,7 +373,7 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: "0.5em", width: "90%"  }}></p>
+              <p style={{ marginRight: "0.5em", width: "90%"  }}>{idRoom}</p>
               <Button 
                 onClick={() => handleCopyId(idRoom)} 
                 className="basic-btn"
