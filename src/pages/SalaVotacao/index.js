@@ -351,8 +351,8 @@ function SalaVotacao() {
       {isCriador && <Dialog
         header="Sala de Votação Criada!"
         visible={visibleDialog}
-        style={{ width: "40vw" }}
-        breakpoints={{ "960px": "75vw", "641px": "100vw" }}
+        style={{ width: "55vw" }}
+        breakpoints={{ "960px": "80vw", "641px": "100vw" }}
         onHide={() => {
           if (!visibleDialog)
             return;
@@ -363,10 +363,10 @@ function SalaVotacao() {
             <strong>Compartilhe o link!</strong><br/>
             <div className="flex flex-row align-items-center mb-2">
               <a 
-                href={link.link}
+                href={link}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ marginRight: "0.5em" }}
+                style={{ marginRight: "0.5em", width: "90%" }}
               >
                 {link}
               </a>  
@@ -380,7 +380,7 @@ function SalaVotacao() {
             </div>
             <strong>Ou envie o ID da sala para as pessoas:</strong>
             <div className="flex flex-row align-items-center">
-              <p style={{ marginRight: "0.5em" }}>{idRoom}</p>
+              <p style={{ marginRight: "0.5em", width: "90%" }}>{idRoom}</p>
               <Button 
                 onClick={() => handleCopyId(idRoom)} 
                 className="basic-btn"
