@@ -34,17 +34,15 @@ function SalaVotacao() {
     const formatTimesFromGet = (times) => {
       return times.map((item) => {
   
-        const data = new Date(item.date);
-        const dia = String(data.getUTCDate()).padStart(2, "0");
-        const mes = String(data.getUTCMonth() + 1).padStart(2, "0");
-        const ano = data.getUTCFullYear();
-    
-        const dataFormatada = `${dia}/${mes}/${ano}`;
-    
-        const horaInicio = new Date(item.start).getUTCHours();
-        const horaFim = new Date(item.end).getUTCHours();
-    
-        const horarioFormatado = `${horaInicio}h-${horaFim}h`;
+        const dataFormatada = new Date(item.date).toLocaleDateString("pt-BR", { timeZone: "America/Sao_Paulo" });
+
+        const dataInicio = new Date(item.start).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", hour: '2-digit', minute: '2-digit' });
+        const dataFim = new Date(item.end).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo", hour: '2-digit', minute: '2-digit' });
+
+        const [horaInicio, minutoInicio] = dataInicio.split(':');
+        const [horaFim, minutoFim] = dataFim.split(':');
+
+        const horarioFormatado = `${horaInicio}h${minutoInicio === '00' ? '' : '-' + minutoInicio + 'h'}-${horaFim}h${minutoFim === '00' ? '' : '-' + minutoFim + 'h'}`;
     
         if (item.Vote) {
           const votosPorPessoa = {};
