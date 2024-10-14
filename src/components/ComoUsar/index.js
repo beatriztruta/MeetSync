@@ -19,7 +19,7 @@ export default function ComoUsar({ isSection }) {
                         Para usar o MeetSync, comece criando uma sala no site,
                         inserindo seu nome, adicione título e descrição(se quiser),
                         quando termina a votação adicione os horários desejados. Então,
-                        basta clicar me Criar Sala!<br/>
+                        basta clicar em Criar Sala!<br/>
                         Em seguida, compartilhe o link gerado
                         no grupo de conversa com as pessoas a quem você deseja se
                         reunir. Os participantes podem acessar o link e votar nos
