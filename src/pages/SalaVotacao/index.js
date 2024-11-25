@@ -16,6 +16,7 @@ import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
+  const [email, setEmail] = useState(""); // Estado para o e-mail do usuário
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [room, setRoom] = useState([]);
@@ -250,53 +251,73 @@ const formatResultadosFromGet = (votosPorPessoa) => {
           </div>
           {room?.endingAt > new Date().toISOString() && 
           <form>
-            <div className="horarios">
-              <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>
-              <div className="cards-container">
-                {horariosDisponiveis.map((horario) => (
-                  <div
-                    key={horario.id}
-                    className={`card ${horariosSelecionados.includes(horario.id) ? "selected" : ""}`}
-                    onClick={() => toggleHorarioSelection(horario.id)}
-                  >
-                    <div className="card-content">
-                      <h3>{horario.date.split(" ")[0]}</h3>
-                      <p>{horario.time}</p>
-                    </div>
+          <div className="horarios">
+            <label
+              htmlFor="horarios"
+              style={{
+                textAlign: "center",
+                color: "white",
+                marginTop: "10px",
+              }}
+            >
+              Selecione os horários:
+            </label>
+            <div className="cards-container">
+              {horariosDisponiveis.map((horario) => (
+                <div
+                  key={horario.id}
+                  className={`card ${
+                    horariosSelecionados.includes(horario.id) ? "selected" : ""
+                  }`}
+                  onClick={() => toggleHorarioSelection(horario.id)}
+                >
+                  <div className="card-content">
+                    <h3>{horario.date.split(" ")[0]}</h3>
+                    <p>{horario.time}</p>
                   </div>
-                ))}
-              </div>
-              <div className="flex justify-content-center">
-                <Button
-                  type="button"
-                  className="icon-button"
-                  onClick={handleDelete}
-                  style={{ backgroundColor: "grey" }}
-                > 
-                  <i className="pi pi-spin pi-trash"/>
-                </Button>
-              </div>
+                </div>
+              ))}
             </div>
-
-            <label htmlFor="nome">Nome:</label>
-            <InputText
-              id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Digite seu nome"
-              style={{ width: "100%" }} 
-            />
-
-            <div>
+            <div className="flex justify-content-center">
               <Button
-                className="vote-btn"
-                style={{ fontWeight: "bold" }}
-                onClick={(e) => handleVotacao(e)}
+                type="button"
+                className="icon-button"
+                onClick={handleDelete}
+                style={{ backgroundColor: "grey" }}
               >
-                Votar
+                <i className="pi pi-spin pi-trash" />
               </Button>
             </div>
-          </form>}
+          </div>
+        
+          <label htmlFor="nome">Nome:</label>
+          <InputText
+            id="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder="Digite seu nome"
+            style={{ width: "100%" }}
+          />
+        
+          <label htmlFor="email">E-mail:</label> {/* Campo de e-mail */}
+          <InputText
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Digite seu e-mail"
+            style={{ width: "100%" }}
+          />
+        
+          <div>
+            <Button
+              className="vote-btn"
+              style={{ fontWeight: "bold" }}
+              onClick={(e) => handleVotacao(e)}
+            >
+              Votar
+            </Button>
+          </div>
+        </form>}
 
           <div id="resultados" className="w-full">
             <h2 style={{textAlign: 'center'}}>Resultados</h2>
