@@ -7,7 +7,7 @@ import "primereact/resources/primereact.min.css";
 import { Toast } from "primereact/toast";
 import { getRoom } from "../../service/RoomService";
 import { postVote } from "../../service/VoteService";
-import { isValidValue } from "../../utils/functions";
+import { isValidValue, validacaoEmail } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
@@ -16,6 +16,7 @@ import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [room, setRoom] = useState([]);
@@ -111,7 +112,9 @@ function SalaVotacao() {
               ? "Por favor, selecione pelo menos um horário." 
               : typeError === "nome repetido" 
                 ? "Esse usuário já votou. Insira outro nome" 
-                :  "Preencha seu nome";
+                : typeError = "email" 
+                  ? "O email informado não é válido. Tente novamente"
+                  :"Preencha seu nome";
     toast.current.show({severity:"error", summary: "Erro", detail: msg, life: 3000});
   }
 
@@ -166,8 +169,13 @@ const formatResultadosFromGet = (votosPorPessoa) => {
     if (!validNome(nome)) {
       showError("nome repetido");
     } else {
-      if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-        const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
+      if (horariosSelecionados.length === 0 || !isValidValue(nome) || !validacaoEmail(email)) {
+        const typeError = 
+          horariosSelecionados.length === 0 ? 
+          "horario" 
+          : !isValidValue(nome) ? 
+            "nome"
+          : "email";
         showError(typeError);
         return;
       }
@@ -175,6 +183,7 @@ const formatResultadosFromGet = (votosPorPessoa) => {
       const voteInformation = {
         "userName": nome,
         "times": horariosSelecionados,
+        "email": email,
       };
       postVote(voteInformation);
 
@@ -212,7 +221,6 @@ const formatResultadosFromGet = (votosPorPessoa) => {
   }));
 
   const sortedResultados = resultadosTabela.sort((a, b) => b.totalVotos - a.totalVotos);
-
   return (
     <div>
       {loading
@@ -250,53 +258,73 @@ const formatResultadosFromGet = (votosPorPessoa) => {
           </div>
           {room?.endingAt > new Date().toISOString() && 
           <form>
-            <div className="horarios">
-              <label htmlFor="horarios" style={{ textAlign: "center", color: "white", marginTop: '10px' }}>Selecione os horários:</label>
-              <div className="cards-container">
-                {horariosDisponiveis.map((horario) => (
-                  <div
-                    key={horario.id}
-                    className={`card ${horariosSelecionados.includes(horario.id) ? "selected" : ""}`}
-                    onClick={() => toggleHorarioSelection(horario.id)}
-                  >
-                    <div className="card-content">
-                      <h3>{horario.date.split(" ")[0]}</h3>
-                      <p>{horario.time}</p>
-                    </div>
+          <div className="horarios">
+            <label
+              htmlFor="horarios"
+              style={{
+                textAlign: "center",
+                color: "white",
+                marginTop: "10px",
+              }}
+            >
+              Selecione os horários:
+            </label>
+            <div className="cards-container">
+              {horariosDisponiveis.map((horario) => (
+                <div
+                  key={horario.id}
+                  className={`card ${
+                    horariosSelecionados.includes(horario.id) ? "selected" : ""
+                  }`}
+                  onClick={() => toggleHorarioSelection(horario.id)}
+                >
+                  <div className="card-content">
+                    <h3>{horario.date.split(" ")[0]}</h3>
+                    <p>{horario.time}</p>
                   </div>
-                ))}
-              </div>
-              <div className="flex justify-content-center">
-                <Button
-                  type="button"
-                  className="icon-button"
-                  onClick={handleDelete}
-                  style={{ backgroundColor: "grey" }}
-                > 
-                  <i className="pi pi-spin pi-trash"/>
-                </Button>
-              </div>
+                </div>
+              ))}
             </div>
-
-            <label htmlFor="nome">Nome:</label>
-            <InputText
-              id="nome"
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              placeholder="Digite seu nome"
-              style={{ width: "100%" }} 
-            />
-
-            <div>
+            <div className="flex justify-content-center">
               <Button
-                className="vote-btn"
-                style={{ fontWeight: "bold" }}
-                onClick={(e) => handleVotacao(e)}
+                type="button"
+                className="icon-button"
+                onClick={handleDelete}
+                style={{ backgroundColor: "grey" }}
               >
-                Votar
+                <i className="pi pi-spin pi-trash" />
               </Button>
             </div>
-          </form>}
+          </div>
+        
+          <label htmlFor="nome">Nome:</label>
+          <InputText
+            id="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            placeholder="Digite seu nome"
+            style={{ width: "100%" }}
+          />
+        
+          <label htmlFor="email">E-mail:</label>
+          <InputText
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Digite seu e-mail"
+            style={{ width: "100%" }}
+          />
+        
+          <div>
+            <Button
+              className="vote-btn"
+              style={{ fontWeight: "bold" }}
+              onClick={(e) => handleVotacao(e)}
+            >
+              Votar
+            </Button>
+          </div>
+        </form>}
 
           <div id="resultados" className="w-full">
             <h2 style={{textAlign: 'center'}}>Resultados</h2>
