@@ -7,7 +7,7 @@ import "primereact/resources/primereact.min.css";
 import { Toast } from "primereact/toast";
 import { getRoom } from "../../service/RoomService";
 import { postVote } from "../../service/VoteService";
-import { isValidValue } from "../../utils/functions";
+import { isValidValue, validacaoEmail } from "../../utils/functions";
 import { Dialog } from "primereact/dialog";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
@@ -16,7 +16,7 @@ import "./style.css";
 
 function SalaVotacao() {
   const [nome, setNome] = useState("");
-  const [email, setEmail] = useState(""); // Estado para o e-mail do usuário
+  const [email, setEmail] = useState("");
   const [horariosSelecionados, setHorariosSelecionados] = useState([]);
   const [resultados, setResultados] = useState([]);
   const [room, setRoom] = useState([]);
@@ -112,7 +112,9 @@ function SalaVotacao() {
               ? "Por favor, selecione pelo menos um horário." 
               : typeError === "nome repetido" 
                 ? "Esse usuário já votou. Insira outro nome" 
-                :  "Preencha seu nome";
+                : typeError = "email" 
+                  ? "O email informado não é válido. Tente novamente"
+                  :"Preencha seu nome";
     toast.current.show({severity:"error", summary: "Erro", detail: msg, life: 3000});
   }
 
@@ -167,8 +169,13 @@ const formatResultadosFromGet = (votosPorPessoa) => {
     if (!validNome(nome)) {
       showError("nome repetido");
     } else {
-      if (horariosSelecionados.length === 0 || !isValidValue(nome)) {
-        const typeError = horariosSelecionados.length === 0 ? "horario" : "nome";
+      if (horariosSelecionados.length === 0 || !isValidValue(nome) || !validacaoEmail(email)) {
+        const typeError = 
+          horariosSelecionados.length === 0 ? 
+          "horario" 
+          : !isValidValue(nome) ? 
+            "nome"
+          : "email";
         showError(typeError);
         return;
       }
@@ -176,6 +183,7 @@ const formatResultadosFromGet = (votosPorPessoa) => {
       const voteInformation = {
         "userName": nome,
         "times": horariosSelecionados,
+        "email": email,
       };
       postVote(voteInformation);
 
@@ -213,7 +221,6 @@ const formatResultadosFromGet = (votosPorPessoa) => {
   }));
 
   const sortedResultados = resultadosTabela.sort((a, b) => b.totalVotos - a.totalVotos);
-
   return (
     <div>
       {loading
@@ -299,7 +306,7 @@ const formatResultadosFromGet = (votosPorPessoa) => {
             style={{ width: "100%" }}
           />
         
-          <label htmlFor="email">E-mail:</label> {/* Campo de e-mail */}
+          <label htmlFor="email">E-mail:</label>
           <InputText
             id="email"
             value={email}
