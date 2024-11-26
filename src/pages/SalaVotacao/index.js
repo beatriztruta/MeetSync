@@ -193,6 +193,7 @@ const formatResultadosFromGet = (votosPorPessoa) => {
       ]);
 
       setNome("");
+      setEmail("");
       setHorariosSelecionados([]);
     }
   };
