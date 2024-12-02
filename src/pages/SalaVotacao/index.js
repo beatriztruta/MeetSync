@@ -298,22 +298,24 @@ const formatResultadosFromGet = (votosPorPessoa) => {
             </div>
           </div>
         
-          <label htmlFor="nome">Nome:</label>
+          <label style={{ color: "white" }} htmlFor="nome">Nome:</label>
           <InputText
             id="nome"
             value={nome}
             onChange={(e) => setNome(e.target.value)}
             placeholder="Digite seu nome"
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginBottom: "0.5rem" }}
           />
         
-          <label htmlFor="email">E-mail:</label>
+          <label style={{ color: "white" }} htmlFor="email">
+            Deseja receber uma notificação? Informe seu e-mail:
+          </label>
           <InputText
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Digite seu e-mail"
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginTop: "0.2rem" }}
           />
         
           <div>
