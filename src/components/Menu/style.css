@@ -1,37 +1,61 @@
-
-.custom-input {
-    padding: 5px;
-    margin-right: 10px;
+/* Estilo do Menubar fixo e transparente ao rolar */
+.p-menubar {
+    position: fixed; /* Fixa o menu no topo */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa toda a largura da tela */
+    background-color: #696969; /* Cor de fundo inicial */
+    border: 1px solid #696969; /* Borda preta */
+    color: white; /* Cor do texto */
+    transition: background-color 0.3s ease, border 0.3s ease; /* Suaviza a transição */
+    z-index: 1000; /* Garante que o menu fique acima de outros elementos */
 }
 
-.custom-button {
-    background: linear-gradient(135deg, #1e3535, #64aaaa) !important; 
-    color: white;
-    border: none;
-    cursor: pointer;
+/* Quando a página rola, o menu fica transparente */
+.p-menubar.transparent {
+    background-color: transparent; /* Fundo transparente */
+    border: 1px solid transparent; /* Borda invisível */
 }
 
-.custom-input::placeholder {
-    color: #ebdede;
-    opacity: 1;
+/* Estilo dos itens do Menubar */
+.p-menubar .p-menubar-item {
+    color: white; /* Cor do texto dos itens */
+    border-color: #696969; /* Borda preta nos itens */
 }
 
-.custom-button:hover {
-    background-color: #218838; 
+.p-menubar .p-menubar-item:hover {
+    background-color: transparent; /* Fundo transparente ao passar o mouse */
+    color: black; /* Cor preta no texto */
+    border-color: white; /* Borda branca no hover */
 }
 
-.p-menuitem-text {
-    color: #fff;
-    font-size:1.2em;
+.p-menubar .p-menubar-item:focus {
+    background-color: transparent; /* Fundo transparente ao clicar */
+    color: black; /* Cor preta no texto */
+    border-color: white; /* Borda branca ao clicar */
 }
 
-.p-menubar-root-list {
-    background-color: #2f4f4f;
+/* Personalizando o botão */
+.p-button.custom-button {
+    background-color: transparent; /* Fundo transparente */
+    border: 1px solid #696969; /* Borda preta */
+    color: white; /* Texto branco */
+    padding: 10px 20px; /* Espaçamento no botão */
+    transition: all 0.3s ease; /* Transição suave para o efeito */
 }
 
-.p-menuitem-link:hover {
-    background-color: #548b8b;
-    border-radius: 5px;
+.p-button.custom-button:hover {
+    background-color: white; /* Fundo branco no hover */
+    color: black; /* Texto preto no hover */
+    border-color: white; /* Borda branca no hover */
 }
 
+/* Personalizando o InputText (campo de input) */
+.p-inputtext.custom-input {
+    border: 1px solid #696969; /* Borda  */
+    color: white; /* Texto branco */
+}
 
+.p-inputtext.custom-input:focus {
+    border-color: white; /* Borda branca quando em foco */
+}
