@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/imgs/logo.png";
+import logo from "../../assets/imgs/logo3.png";
 import { Menubar } from "primereact/menubar";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
@@ -62,7 +62,7 @@ export default function Menu({ isPaginaInicial }) {
             model={items}
             start={start}
             end={end}
-            style={{ backgroundColor: "#2f4f4f", boxShadow: "0 0 0 0", borderRadius: "0" }}
+            style={{ backgroundColor: "rgba(47, 79, 79, 0.7)", boxShadow: "0 0 0 0", borderRadius: "0" }}
         />
     );  
 };

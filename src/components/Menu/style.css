@@ -1,3 +1,12 @@
+.p-menubar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    color: white;
+    transition: background-color 0.3s ease, border 0.3s ease; 
+    z-index: 1000; 
+}
 
 .custom-input {
     padding: 5px;
@@ -23,10 +32,6 @@
 .p-menuitem-text {
     color: #fff;
     font-size:1.2em;
-}
-
-.p-menubar-root-list {
-    background-color: #2f4f4f;
 }
 
 .p-menuitem-link:hover {
