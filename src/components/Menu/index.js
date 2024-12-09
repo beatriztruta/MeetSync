@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import logo from "../../assets/imgs/logo.png";
+import logo from "../../assets/imgs/logo3.png";
 import { Menubar } from "primereact/menubar";
 import { InputText } from "primereact/inputtext";
 import { Toast } from "primereact/toast";
@@ -30,13 +30,13 @@ export default function Menu({ isPaginaInicial }) {
             command: () => { navigate("/"); }
         },
         {
-            label: "Sobre",
+            label: "Criar Sala",
             icon: "pi pi-fw pi-info-circle",
-            command: () => { navigate("/sobre"); }
+            command: () => { navigate("/criar-sala"); }
         },
     ];
 
-    const start = <a href="/"><img src={logo} alt="Logo" style={{ marginRight: "10px", height: "70px" }} /></a>;
+    const start = <div className="flex"><a href="/"><img src={logo} alt="Logo" style={{ marginRight: "5px", height: "70px" }} /></a><h3 style={{ marginTop: "25px", marginRight: "10px", fontWeight: "500" }}>MeetSync</h3></div>;
     
     const end = (
         isPaginaInicial
@@ -62,7 +62,7 @@ export default function Menu({ isPaginaInicial }) {
             model={items}
             start={start}
             end={end}
-            style={{ backgroundColor: "#2f4f4f", boxShadow: "0 0 0 0", borderRadius: "0" }}
+            style={{ background: "rgba(47, 79, 79)", boxShadow: "0 0 0 0", borderRadius: "0" }}
         />
     );  
 };

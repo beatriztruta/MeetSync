@@ -52,12 +52,12 @@ export default function CriarSala() {
 
     const validateDate = (date) => {
         if (!date || isNaN(new Date(date))) {
-            return "A data e hora fornecidas são inválidas.";
+            return "A data e hora de finalização da sala não foram informadas ou são inválidas.";
         }
         if (new Date(date) < new Date()) {
             return "A data e hora não podem estar no passado.";
         }
-        return null; // Sem erros
+        return null; 
     };
 
     const handleCalendarChange = (value) => {
@@ -213,7 +213,7 @@ export default function CriarSala() {
                         <Button
                             label="+ Cria Sala"
                             className="create-btn w-6 mt-3"
-                            style={{ margin: "0.5em" }}
+                            style={{ margin: "0.5em", borderRadius: "5px" }}
                             onClick={() => submitData(sala)}
                         />
                     </div>

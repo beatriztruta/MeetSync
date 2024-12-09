@@ -2,6 +2,7 @@ import ComoUsar from "../../components/ComoUsar";
 import ConteudoPrincipal from "../../components/ConteudoPrincipal";
 import Menu from "../../components/Menu";
 import OQueE from "../../components/OQueE";
+import QuemSomos from "../../components/QuemSomos";
 import "./style.css";
 
 export default function PaginaInicial() {
@@ -9,8 +10,9 @@ export default function PaginaInicial() {
     <div className="container">
         <Menu isPaginaInicial/>
         <ConteudoPrincipal></ConteudoPrincipal>
-        <OQueE isSection/>
-        <ComoUsar isSection/>
+        <OQueE/>
+        <ComoUsar/>
+        <QuemSomos/>
     </div>
   );
 }

@@ -1,3 +1,10 @@
+.p-menubar {
+    top: 0;
+    left: 0;
+    width: 100%; 
+    color: white;
+    border: 0px !important;
+}
 
 .custom-input {
     padding: 5px;
@@ -9,6 +16,12 @@
     color: white;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+}
+
+.p-menuitem-link:hover {
+    background-color: #548b8b;
+    border-radius: 5px;
 }
 
 .custom-input::placeholder {
@@ -23,10 +36,6 @@
 .p-menuitem-text {
     color: #fff;
     font-size:1.2em;
-}
-
-.p-menubar-root-list {
-    background-color: #2f4f4f;
 }
 
 .p-menuitem-link:hover {
