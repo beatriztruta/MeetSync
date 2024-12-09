@@ -52,12 +52,12 @@ export default function CriarSala() {
 
     const validateDate = (date) => {
         if (!date || isNaN(new Date(date))) {
-            return "A data e hora fornecidas são inválidas.";
+            return "A data e hora de finalização da sala não foram informadas ou são inválidas.";
         }
         if (new Date(date) < new Date()) {
             return "A data e hora não podem estar no passado.";
         }
-        return null; // Sem erros
+        return null; 
     };
 
     const handleCalendarChange = (value) => {
