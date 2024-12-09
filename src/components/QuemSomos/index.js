@@ -15,7 +15,7 @@ export default function QuemSomos() {
             <h2>
               Quem Somos?{" "}
               <span className={`toggle-icon ${isExpanded ? "expanded" : ""}`}>
-              {isExpanded ? <i className="pi pi-angle-down" style={{ fontSize: '2rem' }}></i> : <i className="pi pi-angle-right" style={{ fontSize: '2rem' }}></i>}
+              {isExpanded ? <i className="pi pi-angle-up" style={{ fontSize: '2rem' }}></i> : <i className="pi pi-angle-right" style={{ fontSize: '2rem' }}></i>}
               </span>
             </h2>
         </div>
