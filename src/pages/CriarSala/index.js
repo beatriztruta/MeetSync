@@ -213,7 +213,7 @@ export default function CriarSala() {
                         <Button
                             label="+ Cria Sala"
                             className="create-btn w-6 mt-3"
-                            style={{ margin: "0.5em" }}
+                            style={{ margin: "0.5em", borderRadius: "5px" }}
                             onClick={() => submitData(sala)}
                         />
                     </div>
