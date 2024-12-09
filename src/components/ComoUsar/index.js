@@ -15,9 +15,9 @@ export default function ComoUsar({ isSection }) {
             <div className="header" onClick={toggleExpand}>
                 {isSection && (
                     <h2 className="fundo-desfocado-2 p-3">
-                        COMO USAR:
+                        Como Usar:
                         <span className={`toggle-icon ${isExpanded ? "expanded" : ""}`}>
-                            {isExpanded ? "▼" : "▶"}
+                            {isExpanded ? <i className="pi pi-angle-down" style={{ fontSize: '2rem' }}></i> : <i className="pi pi-angle-right" style={{ fontSize: '2rem' }}></i>}
                         </span>
                     </h2>
                 )}

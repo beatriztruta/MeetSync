@@ -17,10 +17,10 @@ export default function ConteudoPrincipal(){
     }
 
     return(
-        <div>
+        <div className='bg-imagem'>
             <div className="conteudo-principal">
                 <div className="titulo">
-                    <h1 style={{ paddingTop: '1rem' }}>MeetSync</h1>
+                    <h1 style={{ paddingTop: '1rem', marginTop: '0px' }}>MeetSync</h1>
                     <span>Simplificando a sincronia das suas reuniões!</span>
                 </div>
 
