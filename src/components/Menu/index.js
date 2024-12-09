@@ -62,7 +62,7 @@ export default function Menu({ isPaginaInicial }) {
             model={items}
             start={start}
             end={end}
-            style={{ backgroundColor: "#2f4f4f", boxShadow: "0 0 0 0", borderRadius: "0" }}
+            //style={{ backgroundColor: "#2f4f4f", boxShadow: "0 0 0 0", borderRadius: "0" }}
         />
     );  
 };
